@@ -1,0 +1,38 @@
+{
+  "name": "@wetransfer/js-sdk",
+  "version": "0.1.0",
+  "description": "A JavaScript SDK for WeTransfer's Public API",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint ./src/**/*.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WeTransfer/wetransfer-js-sdk.git"
+  },
+  "keywords": [
+    "api",
+    "wetransfer",
+    "node"
+  ],
+  "author": "WeTransfer folks",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WeTransfer/wetransfer-js-sdk/issues"
+  },
+  "homepage": "https://github.com/WeTransfer/wetransfer-js-sdk#readme",
+  "devDependencies": {
+    "@wetransfer/eslint-config-wetransfer": "2.0.1",
+    "eslint": "4.19.1",
+    "jest": "22.4.3",
+    "nock": "9.2.5"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "dependencies": {
+    "axios": "0.18.0"
+  }
+}
