@@ -1,0 +1,38 @@
+language: node_js
+cache:
+  directories:
+  - node_modules
+node_js:
+- 8
+branches:
+  only:
+  - master
+env:
+  global:
+    # CODE CLIMATE
+    - CC_TEST_REPORTER_ID=ca7d1c083f80d605c410c0554dcaca40540b0cec6711b7cc35d3ec014645f457
+jobs:
+  include:
+    # JS lint and unit tests
+    - stage: Lint & unit tests
+      install: yarn
+      before_script:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
+      script:
+        # Lint our code
+        - npm run lint
+        # Test our code
+        - npm run test:ci
+      after_script:
+        # Send report to Code Climate
+        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT ./coverage/lcov.info
+    # Integration tests
+    # - stage: Integration tests
+    #   install: yarn
+    #   before_script:
+    #     # Build final bundles
+    #     - npm run build
+    #   script:
+    #     - npm run test:integration
