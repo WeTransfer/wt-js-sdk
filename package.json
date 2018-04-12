@@ -4,12 +4,12 @@
   "description": "A JavaScript SDK for WeTransfer's Public API",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint ./src/**/*.js",
+    "lint": "eslint src __mocks__ __tests__",
     "precommit": "sh scripts/git/pre_commit_hooks",
     "test": "jest",
     "test:ci": "npm run test:coverage -- --bail --runInBand --verbose=false",
-    "test:coverage": "npm test --coverage",
-    "test:watch": "npm test --watch"
+    "test:coverage": "npm test -- --coverage",
+    "test:watch": "npm test -- --watch"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,13 @@
     "url": "https://github.com/WeTransfer/wetransfer-js-sdk/issues"
   },
   "homepage": "https://github.com/WeTransfer/wetransfer-js-sdk#readme",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "dependencies": {
+    "axios": "0.18.0",
+    "lodash": "4.17.5"
+  },
   "devDependencies": {
     "@wetransfer/eslint-config-wetransfer": "2.0.1",
     "eslint": "4.19.1",
@@ -36,9 +43,6 @@
   },
   "jest": {
     "testEnvironment": "node"
-  },
-  "dependencies": {
-    "axios": "0.18.0"
   },
   "lint-staged": {
     "*.{js,json}": [
