@@ -2,10 +2,11 @@
 
 set -e
 
-echo "============ Running pre-commit hook ============"
 
 jsfiles=$(git diff --cached --name-only --diff-filter=ACM "*.js" | tr '\n' ' ')
 [ -z "$jsfiles" ] && exit 0
+
+echo "============ Running pre-commit hook because of code changes ============"
 
 # Prettify all staged .js files
 echo "$jsfiles" | xargs ./node_modules/.bin/prettier --write --arrow-parens=always
