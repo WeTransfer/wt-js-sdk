@@ -10,7 +10,7 @@ branches:
 env:
   global:
     # CODE CLIMATE
-    - CC_TEST_REPORTER_ID=ca7d1c083f80d605c410c0554dcaca40540b0cec6711b7cc35d3ec014645f457
+    - CC_TEST_REPORTER_ID=0b103cd0a4a79d0a859c2f04327f27eded9fc9363c15b2cc2497bcd08fcc5b55
 jobs:
   include:
     # JS lint and unit tests
