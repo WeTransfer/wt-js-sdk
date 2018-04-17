@@ -64,7 +64,7 @@ function getChunkSizes(totalSize) {
  * @param   {Array}   items      A collection of items to be added to the transfer
  * @returns {Promise}            A collection of created items
  */
-function addItems(transferId, items) {
+async function addItems(transferId, items) {
   return request.send(routes.items(transferId), {
     items: items.map(normalizeItem)
   });

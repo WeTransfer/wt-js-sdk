@@ -7,7 +7,7 @@ const request = require('../request');
  * @param   {Object}  transfer A transfer object without items.
  * @returns {Promise} A transfer object
  */
-function create(transfer) {
+async function create(transfer) {
   return request.send(routes.transfers, normalizeTransfer(transfer));
 }
 
