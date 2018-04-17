@@ -2,7 +2,7 @@ const { defaults, pick } = require('lodash');
 
 const defaultTransferItem = {
   name: '',
-  description: null
+  description: ''
 };
 
 const defaultFileItem = {
@@ -19,8 +19,12 @@ const defaultFileItem = {
  * @returns {Object} Normalized transfer object
  */
 function normalizeTransfer(transfer) {
-  return defaults({}, pick(transfer, Object.keys(defaultTransferItem)), defaultTransferItem);
-};
+  return defaults(
+    {},
+    pick(transfer, Object.keys(defaultTransferItem)),
+    defaultTransferItem
+  );
+}
 
 /**
  * Normalizes an item object (file or link). Removes non-expected properties and
@@ -30,8 +34,12 @@ function normalizeTransfer(transfer) {
  */
 function normalizeItem(item) {
   // TODO: create different models for files and links
-  return defaults({}, pick(item, Object.keys(defaultFileItem)), defaultFileItem);
-};
+  return defaults(
+    {},
+    pick(item, Object.keys(defaultFileItem)),
+    defaultFileItem
+  );
+}
 
 module.exports = {
   normalizeTransfer,

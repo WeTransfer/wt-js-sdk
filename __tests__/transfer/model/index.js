@@ -1,4 +1,7 @@
-const { normalizeItem, normalizeTransfer } = require('../../../src/transfer/model');
+const {
+  normalizeItem,
+  normalizeTransfer
+} = require('../../../src/transfer/model');
 
 describe('Transfer model', () => {
   describe('normalizeItem function', () => {
@@ -39,7 +42,7 @@ describe('Transfer model', () => {
     beforeEach(() => {
       transfer = {
         name: 'WeTransfer rocks',
-        description: null
+        description: ''
       };
     });
 
@@ -58,7 +61,7 @@ describe('Transfer model', () => {
       const normalized = normalizeTransfer({});
       expect(normalized).toEqual({
         name: '',
-        description: null
+        description: ''
       });
     });
   });

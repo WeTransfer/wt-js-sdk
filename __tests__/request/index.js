@@ -10,40 +10,52 @@ describe('Request module', () => {
   });
 
   afterEach(() => {
-    delete request._apiKey;
-    delete request._jwt;
+    request.apiKey = null;
+    request.jwt = null;
   });
 
   it('should set defaults', () => {
-    expect(axios.defaults).toEqual(expect.objectContaining({
-      baseURL: 'https://dev.wetransfer.com/',
-      method: 'post'
-    }));
+    expect(axios.defaults).toEqual(
+      expect.objectContaining({
+        baseURL: 'https://dev.wetransfer.com/',
+        method: 'post'
+      })
+    );
   });
 
   describe('apiKey property', () => {
-    it('should set an apiKey value', () => {
+    beforeEach(() => {
       request.apiKey = 'secret-api-key';
-      expect(request._apiKey).toBe('secret-api-key');
     });
 
-    it('should throw an error when no apiKey is provided', () => {
-      expect(() => {
-        request.apiKey = undefined;
-      }).toThrow('No API Key provided');
+    it('should set an apiKey value', async () => {
+      await request.send();
+      expect(axios).toHaveBeenLastCalledWith({
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'secret-api-key'
+        },
+        data: null
+      });
     });
   });
 
   describe('JWT property', () => {
-    it('should set an JWT value', () => {
-      request.jwt = 'json-web-token';
-      expect(request._jwt).toBe('json-web-token');
+    beforeEach(() => {
+      request.apiKey = 'secret-api-key';
     });
 
-    it('should throw an error when no jwt is provided', () => {
-      expect(() => {
-        request.jwt = undefined;
-      }).toThrow('No JWT provided');
+    it('should set an JWT value', async () => {
+      request.jwt = 'json-web-token';
+      await request.send();
+      expect(axios).toHaveBeenLastCalledWith({
+        headers: {
+          'Authorization': 'Bearer json-web-token',
+          'Content-Type': 'application/json',
+          'x-api-key': 'secret-api-key'
+        },
+        data: null
+      });
     });
   });
 
@@ -78,7 +90,7 @@ describe('Request module', () => {
 
     it('should create a request including extra options', async () => {
       request.jwt = 'json-web-token';
-      await request.send({ headers: { 'X-Extra-Header' : 'value' } });
+      await request.send({ headers: { 'X-Extra-Header': 'value' } });
       expect(axios).toHaveBeenLastCalledWith({
         headers: {
           'Authorization': 'Bearer json-web-token',
@@ -106,7 +118,10 @@ describe('Request module', () => {
 
   describe('upload method', () => {
     it('should create a PUT request', async () => {
-      await request.upload('https://dev.wetransfer.com/very-long-url', 'some-data');
+      await request.upload(
+        'https://dev.wetransfer.com/very-long-url',
+        'some-data'
+      );
       expect(axios).toHaveBeenLastCalledWith({
         data: 'some-data',
         method: 'put',

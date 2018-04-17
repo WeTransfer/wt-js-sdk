@@ -25,8 +25,15 @@ function completeFileUpload(item) {
  * @returns {Buffer}            Data chunk
  */
 function extractDataChunk(data, chunkSizes, parts, partNumber) {
-  const chunkStart = chunkSizes.slice(0, partNumber).reduce((sum, size) => (sum + size), 0);
-  const chunkEnd = partNumber === parts ? data.length + 1 : chunkSizes.slice(0, partNumber + 1).reduce((sum, size) => (sum + size), 0);
+  const chunkStart = chunkSizes
+    .slice(0, partNumber)
+    .reduce((sum, size) => sum + size, 0);
+  const chunkEnd =
+    partNumber === parts
+      ? data.length + 1
+      : chunkSizes
+        .slice(0, partNumber + 1)
+        .reduce((sum, size) => sum + size, 0);
   return data.slice(chunkStart, chunkEnd);
 }
 
@@ -58,7 +65,9 @@ function getChunkSizes(totalSize) {
  * @returns {Promise}            A collection of created items
  */
 function addItems(transferId, items) {
-  return request.send(routes.items(transferId), { items: items.map(normalizeItem) });
+  return request.send(routes.items(transferId), {
+    items: items.map(normalizeItem)
+  });
 }
 
 /**
@@ -70,9 +79,18 @@ function addItems(transferId, items) {
  * @returns {Promise}            Empty response if everything goes well 🤔
  */
 function uploadPart(file, data, chunkSizes, partNumber) {
-  return request.send(routes.multipart(file, partNumber))
+  return request
+    .send(routes.multipart(file, partNumber))
     .then((multipartItem) => {
-      return request.upload(multipartItem.upload_url, extractDataChunk(data, chunkSizes, file.meta.multipart_parts, multipartItem.part_number));
+      return request.upload(
+        multipartItem.upload_url,
+        extractDataChunk(
+          data,
+          chunkSizes,
+          file.meta.multipart_parts,
+          multipartItem.part_number
+        )
+      );
     });
 }
 
@@ -87,12 +105,15 @@ function uploadFileParts(file, data) {
   const partRequests = [];
   const chunkSizes = getChunkSizes(data.length, file.meta.multipart_parts);
 
-  for (let partNumber = 1; partNumber <= file.meta.multipart_parts; partNumber++) {
+  for (
+    let partNumber = 1;
+    partNumber <= file.meta.multipart_parts;
+    partNumber++
+  ) {
     partRequests.push(uploadPart(file, data, chunkSizes, partNumber));
   }
 
-  return Promise.all(partRequests)
-    .then(() => completeFileUpload(item));
+  return Promise.all(partRequests).then(() => completeFileUpload(file));
 }
 
 /**

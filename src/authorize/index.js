@@ -1,8 +1,6 @@
 const routes = require('../config/routes');
 const request = require('../request');
 
-module.exports = async function authorize() {
-  const auth = await request.send(routes.authorize);
-  request.jwt = auth.token;
-  return auth;
+module.exports = function authorize() {
+  return request.send(routes.authorize);
 };

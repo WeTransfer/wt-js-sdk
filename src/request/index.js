@@ -4,6 +4,11 @@ const { merge } = require('lodash');
 axios.defaults.baseURL = 'https://dev.wetransfer.com/';
 axios.defaults.method = 'post';
 
+const auth = {
+  apiKey: null,
+  jwt: null
+};
+
 function defaultOptions(apiKey, jwt) {
   const options = {
     headers: {
@@ -22,7 +27,7 @@ function defaultOptions(apiKey, jwt) {
 function send(options = {}, data = null) {
   const requestOptions = merge(
     {},
-    defaultOptions(this._apiKey, this._jwt),
+    defaultOptions(auth.apiKey, auth.jwt),
     options,
     { data }
   );
@@ -43,17 +48,9 @@ module.exports = {
   send,
   upload,
   set apiKey(apiKey) {
-    if (!apiKey) {
-      throw new Error('No API Key provided');
-    }
-
-    this._apiKey = apiKey;
+    auth.apiKey = apiKey;
   },
   set jwt(jwt) {
-    if (!jwt) {
-      throw new Error('No JWT provided');
-    }
-
-    this._jwt = jwt;
+    auth.jwt = jwt;
   }
 };
