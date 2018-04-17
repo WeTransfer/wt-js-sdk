@@ -1,5 +1,6 @@
 # WeTransfer JavaScript SDK
 
+[![npm version](https://badge.fury.io/js/%40wetransfer%2Fjs-sdk.svg)](https://badge.fury.io/js/%40wetransfer%2Fjs-sdk)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2560a764d67ef16af5fe/maintainability)](https://codeclimate.com/github/WeTransfer/wt-js-sdk/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2560a764d67ef16af5fe/test_coverage)](https://codeclimate.com/github/WeTransfer/wt-js-sdk/test_coverage)
 [![Build Status](https://travis-ci.org/WeTransfer/wt-js-sdk.svg?branch=master)](https://travis-ci.org/WeTransfer/wt-js-sdk)
@@ -64,7 +65,7 @@ Visit [https://wetransfer.github.io/wt-api-docs/index.html](https://wetransfer.g
 After checking out the repo, run `yarn` to install all dependencies. To run all tests:
 
 ```bash
-$ npm tests
+$ npm test
 $ npm run test:watch
 ```
 
