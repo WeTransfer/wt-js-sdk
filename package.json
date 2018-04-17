@@ -26,6 +26,9 @@
     "url": "https://github.com/WeTransfer/wetransfer-js-sdk/issues"
   },
   "homepage": "https://github.com/WeTransfer/wetransfer-js-sdk#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=8.0.0",
     "npm": ">=4.0.0"
