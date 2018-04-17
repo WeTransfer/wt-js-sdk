@@ -6,6 +6,8 @@
   "scripts": {
     "lint": "eslint src __mocks__ __tests__",
     "precommit": "sh scripts/git/pre_commit_hooks",
+    "release": "semantic-release --dry-run --no-ci",
+    "release:dry": "semantic-release --no-ci",
     "test": "jest",
     "test:ci": "npm run test:coverage -- --bail --runInBand --verbose=false",
     "test:coverage": "npm test -- --coverage",
@@ -13,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WeTransfer/wetransfer-js-sdk.git"
+    "url": "https://github.com/WeTransfer/wetransfer-js-sdk.git"
   },
   "keywords": [
     "api",
@@ -43,7 +45,8 @@
     "husky": "0.14.3",
     "jest": "22.4.3",
     "nock": "9.2.5",
-    "prettier": "1.12.1"
+    "prettier": "1.12.1",
+    "semantic-release": "15.1.7"
   },
   "jest": {
     "testEnvironment": "node"

@@ -69,6 +69,20 @@ $ npm test
 $ npm run test:watch
 ```
 
+## Release process
+
+First, make sure that you have a NPM account at [https://www.npmjs.com/](https://www.npmjs.com/), and you are part of the WeTransfer developer's team. Use `npm login` to store the credentials on the client aka, your computer. Check that your authentication token for `registry.npmjs.org` is part of your `~/.npmrc` file.
+
+We use `semantic-release` to manage release process. Please run `npm run release:dry` to check relevant changes and possible new versions. If you are happy with it, run `npm run release`, it should do the following:
+
+* Verify authentication for registry
+* Verify GitHub authentication
+* Find latest release and associated git tag
+* Find last commits since last release
+* Generate release notes
+* Create Git tag
+* Prepare the package and release it 📦
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/wetransfer/wt-js-sdk. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
