@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "============ Running pre-commit hook ============"
+
+jsfiles=$(git diff --cached --name-only --diff-filter=ACM "*.js" | tr '\n' ' ')
+[ -z "$jsfiles" ] && exit 0
+
+# Prettify all staged .js files
+echo "$jsfiles" | xargs ./node_modules/.bin/prettier --write --arrow-parens=always
+
+# Fix all staged .js files lint errors
+echo "$jsfiles" | xargs ./node_modules/.bin/eslint --fix
+
+# Add back the modified/prettified files to staging
+echo "$jsfiles" | xargs git add
+
+exit 0
