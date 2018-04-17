@@ -1,6 +1,7 @@
 __mocks__
 __tests__
 .github
+coverage
 example
 scripts
 .eslint.rc
