@@ -111,7 +111,6 @@ function uploadFile(file, content) {
     partNumber <= file.meta.multipart_parts;
     partNumber++
   ) {
-    // file.filesize = content.length;
     partRequests.push(uploadPart(file, content, chunkSizes, partNumber));
   }
 
