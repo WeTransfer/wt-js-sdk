@@ -33,27 +33,43 @@ const transfer = await apiClient.transfer.create({
 
 ### Transfer
 
-How to create a transfer, with no items yet:
+Transfers can be created with or without items. Once the transfer has been created, items can be added at any time:
 
 ```javascript
 const transfer = await apiClient.transfer.create({
   name: 'My very first transfer!',
-  description: ''
+  // Description is optional.
+  description: 'Something about cats, most probably.'
 });
+// transfer.shortened_url contains the public WeTransfer URL
 ```
 
-### Add some items
+### Add items to a transfer
 
-Items can be added to a transfer at any time:
+Once a transfer has been created you can then add items to it. If files are provided as items, they are not uploaded at this point, see next steps:
 
 ```javascript
-const items = await apiClient.transfer.addItems(transfer.id, [{
+const transferItems = await apiClient.transfer.addItems(transfer.id, [{
   content_identifier: 'file',
-  local_identifier: '',
-  filename: '',
-  filesize: '',
-  path: path.join(__dirname, './path/to/my-file.jpg'),
+  local_identifier: 'delightful-cat',
+  filename: 'kittie.gif',
+  filesize: 1024
 }]);
+```
+
+It will return an object for each file you want to add to the transfer. Each file must be split into chunks, and uploaded to a pre-signed S3 URL, provided by the following method.
+
+### Upload a file
+
+Once the item has been added to the transfer, next step is to upload the file or files. You must provide the content of the file to upload as a [Buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer).
+
+```javascript
+// Depending on your application, you will read the file using fs.readFile
+// or it will be a file uploaded to your service.
+const fileContent = [/* Buffer */];
+await Promise.all(transferItems.map((item) => {
+  return apiClient.transfer.uploadFile(item, fileContent);
+}));
 ```
 
 ## Documentation

@@ -17,7 +17,11 @@ describe('Transfer module', () => {
       });
 
       it('should return more than one chunk , if bigger than 5MB', () => {
-        expect(transferItems.getChunkSizes(5243904)).toEqual([0, 5242880, 1024]);
+        expect(transferItems.getChunkSizes(5243904)).toEqual([
+          0,
+          5242880,
+          1024
+        ]);
       });
     });
 
@@ -30,11 +34,23 @@ describe('Transfer module', () => {
       });
 
       it('should extract first chunk', () => {
-        expect(transferItems.extractDataChunk(data, chunkSizes, 2, 1)).toEqual(['00', '01', '02', '03', '04']);
+        expect(transferItems.extractDataChunk(data, chunkSizes, 2, 1)).toEqual([
+          '00',
+          '01',
+          '02',
+          '03',
+          '04'
+        ]);
       });
 
       it('should extract last chunk', () => {
-        expect(transferItems.extractDataChunk(data, chunkSizes, 2, 2)).toEqual(['05', '06', '07', '08', '09']);
+        expect(transferItems.extractDataChunk(data, chunkSizes, 2, 2)).toEqual([
+          '05',
+          '06',
+          '07',
+          '08',
+          '09'
+        ]);
       });
     });
 
@@ -48,26 +64,28 @@ describe('Transfer module', () => {
         request.apiKey = 'secret-api-key';
         request.jwt = 'json-web-token';
 
-        items = [{
-          filename: 'item-01.txt',
-          filesize: 1024,
-          content_identifier: 'file',
-          local_identifier: 'item-01.txt'
-        }];
+        items = [
+          {
+            filename: 'item-01.txt',
+            filesize: 1024,
+            content_identifier: 'file',
+            local_identifier: 'item-01.txt'
+          }
+        ];
 
-        createdItems = [{
-          'id': 'random-hash',
-          'content_identifier': 'file',
-          'local_identifier': 'item-01.txt',
-          'meta': {
-            'multipart_parts': 2,
-            'multipart_upload_id': 'some.random-id--'
-          },
-          'name': 'item-01.txt',
-          'size': 195906,
-          'upload_id': 'more.random-ids--',
-          'upload_expires_at': 1520410633
-        }];
+        createdItems = [
+          {
+            id: 'random-hash',
+            content_identifier: 'file',
+            local_identifier: 'item-01.txt',
+            meta: {
+              multipart_parts: 2,
+              multipart_upload_id: 'some.random-id--'
+            },
+            name: 'item-01.txt',
+            size: 195906
+          }
+        ];
 
         // TODO: move all these to an integration test?
         // nock('https://dev.wetransfer.com')
@@ -109,20 +127,22 @@ describe('Transfer module', () => {
         axios.mockImplementation(() => Promise.resolve({ data: createdItems }));
         await transferItems.addItems('transfer-id', items);
         expect(axios).toHaveBeenLastCalledWith({
-          'data': {
-            'items': [{
-              'content_identifier': 'file',
-              'filename': 'item-01.txt',
-              'filesize': 1024,
-              'local_identifier': 'item-01.txt'
-            }]
+          data: {
+            items: [
+              {
+                content_identifier: 'file',
+                filename: 'item-01.txt',
+                filesize: 1024,
+                local_identifier: 'item-01.txt'
+              }
+            ]
           },
-          'headers': {
+          headers: {
             'Authorization': 'Bearer json-web-token',
             'Content-Type': 'application/json',
             'x-api-key': 'secret-api-key'
           },
-          'url': '/v1/transfers/transfer-id/items'
+          url: '/v1/transfers/transfer-id/items'
         });
       });
 

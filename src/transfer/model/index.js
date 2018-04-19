@@ -34,14 +34,37 @@ function normalizeTransfer(transfer) {
  */
 function normalizeItem(item) {
   // TODO: create different models for files and links
-  return defaults(
+  const normalizedItem = defaults(
     {},
     pick(item, Object.keys(defaultFileItem)),
     defaultFileItem
+  );
+
+  normalizedItem.filesize = parseInt(normalizedItem.filesize, 10);
+
+  return normalizedItem;
+}
+
+/**
+ * Normalizes a file response object. Removes non-expected properties and
+ * assigns a default value if key is not defined.
+ * @param {Object} item An item object. Can be a file or a link
+ * @returns {Object} Normalized response item object
+ */
+function normalizeResponseItem(item) {
+  return pick(
+    item,
+    'id',
+    'content_identifier',
+    'local_identifier',
+    'meta',
+    'name',
+    'size'
   );
 }
 
 module.exports = {
   normalizeTransfer,
-  normalizeItem
+  normalizeItem,
+  normalizeResponseItem
 };

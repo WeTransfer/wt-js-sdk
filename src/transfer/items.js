@@ -1,6 +1,4 @@
-const fs = require('fs');
-
-const { normalizeItem } = require('./model');
+const { normalizeItem, normalizeResponseItem } = require('./model');
 const routes = require('../config/routes');
 const request = require('../request');
 
@@ -65,9 +63,11 @@ function getChunkSizes(totalSize) {
  * @returns {Promise}            A collection of created items
  */
 function addItems(transferId, items) {
-  return request.send(routes.items(transferId), {
-    items: items.map(normalizeItem)
-  });
+  return request
+    .send(routes.items(transferId), {
+      items: items.map(normalizeItem)
+    })
+    .then((items) => items.map(normalizeResponseItem));
 }
 
 /**
@@ -97,43 +97,24 @@ function uploadPart(file, data, chunkSizes, partNumber) {
 /**
  * Given a file content, and the number of parts that must be uploaded to S3,
  * it chunkes the file and uploads each part in parallel
- * @param   {Object}  file Item containing information about number of parts, upload url, etc.
- * @param   {Buffer}  data File content
- * @returns {Promise}      Empty response if everything goes well 🤔
+ * TODO: accept blob as file content as well
+ * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
+ * @param   {Buffer}  content File content
+ * @returns {Promise}         Empty response if everything goes well 🤔
  */
-function uploadFileParts(file, data) {
+function uploadFile(file, content) {
   const partRequests = [];
-  const chunkSizes = getChunkSizes(data.length, file.meta.multipart_parts);
+  const chunkSizes = getChunkSizes(content.length, file.meta.multipart_parts);
 
   for (
     let partNumber = 1;
     partNumber <= file.meta.multipart_parts;
     partNumber++
   ) {
-    partRequests.push(uploadPart(file, data, chunkSizes, partNumber));
+    partRequests.push(uploadPart(file, content, chunkSizes, partNumber));
   }
 
   return Promise.all(partRequests).then(() => completeFileUpload(file));
-}
-
-/**
- * Uploads a file given an absolute path.
- * TODO: accept a data buffer as well
- * @param   {Object}  file An item that represents a file.
- * @returns {Promise}      Empty response if everything goes well 🤔
- */
-function uploadFile(file) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(file.path, (error, data) => {
-      if (error) {
-        return reject(error);
-      }
-
-      uploadFileParts(file, data)
-        .then(resolve)
-        .catch(reject);
-    });
-  });
 }
 
 module.exports = {
