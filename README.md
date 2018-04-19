@@ -46,7 +46,7 @@ const transfer = await apiClient.transfer.create({
 
 ### Add items to a transfer
 
-Once a transfer has been created you can then add items to it. If files are provided as items, they are not uploaded at this point, but `filesize` and `filename` must be provided at this point:
+Once a transfer has been created you can then add items to it. If files are provided as items, they are not uploaded at this point, see next steps:
 
 ```javascript
 const transferItems = await apiClient.transfer.addItems(transfer.id, [{
