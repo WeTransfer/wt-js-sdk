@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "axios": "0.18.0",
-    "lodash": "4.17.5"
+    "lodash": "4.17.10"
   },
   "devDependencies": {
     "@wetransfer/eslint-config-wetransfer": "2.0.1",
