@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint src __mocks__ __tests__",
     "precommit": "sh scripts/git/pre_commit_hooks",
-    "release": "semantic-release --dry-run --no-ci",
-    "release:dry": "semantic-release --no-ci",
+    "release": "semantic-release --no-ci",
+    "release:dry": "semantic-release --no-ci --dry-run",
     "test": "jest",
     "test:ci": "npm run test:coverage -- --bail --runInBand --verbose=false",
     "test:coverage": "npm test -- --coverage",
