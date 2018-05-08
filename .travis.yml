@@ -9,30 +9,26 @@ branches:
   - master
 env:
   global:
-    # CODE CLIMATE
-    - CC_TEST_REPORTER_ID=0b103cd0a4a79d0a859c2f04327f27eded9fc9363c15b2cc2497bcd08fcc5b55
+  # Code Climate
+  - CC_TEST_REPORTER_ID=0b103cd0a4a79d0a859c2f04327f27eded9fc9363c15b2cc2497bcd08fcc5b55
+  # WT_API_KEY for integration tests
+  - secure: RV6wq8A6vR113j2LQgQWzGm7UYpMggchcM5Tf2ABwYDTBUQqe66S6aeCA5PGEFgddtD0d5N46dQN+epi8FxZXulBxJ1SeYS0HvlWCvwhT6YHwjC4CKX10FR4/tggjxeHhRoev8j2Y3naP+/usUSpM78xEjYrNKiItMLXrCSZTGxJ5Vlb3CH9fH9lQFvO9OCLBF4xK4IDNxYZvuu59UXHKNeBi9NdHLcfeZb9fqCMLqrFrgVxKD2FxBonF7rWE19p522DA20l+vSDCL3JxSkmt4dqBYB8E1XQntrkJSK0M3C9PSTNQBENhXd+rnsM7w/tIkn9ppf+2bvKrDcXSQqQmWTAfV1txn5uZmLUrc2nqmh5ghRxAoL5oMlwCNvkJxWYSycXqw2VFULD9NLypvcWDZ5pQH0RUn1dEe0LJWhwdjMz7aZ+8Gt+Ei5+pmqjvbdEg5HIamkENaUfhLcn0LZMSPvZK2ngalGSQ8/zFHiyiezzgK4fnK5dTTaFTJoKJFNoqRpIePaor1UkcAGvvCRbgQMssvc8rFuJm4OSHE3fLf0sOK8sAlugJuN5tykER6zsieGC5h7XatFw32+mf+GRhrdcE8VgsxdRnZAiBD2MBxDK6K9XxUwNIsdh8oAx2PN+pZQhqUvN9NtI7QH55kkBrFEgulCByOKmjnCncPJPP6E=
 jobs:
   include:
-    # JS lint and unit tests
-    - stage: Lint & unit tests
-      install: yarn
-      before_script:
-        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        - chmod +x ./cc-test-reporter
-        - ./cc-test-reporter before-build
-      script:
-        # Lint our code
-        - npm run lint
-        # Test our code
-        - npm run test:ci
-      after_script:
-        # Send report to Code Climate
-        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT ./coverage/lcov.info
-    # Integration tests
-    # - stage: Integration tests
-    #   install: yarn
-    #   before_script:
-    #     # Build final bundles
-    #     - npm run build
-    #   script:
-    #     - npm run test:integration
+  - stage: Lint & unit tests
+    install: yarn
+    before_script:
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
+    - "./cc-test-reporter before-build"
+    script:
+    - npm run lint
+    - npm run test:ci
+    after_script:
+    - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT ./coverage/lcov.info"
+  - stage: Integration tests
+    install: yarn
+    before_script:
+    - npm link
+    script:
+    - cd example && npm link @wetransfer/js-sdk && node create-transfer.js
