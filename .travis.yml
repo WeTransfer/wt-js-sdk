@@ -16,8 +16,7 @@ jobs:
   - stage: Lint & unit tests
     install: yarn
     before_script:
-    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
-      > ./cc-test-reporter
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
     - chmod +x ./cc-test-reporter
     - "./cc-test-reporter before-build"
     script:
@@ -27,7 +26,5 @@ jobs:
     - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT ./coverage/lcov.info"
   - stage: Integration tests
     install: yarn
-    before_script:
-    - npm link
     script:
-    - cd example && npm link @wetransfer/js-sdk && node create-transfer.js
+    - cd example && node create-transfer.js
