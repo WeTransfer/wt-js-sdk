@@ -86,41 +86,6 @@ describe('Transfer module', () => {
             size: 195906
           }
         ];
-
-        // TODO: move all these to an integration test?
-        // nock('https://dev.wetransfer.com')
-        //   .post('/v1/transfers/transfer-id/items')
-        //   .reply(200, createdItems);
-
-        // nock('https://dev.wetransfer.com')
-        //   .get('/v1/files/random-hash/uploads/1/some.random-id--')
-        //   .reply(200, {
-        //     'upload_url': 'https://presigned-s3-put-url/part-1',
-        //     'part_number': 1,
-        //     'upload_id': 'an-s3-issued-multipart-upload-id',
-        //     'upload_expires_at': 1519988329
-        //   });
-
-        // nock('https://dev.wetransfer.com')
-        //   .get('/v1/files/random-hash/uploads/2/some.random-id--')
-        //   .reply(200, {
-        //     'upload_url': 'https://presigned-s3-put-url/part-2',
-        //     'part_number': 2,
-        //     'upload_id': 'an-s3-issued-multipart-upload-id',
-        //     'upload_expires_at': 1519988329
-        //   });
-
-        // nock('https://presigned-s3-put-url')
-        //   .put('/part-1')
-        //   .reply(204);
-
-        // nock('https://presigned-s3-put-url')
-        //   .put('/part-2')
-        //   .reply(204);
-
-        // nock('https://dev.wetransfer.com')
-        //   .post('/v1/files/random-hash/uploads/complete')
-        //   .reply(204);
       });
 
       it('should create an add items request', async () => {
@@ -150,6 +115,29 @@ describe('Transfer module', () => {
         axios.mockImplementation(() => Promise.resolve({ data: createdItems }));
         const newItems = await transferItems.addItems('transfer-id', items);
         expect(newItems).toEqual(createdItems);
+      });
+    });
+
+    describe('completeFileUpload method', () => {
+      beforeEach(() => {
+        request.apiKey = 'secret-api-key';
+        request.jwt = 'json-web-token';
+      });
+
+      it('should create an upload complete request', async () => {
+        axios.mockImplementation(() => Promise.resolve({}));
+        await transferItems.completeFileUpload({
+          id: 'item-id'
+        });
+        expect(axios).toHaveBeenLastCalledWith({
+          data: null,
+          headers: {
+            'Authorization': 'Bearer json-web-token',
+            'Content-Type': 'application/json',
+            'x-api-key': 'secret-api-key'
+          },
+          url: '/v1/files/item-id/uploads/complete'
+        });
       });
     });
   });

@@ -45,7 +45,7 @@ describe('Request module', () => {
       request.apiKey = 'secret-api-key';
     });
 
-    it('should set an JWT value', async () => {
+    it('should set a JWT value', async () => {
       request.jwt = 'json-web-token';
       await request.send();
       expect(axios).toHaveBeenLastCalledWith({
@@ -75,7 +75,7 @@ describe('Request module', () => {
       });
     });
 
-    it('should create a request including JTW', async () => {
+    it('should create a request including JWT', async () => {
       request.jwt = 'json-web-token';
       await request.send();
       expect(axios).toHaveBeenLastCalledWith({
