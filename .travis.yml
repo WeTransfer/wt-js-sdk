@@ -9,16 +9,15 @@ branches:
   - master
 env:
   global:
-  # Code Climate
   - CC_TEST_REPORTER_ID=0b103cd0a4a79d0a859c2f04327f27eded9fc9363c15b2cc2497bcd08fcc5b55
-  # WT_API_KEY for integration tests
-  - secure: RV6wq8A6vR113j2LQgQWzGm7UYpMggchcM5Tf2ABwYDTBUQqe66S6aeCA5PGEFgddtD0d5N46dQN+epi8FxZXulBxJ1SeYS0HvlWCvwhT6YHwjC4CKX10FR4/tggjxeHhRoev8j2Y3naP+/usUSpM78xEjYrNKiItMLXrCSZTGxJ5Vlb3CH9fH9lQFvO9OCLBF4xK4IDNxYZvuu59UXHKNeBi9NdHLcfeZb9fqCMLqrFrgVxKD2FxBonF7rWE19p522DA20l+vSDCL3JxSkmt4dqBYB8E1XQntrkJSK0M3C9PSTNQBENhXd+rnsM7w/tIkn9ppf+2bvKrDcXSQqQmWTAfV1txn5uZmLUrc2nqmh5ghRxAoL5oMlwCNvkJxWYSycXqw2VFULD9NLypvcWDZ5pQH0RUn1dEe0LJWhwdjMz7aZ+8Gt+Ei5+pmqjvbdEg5HIamkENaUfhLcn0LZMSPvZK2ngalGSQ8/zFHiyiezzgK4fnK5dTTaFTJoKJFNoqRpIePaor1UkcAGvvCRbgQMssvc8rFuJm4OSHE3fLf0sOK8sAlugJuN5tykER6zsieGC5h7XatFw32+mf+GRhrdcE8VgsxdRnZAiBD2MBxDK6K9XxUwNIsdh8oAx2PN+pZQhqUvN9NtI7QH55kkBrFEgulCByOKmjnCncPJPP6E=
+  - secure: cfvhAUhZKLEphzAnSdfz2dyxyL5qQ6vP0fkIsCEwU7gwhcyr7TaZjQBesztYqHhQIVl5F3s4aeTlxrvfkTxvpPHSaOoEPJ2W8cEZTjn6zUXcyqTZMONLAyByC2WTic1e1igcEkYotsJthjFIcBVlHi+NGWRgFaoiO62RgI55+sCvJqoYv96Pdcb869EDnEhf/e6w9ikBNQOZM4JThM7qN/Xvygy3c9Qfy7ypjHvgLTJ6YYM9rquerVmV23UEU28rUUW1xYJ6et4tUElIUm6ydwPuyj3GjYD7/vX9fb85SAO1RkBE+aB7GQGkLcRJWNuDMS0ZgSrJiHCWtNepAxl2YhcXO7Lr8svc06F4IB6X0p4W4Lf+h61oSIhXR9Is1lZLwhU7jvZxi2T1paaZF0xSAUntSwTdGmRK/5iLlXeZLx+ONqCd/N8fMIqG4sHAucEY4tY+Y9DqdRvpk7s5WRQxGsUhNCKLgssZzQWzxzrr6Y8Y4fBXkNo1WH8bgRj4kUZGIyLp6E1SbU8+6mj2l2srSKn82/29aQuGGXkrBuzV0GSHlhYB+mZRZZnIwBTV+4kXxpxdyBB3kYFRoUY/kutYS/NY+gGxFaLMO0QGB1owfyVkFs5ZZjFpPB4ju4fEKbUXdAuAiGHmXxl/lzA8nbrxAEots70Lp9/HTZpKTSg8wAY=
 jobs:
   include:
   - stage: Lint & unit tests
     install: yarn
     before_script:
-    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+      > ./cc-test-reporter
     - chmod +x ./cc-test-reporter
     - "./cc-test-reporter before-build"
     script:
