@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const createWTClient = require('@wetransfer/js-sdk');
+const createWTClient = require('../src');
 
 function readFile(path) {
   return new Promise((resolve, reject) => {
@@ -77,5 +77,6 @@ const data = {
     console.log(transfer.shortened_url);
   } catch (error) {
     console.error(error);
+    process.exit(1);
   }
 })();
