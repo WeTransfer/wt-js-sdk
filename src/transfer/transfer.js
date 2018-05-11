@@ -1,3 +1,4 @@
+const WTError = require('../error');
 const { normalizeTransfer } = require('./model');
 const routes = require('../config/routes');
 const request = require('../request');
@@ -5,10 +6,14 @@ const request = require('../request');
 /**
  * Creates a new transfer, without items.
  * @param   {Object}  transfer A transfer object without items.
- * @returns {Promise} A transfer object
+ * @returns {Promise}          A transfer object
  */
-function create(transfer) {
-  return request.send(routes.transfers, normalizeTransfer(transfer));
+async function create(transfer) {
+  try {
+    return await request.send(routes.transfers, normalizeTransfer(transfer));
+  } catch (error) {
+    throw new WTError('There was an error when creating the transfer.', error);
+  }
 }
 
 // async function createAndUpload(transfer) {

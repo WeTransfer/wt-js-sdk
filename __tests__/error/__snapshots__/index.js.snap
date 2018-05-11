@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom exception when error message and response object are provided should throw the provided and response messages 1`] = `
+"Random error.
+Nope"
+`;
+
+exports[`Custom exception when error message is provided should throw the provided message 1`] = `"Random error."`;
+
+exports[`Custom exception when error object is empty should throw an undefined error 1`] = `"Response had a undefined code, no idea what to do with that."`;
+
+exports[`Custom exception when response object is provided should append a no retry message if status is 400..499 1`] = `
+"Response had a 400 code, the server will not accept this request even if retried.
+Nope"
+`;
+
+exports[`Custom exception when response object is provided should append a retry message if status is 500..504 1`] = `
+"Response had a 500 code, we could retry.
+Nope"
+`;
+
+exports[`Custom exception when response object is provided should not append a message if status is 200..299 1`] = `"Nope"`;

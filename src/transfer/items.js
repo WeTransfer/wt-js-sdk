@@ -1,3 +1,4 @@
+const WTError = require('../error');
 const { normalizeItem, normalizeResponseItem } = require('./model');
 const routes = require('../config/routes');
 const request = require('../request');
@@ -62,12 +63,19 @@ function getChunkSizes(totalSize) {
  * @param   {Array}   items      A collection of items to be added to the transfer
  * @returns {Promise}            A collection of created items
  */
-function addItems(transferId, items) {
-  return request
-    .send(routes.items(transferId), {
+async function addItems(transferId, items) {
+  try {
+    const transferItems = await request.send(routes.items(transferId), {
       items: items.map(normalizeItem)
-    })
-    .then((items) => items.map(normalizeResponseItem));
+    });
+
+    return transferItems.map(normalizeResponseItem);
+  } catch (error) {
+    throw new WTError(
+      'There was an error when adding items to the transfer.',
+      error
+    );
+  }
 }
 
 /**
@@ -102,7 +110,7 @@ function uploadPart(file, data, chunkSizes, partNumber) {
  * @param   {Buffer}  content File content
  * @returns {Promise}         Empty response if everything goes well 🤔
  */
-function uploadFile(file, content) {
+async function uploadFile(file, content) {
   const partRequests = [];
   const chunkSizes = getChunkSizes(content.length, file.meta.multipart_parts);
 
@@ -114,7 +122,11 @@ function uploadFile(file, content) {
     partRequests.push(uploadPart(file, content, chunkSizes, partNumber));
   }
 
-  return Promise.all(partRequests).then(() => completeFileUpload(file));
+  try {
+    return await Promise.all(partRequests).then(() => completeFileUpload(file));
+  } catch (error) {
+    throw new WTError(`There was an error when uploading ${file.name}.`, error);
+  }
 }
 
 module.exports = {

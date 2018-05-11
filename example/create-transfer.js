@@ -76,7 +76,7 @@ const data = {
     );
     console.log(transfer.shortened_url);
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     process.exit(1);
   }
 })();
