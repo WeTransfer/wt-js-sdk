@@ -15,49 +15,6 @@ function completeFileUpload(item) {
 }
 
 /**
- * Given the file content, and the information related to the chunk
- * that must be uploaded, it returns the data chunk to upload
- * @param   {Buffer} data       File content
- * @param   {Array}  chunkSizes Size of each chunk
- * @param   {Number} parts      Total nuymber of parts
- * @param   {Number} partNumber Actual part number to be uploaded
- * @returns {Buffer}            Data chunk
- */
-function extractDataChunk(data, chunkSizes, parts, partNumber) {
-  const chunkStart = chunkSizes
-    .slice(0, partNumber)
-    .reduce((sum, size) => sum + size, 0);
-  const chunkEnd =
-    partNumber === parts
-      ? data.length + 1
-      : chunkSizes
-        .slice(0, partNumber + 1)
-        .reduce((sum, size) => sum + size, 0);
-  return data.slice(chunkStart, chunkEnd);
-}
-
-/**
- * Given the total size of a file and the number of parts to upload,
- * it returns an array containing the size of each chunk.
- * @example
- * getChunkSizes(5243904) // => [0, 5242880, 1024]
- * @param   {Number} totalSize Content total size, in bytes
- * @returns {Array}            Size of each chunk
- */
-function getChunkSizes(totalSize) {
-  let partNumber = 0;
-  const chunks = [0];
-
-  while (totalSize > MIN_CHUNK_SIZE) {
-    chunks[++partNumber] = MIN_CHUNK_SIZE;
-    totalSize -= MIN_CHUNK_SIZE;
-  }
-  chunks[++partNumber] = totalSize;
-
-  return chunks;
-}
-
-/**
  * Add items to an existing transfer.
  * @param   {String}  transferId Existing transfer id
  * @param   {Array}   items      A collection of items to be added to the transfer
@@ -86,19 +43,11 @@ async function addItems(transferId, items) {
  * @param   {Number}  partNumber Which part number we want to upload
  * @returns {Promise}            Empty response if everything goes well 🤔
  */
-function uploadPart(file, data, chunkSizes, partNumber) {
+function uploadPart(file, data, partNumber) {
   return request
     .send(routes.multipart(file, partNumber))
     .then((multipartItem) => {
-      return request.upload(
-        multipartItem.upload_url,
-        extractDataChunk(
-          data,
-          chunkSizes,
-          file.meta.multipart_parts,
-          multipartItem.part_number
-        )
-      );
+      return request.upload(multipartItem.upload_url, data);
     });
 }
 
@@ -112,14 +61,22 @@ function uploadPart(file, data, chunkSizes, partNumber) {
  */
 async function uploadFile(file, content) {
   const partRequests = [];
-  const chunkSizes = getChunkSizes(content.length, file.meta.multipart_parts);
 
   for (
-    let partNumber = 1;
-    partNumber <= file.meta.multipart_parts;
+    let partNumber = 0;
+    partNumber < file.meta.multipart_parts;
     partNumber++
   ) {
-    partRequests.push(uploadPart(file, content, chunkSizes, partNumber));
+    partRequests.push(
+      uploadPart(
+        file,
+        content.slice(
+          partNumber * MIN_CHUNK_SIZE,
+          (partNumber + 1) * MIN_CHUNK_SIZE
+        ),
+        partNumber + 1
+      )
+    );
   }
 
   try {
@@ -132,8 +89,5 @@ async function uploadFile(file, content) {
 module.exports = {
   addItems,
   uploadFile,
-  completeFileUpload,
-  // "Private" methods
-  getChunkSizes,
-  extractDataChunk
+  completeFileUpload
 };
