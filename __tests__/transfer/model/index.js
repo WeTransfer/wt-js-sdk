@@ -20,20 +20,27 @@ describe('Transfer model', () => {
       expect(file).toEqual(item);
     });
 
+    it('should return a normalized link item', () => {
+      item.content_identifier = 'web_content';
+      const link = normalizeItem(item);
+      expect(link).toEqual({
+        content_identifier: 'web_content',
+        local_identifier: 'filename.txt',
+        meta: {
+          title: ''
+        },
+        url: ''
+      });
+    });
+
     it('should remove extra properties', () => {
       const extraProps = Object.assign({}, item, { path: '/path/to/file.txt' });
       const file = normalizeItem(extraProps);
       expect(file).toEqual(item);
     });
 
-    it('should add default values', () => {
-      const file = normalizeItem({});
-      expect(file).toEqual({
-        filename: '',
-        filesize: 0,
-        content_identifier: '',
-        local_identifier: ''
-      });
+    it('should throw an error if content_identifier is empty', () => {
+      expect(() => normalizeItem({})).toThrowErrorMatchingSnapshot();
     });
   });
 
