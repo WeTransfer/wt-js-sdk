@@ -21,14 +21,17 @@ In order to be able to use the SDK and access our public APIs, you must provide 
 
 ```javascript
 const createWTClient = require('@wetransfer/js-sdk');
-// An authorization call is made when you create the client.
-// Keep that in mind to perform this operation
-// in the most suitable part of your code
-const apiClient = await createWTClient('/* YOUR PRIVATE API KEY GOES HERE*/');
 
-const transfer = await apiClient.transfer.create({
-  name: 'My very first transfer!'
-});
+(async function() {
+  // An authorization call is made when you create the client.
+  // Keep that in mind to perform this operation
+  // in the most suitable part of your code
+  const apiClient = await createWTClient('/* YOUR PRIVATE API KEY GOES HERE*/');
+
+  const transfer = await apiClient.transfer.create({
+    name: 'My very first transfer!'
+  });
+})();
 ```
 
 ### Transfer
