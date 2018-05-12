@@ -7,53 +7,6 @@ jest.mock('axios');
 
 describe('Transfer module', () => {
   describe('Items', () => {
-    describe('getChunkSizes method', () => {
-      it('should return one chunk with file size, if smaller than 5MB', () => {
-        expect(transferItems.getChunkSizes(1024)).toEqual([0, 1024]);
-      });
-
-      it('should return one chunk with file size, if it\'s 5MB', () => {
-        expect(transferItems.getChunkSizes(5242880)).toEqual([0, 5242880]);
-      });
-
-      it('should return more than one chunk , if bigger than 5MB', () => {
-        expect(transferItems.getChunkSizes(5243904)).toEqual([
-          0,
-          5242880,
-          1024
-        ]);
-      });
-    });
-
-    describe('extractDataChunk method', () => {
-      let data = [];
-      let chunkSizes = [];
-      beforeEach(() => {
-        data = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
-        chunkSizes = [0, 5, 3];
-      });
-
-      it('should extract first chunk', () => {
-        expect(transferItems.extractDataChunk(data, chunkSizes, 2, 1)).toEqual([
-          '00',
-          '01',
-          '02',
-          '03',
-          '04'
-        ]);
-      });
-
-      it('should extract last chunk', () => {
-        expect(transferItems.extractDataChunk(data, chunkSizes, 2, 2)).toEqual([
-          '05',
-          '06',
-          '07',
-          '08',
-          '09'
-        ]);
-      });
-    });
-
     describe('addItems method', () => {
       let items = [];
       let createdItems = [];
