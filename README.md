@@ -87,7 +87,7 @@ await Promise.all(
 
 ## Documentation
 
-Visit [https://wetransfer.github.io/wt-api-docs/index.html](https://wetransfer.github.io/wt-api-docs/index.html) to access the latest API related documentation.
+Visit [https://developers.wetransfer.com/documentation](https://developers.wetransfer.com/documentation) to access the latest API related documentation.
 
 ## Development
 
