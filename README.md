@@ -57,10 +57,18 @@ const transferItems = await apiClient.transfer.addItems(transfer.id, [{
   local_identifier: 'delightful-cat',
   filename: 'kittie.gif',
   filesize: 1024
+},
+{
+  local_identifier: 'japan-wikipedia',
+  content_identifier: 'web_content',
+  url: 'https://en.wikipedia.org/wiki/Japan',
+  meta: {
+    title: 'Japan'
+  }
 }]);
 ```
 
-It will return an object for each file you want to add to the transfer. Each file must be split into chunks, and uploaded to a pre-signed S3 URL, provided by the following method.
+It will return an object for each item you want to add to the transfer. For files, each one must be split into chunks, and uploaded to a pre-signed S3 URL, provided by the following method.
 
 ### Upload a file
 
@@ -70,9 +78,11 @@ Once the item has been added to the transfer, next step is to upload the file or
 // Depending on your application, you will read the file using fs.readFile
 // or it will be a file uploaded to your service.
 const fileContent = [/* Buffer */];
-await Promise.all(transferItems.map((item) => {
-  return apiClient.transfer.uploadFile(item, fileContent);
-}));
+await Promise.all(
+  transferItems
+    .filter((item) => item.content_identifier === 'file')
+    .map((item) => apiClient.transfer.uploadFile(item, fileContent))
+);
 ```
 
 ## Documentation

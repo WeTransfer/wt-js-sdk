@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transfer model normalizeItem function should throw an error if content_identifier is empty 1`] = `"Item's content_identifier should be \\"file\\" or \\"web_content\\"."`;

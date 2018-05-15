@@ -54,7 +54,6 @@ function uploadPart(file, data, partNumber) {
 /**
  * Given a file content, and the number of parts that must be uploaded to S3,
  * it chunkes the file and uploads each part in parallel
- * TODO: accept blob as file content as well
  * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
  * @param   {Buffer}  content File content
  * @returns {Promise}         Empty response if everything goes well 🤔
