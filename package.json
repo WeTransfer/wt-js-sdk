@@ -46,7 +46,7 @@
     "jest": "22.4.4",
     "nock": "9.2.6",
     "prettier": "1.12.1",
-    "semantic-release": "15.4.1"
+    "semantic-release": "15.5.0"
   },
   "jest": {
     "testEnvironment": "node"
