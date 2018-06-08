@@ -32,8 +32,8 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=8.0.0",
-    "npm": ">=4.0.0"
+    "node": "10.4.0",
+    "npm": "6.1.0"
   },
   "dependencies": {
     "axios": "0.18.0",
