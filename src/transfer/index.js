@@ -1,9 +1,5 @@
-const { create } = require('./transfer');
-const { addItems, completeFileUpload, uploadFile } = require('./items');
+const { create } = require('./actions');
 
 module.exports = {
-  create,
-  addItems,
-  uploadFile,
-  completeFileUpload
+  create
 };

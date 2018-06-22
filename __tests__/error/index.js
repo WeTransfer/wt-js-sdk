@@ -59,5 +59,10 @@ describe('Custom exception', () => {
       error.response.status = 500;
       expect(() => throwError('', error)).toThrowErrorMatchingSnapshot();
     });
+
+    it('should append a no idea message if status is not expected', () => {
+      error.response.status = 999;
+      expect(() => throwError('', error)).toThrowErrorMatchingSnapshot();
+    });
   });
 });
