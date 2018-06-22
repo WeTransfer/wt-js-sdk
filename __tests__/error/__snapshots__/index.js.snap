@@ -9,6 +9,11 @@ exports[`Custom exception when error message is provided should throw the provid
 
 exports[`Custom exception when error object is empty should throw an undefined error 1`] = `"Response had a undefined code, no idea what to do with that."`;
 
+exports[`Custom exception when response object is provided should append a no idea message if status is not expected 1`] = `
+"Response had a 999 code, no idea what to do with that.
+Nope"
+`;
+
 exports[`Custom exception when response object is provided should append a no retry message if status is 400..499 1`] = `
 "Response had a 400 code, the server will not accept this request even if retried.
 Nope"

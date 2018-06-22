@@ -2,6 +2,7 @@ const nock = require('nock');
 
 const transferClient = require('../../src/transfer');
 const request = require('../../src/request');
+const WTError = require('../../src/error');
 
 describe('Transfer module', () => {
   beforeEach(() => {
@@ -26,7 +27,13 @@ describe('Transfer module', () => {
 
       nock('https://dev.wetransfer.com')
         .post('/v1/transfers')
-        .reply(200, transfer);
+        .reply((uri, requestBody) => {
+          if (requestBody.name.includes('error')) {
+            return [500, {}];
+          }
+
+          return [200, transfer];
+        });
     });
 
     it('should create a new transfer request', async () => {
@@ -34,6 +41,16 @@ describe('Transfer module', () => {
         name: 'WeTransfer SDK'
       });
       expect(newTransfer).toEqual(transfer);
+    });
+
+    it('should throw a WTError if request fails', async () => {
+      try {
+        await transferClient.create({
+          name: 'Transfer with errors'
+        });
+      } catch (error) {
+        expect(error).toBeInstanceOf(WTError);
+      }
     });
   });
 });
