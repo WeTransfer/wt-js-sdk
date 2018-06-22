@@ -1,12 +1,5 @@
 const { defaults, pick } = require('lodash');
 
-const WTError = require('../../error');
-
-const defaultTransferItem = {
-  name: '',
-  description: ''
-};
-
 const defaultFileItem = {
   filename: '',
   filesize: 0,
@@ -39,20 +32,6 @@ function itemModel(type) {
         'Item\'s content_identifier should be "file" or "web_content".'
       );
   }
-}
-
-/**
- * Normalizes a transfer object. Removes non-expected properties and
- * assigns a default value if key is not defined.
- * @param   {Object} transfer A transfer object
- * @returns {Object}          Normalized transfer object
- */
-function normalizeTransfer(transfer) {
-  return defaults(
-    {},
-    pick(transfer, Object.keys(defaultTransferItem)),
-    defaultTransferItem
-  );
 }
 
 /**
@@ -91,7 +70,7 @@ function normalizeResponseItem(item) {
 }
 
 module.exports = {
-  normalizeTransfer,
   normalizeItem,
   normalizeResponseItem
 };
+

@@ -1,6 +1,6 @@
 const nock = require('nock');
 
-const transferClient = require('../../src/transfer/transfer');
+const transferClient = require('../../src/transfer');
 const request = require('../../src/request');
 
 describe('Transfer module', () => {
@@ -14,14 +14,14 @@ describe('Transfer module', () => {
 
     beforeEach(() => {
       transfer = {
-        'id': 'random-hash',
-        'state': 'uploading',
-        'shortened_url': 'https://we.tl/s-random-hash',
-        'name': 'WeTransfer',
-        'description': null,
-        'size': 0,
-        'total_items': 0,
-        'items': []
+        id: 'random-hash',
+        state: 'uploading',
+        shortened_url: 'https://we.tl/s-random-hash',
+        name: 'WeTransfer',
+        description: null,
+        size: 0,
+        total_items: 0,
+        items: []
       };
 
       nock('https://dev.wetransfer.com')

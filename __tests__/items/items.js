@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const transferItems = require('../../src/transfer/items');
+const transferItems = require('../../src/items');
 const request = require('../../src/request');
 const WTError = require('../../src/error');
 
