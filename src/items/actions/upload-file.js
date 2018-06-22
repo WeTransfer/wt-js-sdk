@@ -29,9 +29,9 @@ module.exports = function({ request, routes }) {
    * it chunkes the file and uploads each part in parallel
    * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
    * @param   {Buffer}  content File content
-   * @returns {Promise}         Empty response if everything goes well 🤔
+   * @returns {Array}           Array of part upload promises
    */
-  return async function uploadFile(file, content) {
+  function uploadAllParts(file, content) {
     const partRequests = [];
 
     for (
@@ -50,6 +50,19 @@ module.exports = function({ request, routes }) {
         )
       );
     }
+
+    return partRequests;
+  }
+
+  /**
+   * Given a file content, and the number of parts that must be uploaded to S3,
+   * it chunkes the file and uploads each part in parallel. Completes the file upload at the end.
+   * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
+   * @param   {Buffer}  content File content
+   * @returns {Promise}         Empty response if everything goes well 🤔
+   */
+  return async function uploadFile(file, content) {
+    const partRequests = uploadAllParts(file, content);
 
     try {
       return await Promise.all(partRequests).then(() =>
