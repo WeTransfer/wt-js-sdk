@@ -2,6 +2,10 @@ const { pick } = require('lodash');
 
 class RemoteFile {
   constructor(values) {
+    this.normalizeValues(values);
+  }
+
+  normalizeValues(values) {
     Object.assign(
       this,
       pick(values, [

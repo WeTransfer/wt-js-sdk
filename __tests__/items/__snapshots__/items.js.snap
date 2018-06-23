@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transfer module Items addFiles method should return created files 1`] = `
+Array [
+  RemoteFile {
+    "content_identifier": "file",
+    "id": "random-hash",
+    "meta": Object {
+      "multipart_parts": 2,
+      "multipart_upload_id": "some.random-id--",
+    },
+    "name": "item-01.txt",
+    "size": 195906,
+    "transfer": RemoteTransfer {
+      "id": "transfer-id",
+      "items": Array [
+        [Circular],
+      ],
+    },
+  },
+]
+`;
+
+exports[`Transfer module Items addLinks method should return created links 1`] = `
+Array [
+  RemoteLink {
+    "content_identifier": "web_content",
+    "id": "random-hash",
+    "meta": Object {
+      "title": "WeTransfer",
+    },
+    "transfer": RemoteTransfer {
+      "id": "transfer-id",
+      "items": Array [
+        [Circular],
+      ],
+    },
+  },
+]
+`;

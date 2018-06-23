@@ -19,9 +19,9 @@ function defaultLinkItem() {
  * @param   {Object} link A link object
  * @returns {Object}      Normalized link object
  */
-function normalizeLInk(link) {
+function normalizeLink(link) {
   const defaultLink = defaultLinkItem();
   return defaults({}, pick(link, Object.keys(defaultLink)), defaultLink);
 }
 
-module.exports = normalizeLInk;
+module.exports = normalizeLink;

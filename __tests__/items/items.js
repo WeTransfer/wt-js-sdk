@@ -1,5 +1,6 @@
 const axios = require('axios');
 
+const { RemoteTransfer } = require('../../src/transfer/models');
 const transferItems = require('../../src/items');
 const request = require('../../src/request');
 const WTError = require('../../src/error');
@@ -77,6 +78,158 @@ describe('Transfer module', () => {
             Promise.reject(new Error('Network error.'))
           );
           await transferItems.addItems('transfer-id', items);
+        } catch (error) {
+          expect(error).toBeInstanceOf(WTError);
+        }
+      });
+    });
+
+    describe('addFiles method', () => {
+      let files = [];
+      let createdFiles = [];
+      let transfer = null;
+
+      beforeEach(() => {
+        axios.mockImplementation(() => Promise.resolve({}));
+
+        request.apiKey = 'secret-api-key';
+        request.jwt = 'json-web-token';
+
+        files = [
+          {
+            filename: 'item-01.txt',
+            filesize: 1024
+          }
+        ];
+
+        createdFiles = [
+          {
+            id: 'random-hash',
+            content_identifier: 'file',
+            meta: {
+              multipart_parts: 2,
+              multipart_upload_id: 'some.random-id--'
+            },
+            name: 'item-01.txt',
+            size: 195906
+          }
+        ];
+
+        transfer = new RemoteTransfer({ id: 'transfer-id' });
+      });
+
+      it('should create an add items request', async () => {
+        axios.mockImplementation(() => Promise.resolve({ data: createdFiles }));
+        await transferItems.addFiles(transfer, files);
+        expect(axios).toHaveBeenLastCalledWith({
+          data: {
+            items: [
+              {
+                content_identifier: 'file',
+                filename: 'item-01.txt',
+                filesize: 1024,
+                local_identifier: expect.any(String)
+              }
+            ]
+          },
+          headers: {
+            'Authorization': 'Bearer json-web-token',
+            'Content-Type': 'application/json',
+            'x-api-key': 'secret-api-key'
+          },
+          url: '/v1/transfers/transfer-id/items'
+        });
+      });
+
+      it('should return created files', async () => {
+        axios.mockImplementation(() => Promise.resolve({ data: createdFiles }));
+        const newFiles = await transferItems.addFiles(transfer, files);
+        expect(newFiles).toMatchSnapshot();
+      });
+
+      it('should throw a WTError if request fails', async () => {
+        try {
+          axios.mockImplementation(() =>
+            Promise.reject(new Error('Network error.'))
+          );
+          await transferItems.addFiles(transfer, files);
+        } catch (error) {
+          expect(error).toBeInstanceOf(WTError);
+        }
+      });
+    });
+
+    fdescribe('addLinks method', () => {
+      let links = [];
+      let createdLinks = [];
+      let transfer = null;
+
+      beforeEach(() => {
+        axios.mockImplementation(() => Promise.resolve({}));
+
+        request.apiKey = 'secret-api-key';
+        request.jwt = 'json-web-token';
+
+        links = [
+          {
+            url: 'https://wetransfer.com',
+            meta: {
+              title: 'WeTransfer'
+            }
+          }
+        ];
+
+        createdLinks = [
+          {
+            id: 'random-hash',
+            content_identifier: 'web_content',
+            meta: {
+              title: 'WeTransfer'
+            },
+            url: 'https://wetransfer.com'
+          }
+        ];
+
+        transfer = new RemoteTransfer({ id: 'transfer-id' });
+      });
+
+      it('should create an add items request', async () => {
+        axios.mockImplementation(() => Promise.resolve({ data: createdLinks }));
+        await transferItems.addLinks(transfer, links);
+        expect(axios).toHaveBeenLastCalledWith({
+          data: {
+            items: [
+              {
+                local_identifier: expect.any(String),
+                content_identifier: 'web_content',
+                meta: {
+                  title: 'WeTransfer'
+                },
+                url: 'https://wetransfer.com'
+              }
+            ]
+          },
+          headers: {
+            'Authorization': 'Bearer json-web-token',
+            'Content-Type': 'application/json',
+            'x-api-key': 'secret-api-key'
+          },
+          url: '/v1/transfers/transfer-id/items'
+        });
+      });
+
+      it('should return created links', async () => {
+        axios.mockImplementation(() => Promise.resolve({ data: createdLinks }));
+        const newLinks = await transferItems.addLinks(transfer, links);
+        expect(newLinks).toMatchSnapshot();
+      });
+
+      it('should throw a WTError if request fails', async () => {
+        try {
+          axios.mockImplementation(() =>
+            Promise.reject(new Error('Network error.'))
+          );
+          await transferItems.addLinks(transfer, links);
         } catch (error) {
           expect(error).toBeInstanceOf(WTError);
         }
