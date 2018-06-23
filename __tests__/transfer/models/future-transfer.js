@@ -1,6 +1,6 @@
-const { normalizeTransfer } = require('../../../src/transfer/models');
+const { futureTransfer } = require('../../../src/transfer/models');
 
-describe('Transfer model', () => {
+describe('Future transfer normalizer', () => {
   describe('normalizeTransfer function', () => {
     let transfer = {};
     beforeEach(() => {
@@ -11,22 +11,19 @@ describe('Transfer model', () => {
     });
 
     it('should return a normalized transfer', () => {
-      const normalized = normalizeTransfer(transfer);
-      expect(normalized).toEqual(transfer);
+      const normalized = futureTransfer(transfer);
+      expect(normalized).toMatchSnapshot();
     });
 
     it('should remove extra properties', () => {
       const extraProps = Object.assign({}, transfer, { date: new Date() });
-      const normalized = normalizeTransfer(extraProps);
-      expect(normalized).toEqual(transfer);
+      const normalized = futureTransfer(extraProps);
+      expect(normalized).toMatchSnapshot();
     });
 
     it('add default values', () => {
-      const normalized = normalizeTransfer({});
-      expect(normalized).toEqual({
-        name: '',
-        description: ''
-      });
+      const normalized = futureTransfer({});
+      expect(normalized).toMatchSnapshot();
     });
   });
 });

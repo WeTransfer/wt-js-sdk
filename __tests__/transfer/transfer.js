@@ -16,12 +16,12 @@ describe('Transfer module', () => {
     beforeEach(() => {
       transfer = {
         id: 'random-hash',
+        local_identifier: 'random-hash',
         state: 'uploading',
         shortened_url: 'https://we.tl/s-random-hash',
         name: 'WeTransfer',
         description: null,
         size: 0,
-        total_items: 0,
         items: []
       };
 
@@ -40,7 +40,14 @@ describe('Transfer module', () => {
       const newTransfer = await transferClient.create({
         name: 'WeTransfer SDK'
       });
-      expect(newTransfer).toEqual(transfer);
+      expect(newTransfer).toMatchObject({
+        id: 'random-hash',
+        shortened_url: 'https://we.tl/s-random-hash',
+        items: [],
+        local_identifier: 'random-hash',
+        name: 'WeTransfer',
+        size: 0
+      });
     });
 
     it('should throw a WTError if request fails', async () => {
