@@ -1,15 +1,13 @@
-const routes = require('../../../src/config/routes');
 const addLinksAction = require('../../../src/items/actions/add-links');
 const { futureLink, RemoteLink } = require('../../../src/items/models');
 const { RemoteTransfer } = require('../../../src/transfer/models');
 
 describe('Add links action', () => {
   let addLinks = null;
+  let sendItems = null;
   let transfer = null;
-  const mocks = {};
   beforeEach(() => {
-    mocks.request = { send: jest.fn() };
-    mocks.request.send.mockReturnValue([
+    sendItems = jest.fn().mockReturnValue([
       {
         id: 'random-hash',
         content_identifier: 'web_content',
@@ -21,8 +19,7 @@ describe('Add links action', () => {
     ]);
 
     addLinks = addLinksAction({
-      routes,
-      request: mocks.request,
+      sendItems,
       futureLink,
       RemoteLink
     });

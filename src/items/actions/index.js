@@ -10,15 +10,16 @@ const {
   normalizeResponseItem
 } = require('../models');
 
+const sendItems = require('./send-items')({ request, routes });
+
 module.exports = {
   addItems: require('./add-items')({
-    request,
-    routes,
+    sendItems,
     normalizeItem,
     normalizeResponseItem
   }),
-  addFiles: require('./add-files')({ request, routes, futureFile, RemoteFile }),
-  addLinks: require('./add-links')({ request, routes, futureLink, RemoteLink }),
+  addFiles: require('./add-files')({ sendItems, futureFile, RemoteFile }),
+  addLinks: require('./add-links')({ sendItems, futureLink, RemoteLink }),
   uploadFile: require('./upload-file')({ request, routes }),
   completeFileUpload: require('./complete-file-upload')({ request, routes })
 };

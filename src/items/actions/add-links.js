@@ -1,15 +1,15 @@
-module.exports = function({ request, routes, futureLink, RemoteLink }) {
-  function normalizeResponseItem(item) {
-    return new RemoteLink(item);
-  }
-
-  const sendItems = require('./send-items')({ request, routes });
-
-  return async function addFiles(transfer, links) {
+module.exports = function({ sendItems, futureLink, RemoteLink }) {
+  /**
+   * Add links to an existing transfer.
+   * @param   {Object}  transfer Existing transfer object
+   * @param   {Array}   links    A collection of links to be added to the transfer
+   * @returns {Promise}          A collection of created items
+   */
+  return async function addLinks(transfer, links) {
     const transferItems = (await sendItems(
       transfer,
       links.map(futureLink)
-    )).map(normalizeResponseItem);
+    )).map((item) => new RemoteLink(item));
 
     transfer.addItems(...transferItems);
 

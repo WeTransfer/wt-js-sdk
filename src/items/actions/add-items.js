@@ -1,11 +1,4 @@
-module.exports = function({
-  request,
-  routes,
-  normalizeItem,
-  normalizeResponseItem
-}) {
-  const sendItems = require('./send-items')({ request, routes });
-
+module.exports = function({ sendItems, normalizeItem, normalizeResponseItem }) {
   /**
    * Add items to an existing transfer.
    * @param   {String}  transferId Existing transfer id
@@ -13,7 +6,9 @@ module.exports = function({
    * @returns {Promise}            A collection of created items
    */
   return async function addItems(transferId, items) {
-    console.warn('DEPRECATED');
+    console.warn(
+      '[DEPRECATED WARNING]: addItems method will be removed in future versions. Please use addFiles or addLinks methods instead.'
+    );
     return (await sendItems({ id: transferId }, items.map(normalizeItem))).map(
       normalizeResponseItem
     );

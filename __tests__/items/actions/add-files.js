@@ -1,15 +1,13 @@
-const routes = require('../../../src/config/routes');
 const addFilesAction = require('../../../src/items/actions/add-files');
 const { futureFile, RemoteFile } = require('../../../src/items/models');
 const { RemoteTransfer } = require('../../../src/transfer/models');
 
 describe('Add files action', () => {
   let addFiles = null;
+  let sendItems = null;
   let transfer = null;
-  const mocks = {};
   beforeEach(() => {
-    mocks.request = { send: jest.fn() };
-    mocks.request.send.mockReturnValue([
+    sendItems = jest.fn().mockReturnValue([
       {
         id: 'random-hash',
         content_identifier: 'file',
@@ -26,8 +24,7 @@ describe('Add files action', () => {
     ]);
 
     addFiles = addFilesAction({
-      routes,
-      request: mocks.request,
+      sendItems,
       futureFile,
       RemoteFile
     });

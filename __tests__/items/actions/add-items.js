@@ -1,4 +1,3 @@
-const routes = require('../../../src/config/routes');
 const addItemsAction = require('../../../src/items/actions/add-items');
 const {
   normalizeItem,
@@ -7,10 +6,9 @@ const {
 
 describe('Add items action', () => {
   let addItems = null;
-  const mocks = {};
+  let sendItems = null;
   beforeEach(() => {
-    mocks.request = { send: jest.fn() };
-    mocks.request.send.mockReturnValue([
+    sendItems = jest.fn().mockReturnValue([
       {
         id: 'random-hash',
         content_identifier: 'file',
@@ -35,8 +33,7 @@ describe('Add items action', () => {
     ]);
 
     addItems = addItemsAction({
-      routes,
-      request: mocks.request,
+      sendItems,
       normalizeItem,
       normalizeResponseItem
     });
