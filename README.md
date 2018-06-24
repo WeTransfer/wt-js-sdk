@@ -49,7 +49,7 @@ const transfer = await apiClient.transfer.create({
 
 ### Add items to a transfer
 
-Once a transfer has been created you can then add items (files or links) to it. If files are provided as items, they are not uploaded at this point, see next steps:
+Once a transfer has been created you can then add items (files or links) to it. If you are adding files to the transfer, the files are not uploaded at this point, but in the next step.
 
 ```javascript
 const files = await apiClient.transfer.addFiles(transfer, [{
@@ -77,8 +77,7 @@ Once the file has been added to the transfer, next step is to upload the file or
 const fileContent = [/* Buffer */];
 await Promise.all(
   // files is the variable returned by apiClient.transfer.addFiles method
-  files
-    .map((item) => apiClient.transfer.uploadFile(item, fileContent))
+  files.map((item) => apiClient.transfer.uploadFile(item, fileContent))
 );
 ```
 
