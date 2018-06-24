@@ -62,9 +62,8 @@ module.exports = function({ request, routes }) {
    * @returns {Promise}         Empty response if everything goes well 🤔
    */
   return async function uploadFile(file, content) {
-    const partRequests = uploadAllParts(file, content);
-
     try {
+      const partRequests = uploadAllParts(file, content);
       return await Promise.all(partRequests).then(() =>
         completeFileUpload(file)
       );

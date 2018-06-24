@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Send items action should throw an error if items are not provided 1`] = `[Error: There was an error when adding items to the transfer.]`;

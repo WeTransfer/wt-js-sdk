@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add links action should create an add items request 1`] = `
+Array [
+  RemoteLink {
+    "content_identifier": "web_content",
+    "id": "random-hash",
+    "meta": Object {
+      "title": "WeTransfer",
+    },
+    "transfer": RemoteTransfer {
+      "items": Array [
+        [Circular],
+      ],
+    },
+  },
+]
+`;

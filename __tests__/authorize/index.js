@@ -2,7 +2,6 @@ const axios = require('axios');
 
 const authorize = require('../../src/authorize');
 const request = require('../../src/request');
-const WTError = require('../../src/error');
 
 jest.mock('axios');
 
@@ -37,14 +36,14 @@ describe('Authorize method', () => {
     });
   });
 
-  it('should throw a WTError if request fails', async () => {
+  it('should throw an error if request fails', async () => {
     try {
       axios.mockImplementation(() =>
         Promise.reject(new Error('Network error.'))
       );
       await authorize();
     } catch (error) {
-      expect(error).toBeInstanceOf(WTError);
+      expect(error).toMatchSnapshot();
     }
   });
 });
