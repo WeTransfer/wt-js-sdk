@@ -27,8 +27,8 @@ describe('createWTClient function', () => {
   it('should throw and error when no API KEY is provided', async () => {
     try {
       await createWTClient();
-    } catch ({ message }) {
-      expect(message).toEqual('No API Key provided');
+    } catch (error) {
+      expect(error).toMatchSnapshot();
     }
   });
 });
