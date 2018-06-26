@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.0"></a>
+
+# [0.4.0](https://github.com/WeTransfer/wetransfer-js-sdk/compare/v0.3.0...v0.4.0) (2018-06-26)
+
+### Features
+
+* new addFiles and addLinks methods [#47](https://github.com/WeTransfer/wetransfer-js-sdk/issues/47) [cde6562](https://github.com/WeTransfer/wetransfer-js-sdk/commit/cde6562)
+
+### Deprecated
+
+* `addItems` method will be removed on future versions. Please use `addFiles` and/or `addLinks` methods instead.
+
 <a name="0.3.0"></a>
 
 # [0.3.0](https://github.com/WeTransfer/wetransfer-js-sdk/compare/v0.2.0...v0.3.0) (2018-05-15)
