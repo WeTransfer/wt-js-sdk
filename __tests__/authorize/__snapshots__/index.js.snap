@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Authorize method should throw an error if request fails 1`] = `[Error: The authorization call failed and no usable JWT could be found there. Please check your API Key.]`;

@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RemoteTransfer model contructor should create a normalized transfer 1`] = `
+RemoteTransfer {
+  "description": "Something about cats, most probably.",
+  "id": "random-hash",
+  "items": Array [],
+  "name": "Little kittens",
+  "shortened_url": "https://we.tl/s-random-hash",
+  "size": 0,
+}
+`;
+
+exports[`RemoteTransfer model when items are added to the transfer files property should return only files 1`] = `
+Array [
+  Object {
+    "content_identifier": "file",
+    "id": "random-hash",
+    "name": "kittie.gif",
+    "transfer": RemoteTransfer {
+      "description": "Something about cats, most probably.",
+      "id": "random-hash",
+      "items": Array [
+        [Circular],
+        Object {
+          "content_identifier": "web_content",
+          "id": "random-hash",
+          "name": "wetransfer.com",
+          "transfer": [Circular],
+        },
+      ],
+      "name": "Little kittens",
+      "shortened_url": "https://we.tl/s-random-hash",
+      "size": 0,
+    },
+  },
+]
+`;
+
+exports[`RemoteTransfer model when items are added to the transfer links property should return only links 1`] = `
+Array [
+  Object {
+    "content_identifier": "web_content",
+    "id": "random-hash",
+    "name": "wetransfer.com",
+    "transfer": RemoteTransfer {
+      "description": "Something about cats, most probably.",
+      "id": "random-hash",
+      "items": Array [
+        Object {
+          "content_identifier": "file",
+          "id": "random-hash",
+          "name": "kittie.gif",
+          "transfer": [Circular],
+        },
+        [Circular],
+      ],
+      "name": "Little kittens",
+      "shortened_url": "https://we.tl/s-random-hash",
+      "size": 0,
+    },
+  },
+]
+`;
+
+exports[`RemoteTransfer model when items are added to the transfer should add items to the transfer 1`] = `
+Array [
+  Object {
+    "content_identifier": "file",
+    "id": "random-hash",
+    "name": "kittie.gif",
+    "transfer": RemoteTransfer {
+      "description": "Something about cats, most probably.",
+      "id": "random-hash",
+      "items": [Circular],
+      "name": "Little kittens",
+      "shortened_url": "https://we.tl/s-random-hash",
+      "size": 0,
+    },
+  },
+  Object {
+    "content_identifier": "web_content",
+    "id": "random-hash",
+    "name": "wetransfer.com",
+    "transfer": RemoteTransfer {
+      "description": "Something about cats, most probably.",
+      "id": "random-hash",
+      "items": [Circular],
+      "name": "Little kittens",
+      "shortened_url": "https://we.tl/s-random-hash",
+      "size": 0,
+    },
+  },
+]
+`;

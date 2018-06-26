@@ -2,7 +2,13 @@ const authorize = require('./authorize');
 const WTError = require('./error');
 const request = require('./request');
 const { create } = require('./transfer');
-const { addItems, uploadFile, completeFileUpload } = require('./items');
+const {
+  addItems,
+  addFiles,
+  addLinks,
+  uploadFile,
+  completeFileUpload
+} = require('./items');
 
 module.exports = async function createWTClient(apiKey) {
   if (!apiKey) {
@@ -16,7 +22,9 @@ module.exports = async function createWTClient(apiKey) {
     authorize,
     transfer: {
       create,
+      addFiles,
       addItems,
+      addLinks,
       uploadFile,
       completeFileUpload
     }

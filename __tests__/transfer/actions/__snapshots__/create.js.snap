@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create transfer action should create a new transfer request 1`] = `
+RemoteTransfer {
+  "description": null,
+  "id": "random-hash",
+  "items": Array [],
+  "name": "Little kittens",
+  "shortened_url": "https://we.tl/s-random-hash",
+  "size": 0,
+}
+`;

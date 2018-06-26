@@ -49,18 +49,15 @@ const transfer = await apiClient.transfer.create({
 
 ### Add items to a transfer
 
-Once a transfer has been created you can then add items to it. If files are provided as items, they are not uploaded at this point, see next steps:
+Once a transfer has been created you can then add items (files or links) to it. If you are adding files to the transfer, the files are not uploaded at this point, but in the next step.
 
 ```javascript
-const transferItems = await apiClient.transfer.addItems(transfer.id, [{
-  content_identifier: 'file',
-  local_identifier: 'delightful-cat',
+const files = await apiClient.transfer.addFiles(transfer, [{
   filename: 'kittie.gif',
   filesize: 1024
-},
-{
-  local_identifier: 'japan-wikipedia',
-  content_identifier: 'web_content',
+}]);
+
+const links = await apiClient.transfer.addLinks(transfer, [{
   url: 'https://en.wikipedia.org/wiki/Japan',
   meta: {
     title: 'Japan'
@@ -68,20 +65,19 @@ const transferItems = await apiClient.transfer.addItems(transfer.id, [{
 }]);
 ```
 
-It will return an object for each item you want to add to the transfer. For files, each one must be split into chunks, and uploaded to a pre-signed S3 URL, provided by the following method.
+Each method will return an array of objects for each item that was added to the transfer. For files, this objects will be used to upload the correspondent file to the transfer, as explained in the next section.
 
 ### Upload a file
 
-Once the item has been added to the transfer, next step is to upload the file or files. You must provide the content of the file to upload as a [Buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer).
+Once the file has been added to the transfer, next step is to upload the file or files. You must provide the content of the file to upload as a [Buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer), we will NOT read the file for you. The content of the file will be splited and uploaded in chunks of 5MB to our S3 bucket.
 
 ```javascript
 // Depending on your application, you will read the file using fs.readFile
-// or it will be a file uploaded to your service.
+// or it will be a file uploaded to your web server.
 const fileContent = [/* Buffer */];
 await Promise.all(
-  transferItems
-    .filter((item) => item.content_identifier === 'file')
-    .map((item) => apiClient.transfer.uploadFile(item, fileContent))
+  // files is the variable returned by apiClient.transfer.addFiles method
+  files.map((item) => apiClient.transfer.uploadFile(item, fileContent))
 );
 ```
 

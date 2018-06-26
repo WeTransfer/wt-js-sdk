@@ -1,3 +1,56 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Item model normalizeItem function should throw an error if content_identifier is empty 1`] = `"WTError is not defined"`;
+exports[`Item model normalizeItem function should remove extra properties 1`] = `
+Object {
+  "content_identifier": "file",
+  "filename": "filename.txt",
+  "filesize": 1024,
+  "local_identifier": "filename.txt",
+}
+`;
+
+exports[`Item model normalizeItem function should return a normalized file item 1`] = `
+Object {
+  "content_identifier": "file",
+  "filename": "filename.txt",
+  "filesize": 1024,
+  "local_identifier": "filename.txt",
+}
+`;
+
+exports[`Item model normalizeItem function should return a normalized link item 1`] = `
+Object {
+  "content_identifier": "web_content",
+  "local_identifier": "filename.txt",
+  "meta": Object {
+    "title": "",
+  },
+  "url": "",
+}
+`;
+
+exports[`Item model normalizeItem function should throw an error if content_identifier is empty 1`] = `"Item's content_identifier property should be \\"file\\" or \\"web_content\\"."`;
+
+exports[`Item model normalizeResponseItem function should normalize a file item 1`] = `
+RemoteFile {
+  "content_identifier": "file",
+  "id": "random-hash",
+  "local_identifier": "delightful-cat",
+  "meta": Object {
+    "multipart_parts": 3,
+    "multipart_upload_id": "some.random-id--",
+  },
+  "name": "kittie.gif",
+  "size": 195906,
+}
+`;
+
+exports[`Item model normalizeResponseItem function should normalize a link item 1`] = `
+RemoteLink {
+  "content_identifier": "web_content",
+  "id": "random-hash",
+  "meta": Object {
+    "title": "WeTransfer",
+  },
+}
+`;

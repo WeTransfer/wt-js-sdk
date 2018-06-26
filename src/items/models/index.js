@@ -1,35 +1,23 @@
-const { defaults, pick } = require('lodash');
+const futureLink = require('./future-link');
+const futureFile = require('./future-file');
+const RemoteFile = require('./remote-file');
+const RemoteLink = require('./remote-link');
 
-const defaultFileItem = {
-  filename: '',
-  filesize: 0,
-  content_identifier: 'file',
-  local_identifier: ''
-};
-
-const defaultLinkItem = {
-  url: '',
-  content_identifier: 'web_content',
-  local_identifier: '',
-  meta: {
-    title: ''
-  }
-};
+const WTError = require('../../error');
 
 /**
  * Decide which model to apply based on the item type
  * @param   {String} type Item type
  * @returns {Object}      Item model
  */
-function itemModel(type) {
+function normalizer(type, normalizers) {
   switch (type) {
     case 'file':
-      return defaultFileItem;
     case 'web_content':
-      return defaultLinkItem;
+      return normalizers[type];
     default:
       throw new WTError(
-        'Item\'s content_identifier should be "file" or "web_content".'
+        'Item\'s content_identifier property should be "file" or "web_content".'
       );
   }
 }
@@ -41,14 +29,12 @@ function itemModel(type) {
  * @returns {Object}      Normalized item object
  */
 function normalizeItem(item) {
-  const model = itemModel(item.content_identifier);
-  const normalizedItem = defaults({}, pick(item, Object.keys(model)), model);
+  const normalizers = {
+    file: futureFile,
+    web_content: futureLink
+  };
 
-  if (normalizedItem.filesize) {
-    normalizedItem.filesize = parseInt(normalizedItem.filesize, 10);
-  }
-
-  return normalizedItem;
+  return normalizer(item.content_identifier, normalizers)(item);
 }
 
 /**
@@ -58,19 +44,20 @@ function normalizeItem(item) {
  * @returns {Object}      Normalized response item object
  */
 function normalizeResponseItem(item) {
-  return pick(
-    item,
-    'id',
-    'content_identifier',
-    'local_identifier',
-    'meta',
-    'name',
-    'size'
-  );
+  const normalizers = {
+    file: RemoteFile,
+    web_content: RemoteLink
+  };
+
+  const RemoteItem = normalizer(item.content_identifier, normalizers);
+  return new RemoteItem(item);
 }
 
 module.exports = {
+  futureLink,
+  futureFile,
+  RemoteFile,
+  RemoteLink,
   normalizeItem,
   normalizeResponseItem
 };
-
