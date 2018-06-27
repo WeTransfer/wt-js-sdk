@@ -37,11 +37,10 @@ jobs:
           command: npm run lint
       - run:
           name: Unit tests
-          command: npm run test:ci
-      - run:
-          name: Code Climate report
           command: |
+            npm run test:ci
             ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT ./coverage/lcov.info
+
   integration_tests:
     docker:
       - image: circleci/node:8.11
@@ -60,3 +59,6 @@ workflows:
       - lint_and_unit_tests:
           requires:
             - build
+      - integration_tests:
+          requires:
+            - lint_and_unit_tests
