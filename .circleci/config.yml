@@ -39,7 +39,7 @@ jobs:
           name: Unit tests
           command: |
             npm run test:ci
-            ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT ./coverage/lcov.info
+            ./cc-test-reporter after-build --exit-code $? ./coverage/lcov.info
 
   integration_tests:
     docker:
@@ -51,6 +51,7 @@ jobs:
       - run:
           name: Integration tests
           command: cd example && node create-transfer.js
+
 workflows:
   version: 2
   build_and_test:
