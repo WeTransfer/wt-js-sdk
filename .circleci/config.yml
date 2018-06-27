@@ -3,46 +3,65 @@ jobs:
   build:
     docker:
       - image: circleci/node:8.11
-
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
       - run:
-        name: Install dependencies
-        command: yarn install
-
+          name: Install dependencies
+          command: yarn install
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-  test:
+  lint_and_unit_tests:
+    environment:
+      CC_TEST_REPORTER_ID: 0b103cd0a4a79d0a859c2f04327f27eded9fc9363c15b2cc2497bcd08fcc5b55
     docker:
       - image: circleci/node:8.11
-
     steps:
       - checkout
       - restore_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run:
-        name: Lint code
-        command: npm run lint
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
       - run:
-        name: Unit tests
-        command: npm run test:ci
+          name: Lint code
+          command: npm run lint
+      - run:
+          name: Unit tests
+          command: |
+            npm run test:ci
+            ./cc-test-reporter after-build --exit-code $? ./coverage/lcov.info
+
+  integration_tests:
+    docker:
+      - image: circleci/node:8.11
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Integration tests
+          command: cd example && node create-transfer.js
 
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
-      - test:
+      - lint_and_unit_tests:
+          requires:
+            - build
+      - integration_tests:
           requires:
             - build
