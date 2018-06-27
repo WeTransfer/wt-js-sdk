@@ -20,6 +20,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
   lint_and_unit_tests:
+    environment:
+      CC_TEST_REPORTER_ID: 0b103cd0a4a79d0a859c2f04327f27eded9fc9363c15b2cc2497bcd08fcc5b55
     docker:
       - image: circleci/node:8.11
     steps:
