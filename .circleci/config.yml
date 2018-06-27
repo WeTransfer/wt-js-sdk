@@ -64,4 +64,4 @@ workflows:
             - build
       - integration_tests:
           requires:
-            - lint_and_unit_tests
+            - build
