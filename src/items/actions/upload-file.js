@@ -6,7 +6,7 @@ module.exports = function({ request, routes }) {
     routes
   });
 
-  const MIN_CHUNK_SIZE = 5242880;
+  const MIN_CHUNK_SIZE = 6 * 1024 * 1024;
 
   /**
    * Uploads a chunk of the file to S3

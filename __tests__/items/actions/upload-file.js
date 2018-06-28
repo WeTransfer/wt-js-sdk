@@ -45,8 +45,8 @@ describe('Upload file action', () => {
     ]);
   });
 
-  it('should send two requests for a 6MB file', async () => {
-    const sizeFile = 6 * 1024 * 1024;
+  it('should send two requests for a 10MB file', async () => {
+    const sizeFile = 10 * 1024 * 1024;
     await uploadFile(
       {
         id: 'random-hash',
