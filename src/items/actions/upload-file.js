@@ -6,7 +6,7 @@ module.exports = function({ request, routes }) {
     routes
   });
 
-  const MIN_CHUNK_SIZE = 5242880;
+  const MAX_CHUNK_SIZE = 6 * 1024 * 1024;
 
   /**
    * Uploads a chunk of the file to S3
@@ -40,8 +40,8 @@ module.exports = function({ request, routes }) {
       await uploadPart(
         file,
         content.slice(
-          partNumber * MIN_CHUNK_SIZE,
-          (partNumber + 1) * MIN_CHUNK_SIZE
+          partNumber * MAX_CHUNK_SIZE,
+          (partNumber + 1) * MAX_CHUNK_SIZE
         ),
         partNumber + 1
       );
