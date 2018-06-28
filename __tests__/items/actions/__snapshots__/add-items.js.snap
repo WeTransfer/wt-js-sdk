@@ -2,7 +2,7 @@
 
 exports[`Add items action should create an add items request 1`] = `
 Array [
-  RemoteFile {
+  Object {
     "content_identifier": "file",
     "id": "random-hash",
     "local_identifier": "delightful-cat",
@@ -13,7 +13,7 @@ Array [
     "name": "kittie.gif",
     "size": 195906,
   },
-  RemoteLink {
+  Object {
     "content_identifier": "web_content",
     "id": "random-hash",
     "meta": Object {
