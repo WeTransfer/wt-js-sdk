@@ -26,47 +26,39 @@ module.exports = function({ request, routes }) {
 
   /**
    * Given a file content, and the number of parts that must be uploaded to S3,
-   * it chunkes the file and uploads each part in parallel
+   * it chunkes the file and uploads each part sequentially
    * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
    * @param   {Buffer}  content File content
    * @returns {Array}           Array of part upload promises
    */
-  function uploadAllParts(file, content) {
-    const partRequests = [];
-
+  async function uploadAllParts(file, content) {
     for (
       let partNumber = 0;
       partNumber < file.meta.multipart_parts;
       partNumber++
     ) {
-      partRequests.push(
-        uploadPart(
-          file,
-          content.slice(
-            partNumber * MIN_CHUNK_SIZE,
-            (partNumber + 1) * MIN_CHUNK_SIZE
-          ),
-          partNumber + 1
-        )
+      await uploadPart(
+        file,
+        content.slice(
+          partNumber * MIN_CHUNK_SIZE,
+          (partNumber + 1) * MIN_CHUNK_SIZE
+        ),
+        partNumber + 1
       );
     }
-
-    return partRequests;
   }
 
   /**
    * Given a file content, and the number of parts that must be uploaded to S3,
-   * it chunkes the file and uploads each part in parallel. Completes the file upload at the end.
+   * it chunkes the file and uploads each part sequentially. Completes the file upload at the end.
    * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
    * @param   {Buffer}  content File content
    * @returns {Promise}         Empty response if everything goes well 🤔
    */
   return async function uploadFile(file, content) {
     try {
-      const partRequests = uploadAllParts(file, content);
-      return await Promise.all(partRequests).then(() =>
-        completeFileUpload(file)
-      );
+      await uploadAllParts(file, content);
+      return await completeFileUpload(file);
     } catch (error) {
       throw new WTError(
         `There was an error when uploading ${file.name}.`,
