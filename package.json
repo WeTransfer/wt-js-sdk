@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/WeTransfer/wetransfer-js-sdk.git"
+    "url": "https://github.com/WeTransfer/wt-js-sdk.git"
   },
   "keywords": [
     "api",
@@ -25,9 +25,9 @@
   "author": "WeTransfer folks",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/WeTransfer/wetransfer-js-sdk/issues"
+    "url": "https://github.com/WeTransfer/wt-js-sdk/issues"
   },
-  "homepage": "https://github.com/WeTransfer/wetransfer-js-sdk#readme",
+  "homepage": "https://github.com/WeTransfer/wt-js-sdk#readme",
   "publishConfig": {
     "access": "public"
   },
