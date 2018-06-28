@@ -32,7 +32,7 @@ Object {
 exports[`Item model normalizeItem function should throw an error if content_identifier is empty 1`] = `"Item's content_identifier property should be \\"file\\" or \\"web_content\\"."`;
 
 exports[`Item model normalizeResponseItem function should normalize a file item 1`] = `
-RemoteFile {
+Object {
   "content_identifier": "file",
   "id": "random-hash",
   "local_identifier": "delightful-cat",
@@ -46,7 +46,7 @@ RemoteFile {
 `;
 
 exports[`Item model normalizeResponseItem function should normalize a link item 1`] = `
-RemoteLink {
+Object {
   "content_identifier": "web_content",
   "id": "random-hash",
   "meta": Object {

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RemoteLink model contructor should create a normalized link 1`] = `
-RemoteLink {
+Object {
   "content_identifier": "web_content",
   "id": "random-hash",
   "meta": Object {
