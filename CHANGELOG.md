@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.1"></a>
+
+# [0.4.1](https://github.com/WeTransfer/wetransfer-js-sdk/compare/v0.4.0...v0.4.1) (2018-06-28)
+
+### Bug Fixes
+
+* remove JSON circular dependencies [#55](https://github.com/WeTransfer/wetransfer-js-sdk/issues/55) [f948630](https://github.com/WeTransfer/wetransfer-js-sdk/commit/f948630)
+
 <a name="0.4.0"></a>
 
 # [0.4.0](https://github.com/WeTransfer/wetransfer-js-sdk/compare/v0.3.0...v0.4.0) (2018-06-26)
