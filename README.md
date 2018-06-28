@@ -19,6 +19,8 @@ npm i @wetransfer/js-sdk --save
 
 In order to be able to use the SDK and access our public APIs, you must provide an API key, which is available in our [Developers Portal](https://developers.wetransfer.com/).
 
+You can find a complete working example [here](https://github.com/WeTransfer/wt-js-sdk/blob/master/example/create-transfer.js).
+
 ```javascript
 const createWTClient = require('@wetransfer/js-sdk');
 
