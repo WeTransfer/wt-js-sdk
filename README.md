@@ -83,6 +83,37 @@ await Promise.all(
 );
 ```
 
+## Logging levels
+
+Logging levels in this SDK conform to the severity ordering specified by [RFC5424]: _severity of all levels is assumed to be numerically **ascending** from most important to least important._
+
+Each `level` is given a specific integer priority. The higher the priority the more important the message is considered to be, and the lower the corresponding integer priority.
+
+``` js
+{ 
+  error: 0, 
+  warn: 1, 
+  info: 2, 
+  verbose: 3, 
+  debug: 4, 
+  silly: 5 
+}
+```
+
+We make use of the `npm` levels showed above.
+
+Setting the level for your logging message can be done providing the value when creating WeTransfer. For example, using the `warn` level you could log `warn` messages and below to the console, which in this case will only be `warn` and `error`.
+
+```js
+const apiClient = await createWTClient('/* YOUR PRIVATE API KEY GOES HERE*/', {
+  logger: {
+    level: 'debug'
+  }
+});
+```
+
+If no value is provided, by default we will use `info`.
+
 ## Documentation
 
 Visit [https://developers.wetransfer.com/documentation](https://developers.wetransfer.com/documentation) to access the latest API related documentation.

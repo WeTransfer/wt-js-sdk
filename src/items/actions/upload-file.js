@@ -1,3 +1,4 @@
+const logger = require('../../config/logger');
 const WTError = require('../../error');
 
 module.exports = function({ request, routes }) {
@@ -17,9 +18,17 @@ module.exports = function({ request, routes }) {
    * @returns {Promise}            Empty response if everything goes well 🤔
    */
   function uploadPart(file, data, partNumber) {
+    logger.debug(
+      `[${file.name}] Requesting S3 upload URL for part #${partNumber}`
+    );
     return request
       .send(routes.multipart(file, partNumber))
       .then((multipartItem) => {
+        logger.debug(
+          `[${file.name}] Uploading ${
+            data.length
+          } bytes for part #${partNumber} to S3`
+        );
         return request.upload(multipartItem.upload_url, data);
       });
   }
@@ -32,18 +41,33 @@ module.exports = function({ request, routes }) {
    * @returns {Array}           Array of part upload promises
    */
   async function uploadAllParts(file, content) {
-    for (
-      let partNumber = 0;
-      partNumber < file.meta.multipart_parts;
-      partNumber++
-    ) {
+    const totalParts = file.meta.multipart_parts;
+    logger.debug(
+      `[${
+        file.name
+      }] Splitting file into ${totalParts} parts. Total size to upload: ${
+        content.length
+      } bytes.`
+    );
+
+    for (let partNumber = 0; partNumber < totalParts; partNumber++) {
+      const chunkStart = partNumber * MAX_CHUNK_SIZE;
+      const chunkEnd = (partNumber + 1) * MAX_CHUNK_SIZE;
+
+      logger.debug(
+        `[${file.name}] Part #${partNumber +
+          1} of ${totalParts}. Bytes from ${chunkStart} to ${chunkEnd}.`
+      );
+
       await uploadPart(
         file,
-        content.slice(
-          partNumber * MAX_CHUNK_SIZE,
-          (partNumber + 1) * MAX_CHUNK_SIZE
-        ),
+        content.slice(chunkStart, chunkEnd),
         partNumber + 1
+      );
+
+      logger.debug(
+        `[${file.name}] Uploaded part #${partNumber +
+          1} of ${totalParts} to S3"`
       );
     }
   }
@@ -56,9 +80,14 @@ module.exports = function({ request, routes }) {
    * @returns {Promise}         Empty response if everything goes well 🤔
    */
   return async function uploadFile(file, content) {
+    logger.info(`[${file.name}] Starting file upload.`);
+
     try {
       await uploadAllParts(file, content);
-      return await completeFileUpload(file);
+      const response = await completeFileUpload(file);
+      logger.info(`[${file.name}] File upload complete.`);
+
+      return response;
     } catch (error) {
       throw new WTError(
         `There was an error when uploading ${file.name}.`,

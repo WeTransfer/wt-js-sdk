@@ -62,7 +62,11 @@ const data = {
   );
 
   try {
-    const apiClient = await createWTClient(process.env.WT_API_KEY);
+    const apiClient = await createWTClient(process.env.WT_API_KEY, {
+      logger: {
+        level: 'silly'
+      }
+    });
 
     const transfer = await apiClient.transfer.create(data.transfer);
     const transferFiles = await apiClient.transfer.addFiles(

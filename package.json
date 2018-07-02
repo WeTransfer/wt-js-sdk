@@ -37,7 +37,8 @@
   },
   "dependencies": {
     "axios": "0.18.0",
-    "lodash": "4.17.10"
+    "lodash": "4.17.10",
+    "winston": "3.0.0"
   },
   "devDependencies": {
     "@wetransfer/eslint-config-wetransfer": "2.0.1",
@@ -51,6 +52,9 @@
   },
   "jest": {
     "testEnvironment": "node",
+    "setupFiles": [
+      "./scripts/jest/setup.js"
+    ],
     "watchPlugins": [
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"

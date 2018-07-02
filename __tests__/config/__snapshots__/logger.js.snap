@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logger configuration when setting a level that doesn't exist should keep default info level 1`] = `
+Array [
+  "[WeTransfer SDK] [33m\\"yolo\\" is not a valid logger level. Please specify one of the following levels: [[39m
+[33m      'error',[39m
+[33m      'warning',[39m
+[33m      'info',[39m
+[33m      'verbose,'[39m
+[33m      'debug',[39m
+[33m      'silly'[39m
+[33m    ][39m
+",
+]
+`;
+
+exports[`Logger configuration when setting an empty level should keep default info level 1`] = `undefined`;
+
+exports[`Logger configuration when silly level is set should log silly logs 1`] = `
+Array [
+  "[WeTransfer SDK] [35mThis is a silly log[39m
+",
+]
+`;

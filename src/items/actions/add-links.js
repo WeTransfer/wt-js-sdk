@@ -1,3 +1,5 @@
+const logger = require('../../config/logger');
+
 module.exports = function({ sendItems, futureLink, RemoteLink }) {
   /**
    * Add links to an existing transfer.
@@ -6,6 +8,10 @@ module.exports = function({ sendItems, futureLink, RemoteLink }) {
    * @returns {Promise}          A collection of created items
    */
   return async function addLinks(transfer, links) {
+    logger.info(
+      `Adding ${links.length} links to transfer with ID ${transfer.id}`
+    );
+
     const transferItems = (await sendItems(
       transfer,
       links.map(futureLink)
