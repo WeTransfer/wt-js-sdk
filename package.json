@@ -41,6 +41,8 @@
     "winston": "3.0.0"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "2.1.1",
+    "@semantic-release/git": "6.0.1",
     "@wetransfer/eslint-config-wetransfer": "2.0.1",
     "eslint": "5.0.1",
     "husky": "0.14.3",
