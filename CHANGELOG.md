@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.5.0"></a>
+
+# [0.5.0](https://github.com/WeTransfer/wetransfer-js-sdk/compare/v0.4.2...v0.5.0) (2018-07-03)
+
+### Features
+
+* add a logger mechanish [#62](https://github.com/WeTransfer/wetransfer-js-sdk/issues/62) [47bf5a9](https://github.com/WeTransfer/wetransfer-js-sdk/commit/47bf5a9)
+
 <a name="0.4.2"></a>
 
 # [0.4.2](https://github.com/WeTransfer/wetransfer-js-sdk/compare/v0.4.1...v0.4.2) (2018-06-28)
