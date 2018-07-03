@@ -1,4 +1,5 @@
 const WTError = require('../../error');
+const logger = require('../../config/logger');
 const futureTransfer = require('../models/future-transfer');
 const RemoteTransfer = require('../models/remote-transfer');
 
@@ -10,10 +11,12 @@ module.exports = function({ request, routes }) {
    */
   return async function createTransfer(transfer) {
     try {
+      logger.info('Creating a new transfer.');
       const response = await request.send(
         routes.transfers,
         futureTransfer(transfer)
       );
+      logger.info(`Transfer created with id ${response.id}.`);
       return new RemoteTransfer(response);
     } catch (error) {
       throw new WTError(

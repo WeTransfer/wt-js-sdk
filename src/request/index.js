@@ -1,6 +1,8 @@
 const axios = require('axios');
 const { merge } = require('lodash');
 
+const logger = require('../config/logger');
+
 axios.defaults.baseURL = 'https://dev.wetransfer.com/';
 axios.defaults.method = 'post';
 
@@ -32,6 +34,12 @@ function send(options = {}, data = null) {
     { data }
   );
 
+  const log = {
+    method: (options.method || axios.defaults.method).toUpperCase()
+  };
+  logger.debug(
+    `Network request ${log.method} ${options.url} ${JSON.stringify(data)}`
+  );
   return axios(requestOptions).then((response) => response.data);
 }
 
@@ -41,6 +49,8 @@ function upload(uploadUrl, data) {
     method: 'put',
     data
   };
+
+  logger.debug(`File upload request PUT ${uploadUrl}`);
   return axios(requestOptions).then((response) => response.data);
 }
 

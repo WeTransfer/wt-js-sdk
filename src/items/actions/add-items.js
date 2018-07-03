@@ -1,3 +1,5 @@
+const logger = require('../../config/logger');
+
 module.exports = function({ sendItems, normalizeItem, normalizeResponseItem }) {
   /**
    * Add items to an existing transfer.
@@ -6,8 +8,8 @@ module.exports = function({ sendItems, normalizeItem, normalizeResponseItem }) {
    * @returns {Promise}            A collection of created items
    */
   return async function addItems(transferId, items) {
-    console.warn(
-      '[DEPRECATED WARNING]: addItems method will be removed in future versions. Please use addFiles or addLinks methods instead.'
+    logger.warn(
+      '[DEPRECATED]: addItems method will be removed in future versions. Please use addFiles or addLinks methods instead.'
     );
     return (await sendItems({ id: transferId }, items.map(normalizeItem))).map(
       normalizeResponseItem
