@@ -46,7 +46,7 @@
     "@wetransfer/eslint-config-wetransfer": "2.0.1",
     "eslint": "5.0.1",
     "husky": "0.14.3",
-    "jest": "23.2.0",
+    "jest": "23.3.0",
     "jest-watch-typeahead": "0.1.0",
     "nock": "9.4.1",
     "prettier": "1.13.7",
