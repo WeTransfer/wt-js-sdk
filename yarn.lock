@@ -36,9 +36,9 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@semantic-release/changelog@2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@semantic-release/changelog/-/changelog-2.1.2.tgz#d232a61e193cad6fcea95600a9351e026c9f979f"
+"@semantic-release/changelog@3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@semantic-release/changelog/-/changelog-3.0.0.tgz#e01514b517e775cea47aef7df5f5685c7aff2bf2"
   dependencies:
     "@semantic-release/error" "^2.1.0"
     aggregate-error "^1.0.0"
