@@ -36,13 +36,13 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@semantic-release/changelog@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@semantic-release/changelog/-/changelog-2.1.1.tgz#b95a0bfe55894e0ffb1bf074885998310ef08694"
+"@semantic-release/changelog@2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@semantic-release/changelog/-/changelog-2.1.2.tgz#d232a61e193cad6fcea95600a9351e026c9f979f"
   dependencies:
     "@semantic-release/error" "^2.1.0"
     aggregate-error "^1.0.0"
-    fs-extra "^6.0.0"
+    fs-extra "^7.0.0"
     lodash "^4.17.4"
 
 "@semantic-release/commit-analyzer@^5.0.0":
@@ -1691,6 +1691,14 @@ fs-extra@^5.0.0:
 fs-extra@^6.0.0:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-6.0.1.tgz#8abc128f7946e310135ddc93b98bddb410e7a34b"
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
+fs-extra@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.0.tgz#8cc3f47ce07ef7b3593a11b9fb245f7e34c041d6"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^4.0.0"
