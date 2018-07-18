@@ -60,9 +60,9 @@
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@semantic-release/error/-/error-2.2.0.tgz#ee9d5a09c9969eade1ec864776aeda5c5cddbbf0"
 
-"@semantic-release/git@6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@semantic-release/git/-/git-6.0.2.tgz#4c44c1f51a9c864cf2a50167ea0361c8b2618e74"
+"@semantic-release/git@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@semantic-release/git/-/git-7.0.0.tgz#5b909902c0d48c617897cb4ec1b34307ae0d5790"
   dependencies:
     "@semantic-release/error" "^2.1.0"
     aggregate-error "^1.0.0"
