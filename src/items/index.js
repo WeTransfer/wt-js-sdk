@@ -1,5 +1,6 @@
 module.exports = {
   addItems,
   uploadFile,
-  completeFileUpload
+  completeFileUpload,
+  getUploadURL
 } = require('./actions');

@@ -11,7 +11,8 @@ const {
   addFiles,
   addLinks,
   uploadFile,
-  completeFileUpload
+  completeFileUpload,
+  getUploadURL
 } = require('./items');
 
 module.exports = async function createWTClient(
@@ -36,6 +37,9 @@ module.exports = async function createWTClient(
       addLinks,
       uploadFile,
       completeFileUpload
+    },
+    file: {
+      getUploadURL
     }
   };
 };

@@ -21,5 +21,6 @@ module.exports = {
   addFiles: require('./add-files')({ sendItems, futureFile, RemoteFile }),
   addLinks: require('./add-links')({ sendItems, futureLink, RemoteLink }),
   uploadFile: require('./upload-file')({ request, routes }),
-  completeFileUpload: require('./complete-file-upload')({ request, routes })
+  completeFileUpload: require('./complete-file-upload')({ request, routes }),
+  getUploadURL: require('./get-upload-url')({ request, routes })
 };

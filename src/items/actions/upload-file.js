@@ -2,6 +2,7 @@ const logger = require('../../config/logger');
 const WTError = require('../../error');
 
 module.exports = function({ request, routes }) {
+  const getUploadUrl = require('./get-upload-url')({ request, routes });
   const completeFileUpload = require('./complete-file-upload')({
     request,
     routes
@@ -21,16 +22,14 @@ module.exports = function({ request, routes }) {
     logger.debug(
       `[${file.name}] Requesting S3 upload URL for part #${partNumber}`
     );
-    return request
-      .send(routes.multipart(file, partNumber))
-      .then((multipartItem) => {
-        logger.debug(
-          `[${file.name}] Uploading ${
-            data.length
-          } bytes for part #${partNumber} to S3`
-        );
-        return request.upload(multipartItem.upload_url, data);
-      });
+    return getUploadUrl(file, partNumber).then((multipartItem) => {
+      logger.debug(
+        `[${file.name}] Uploading ${
+          data.length
+        } bytes for part #${partNumber} to S3`
+      );
+      return request.upload(multipartItem.upload_url, data);
+    });
   }
 
   /**
