@@ -1,3 +1,11 @@
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/WeTransfer/wt-js-sdk/compare/v0.5.0...v0.6.0) (2018-07-24)
+
+
+### Features
+
+* add get upload URL method ([#89](https://github.com/WeTransfer/wt-js-sdk/issues/89)) ([dcd7362](https://github.com/WeTransfer/wt-js-sdk/commit/dcd7362))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
