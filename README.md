@@ -83,6 +83,50 @@ await Promise.all(
 );
 ```
 
+### Request an upload URL
+
+The previous steps work well for an environment where accessing the files directly is possible, like a CLI tool. In a web environment, we don't want to upload the files to the server, and from there, upload them to S3, but upload them directly from the client. `apiClient.file.getUploadUrl` method will create the necessary upload URL for a given part.
+
+```js
+// This code lives on the browser
+async function uploadFile(item, content) {
+  const MAX_CHUNK_SIZE = 6 * 1024 * 1024;
+  for (let partNumber = 0; partNumber < item.meta.multipart_parts; partNumber++) {
+    const chunkStart = partNumber * MAX_CHUNK_SIZE;
+    const chunkEnd = (partNumber + 1) * MAX_CHUNK_SIZE;
+
+    const multipartItem = await fetch('https://yourserver.com/create-upload-url', {
+      method: 'POST',
+      body: JSON.stringify({
+        file_id: item.id.
+        multipart_upload_id: item.meta.multipart_upload_id,
+        part_number: partNumber
+      })
+    });
+    
+    await fetch(multipartItem.upload_url, {
+      method: 'PUT',
+      body: content.slice(chunkStart, chunkEnd)
+    });
+  }
+};
+```
+
+```js
+// This code lives on the server. This is an express controller.
+router.post('/create-upload-url', async (req, res) => {
+  const { file_id, multipart_upload_id , part_number } = req.params;
+  const uploadUrl = await apiClient.file.getUploadUrl({
+    id: file_id,
+    meta: {
+      multipart_upload_id
+    }
+  }, part_number);
+
+  res.json(uploadUrl);
+})
+```
+
 ## Logging levels
 
 Logging levels in this SDK conform to the severity ordering specified by [RFC5424]: _severity of all levels is assumed to be numerically **ascending** from most important to least important._

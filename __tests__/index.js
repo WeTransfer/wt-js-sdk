@@ -25,6 +25,9 @@ describe('createWTClient function', () => {
         completeFileUpload: expect.any(Function),
         create: expect.any(Function),
         uploadFile: expect.any(Function)
+      },
+      file: {
+        getUploadURL: expect.any(Function)
       }
     });
   });
