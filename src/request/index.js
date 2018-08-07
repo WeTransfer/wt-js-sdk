@@ -8,15 +8,15 @@ axios.defaults.method = 'post';
 
 const auth = {
   apiKey: null,
-  jwt: null
+  jwt: null,
 };
 
 function defaultOptions(apiKey, jwt) {
   const options = {
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey
-    }
+      'x-api-key': apiKey,
+    },
   };
 
   if (jwt) {
@@ -35,7 +35,7 @@ function send(options = {}, data = null) {
   );
 
   const log = {
-    method: (options.method || axios.defaults.method).toUpperCase()
+    method: (options.method || axios.defaults.method).toUpperCase(),
   };
   logger.debug(
     `Network request ${log.method} ${options.url} ${JSON.stringify(data)}`
@@ -47,7 +47,7 @@ function upload(uploadUrl, data) {
   const requestOptions = {
     url: uploadUrl,
     method: 'put',
-    data
+    data,
   };
 
   logger.debug(`File upload request PUT ${uploadUrl}`);
@@ -62,5 +62,5 @@ module.exports = {
   },
   set jwt(jwt) {
     auth.jwt = jwt;
-  }
+  },
 };

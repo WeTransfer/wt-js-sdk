@@ -22,17 +22,17 @@ describe('Authorize method', () => {
     expect(axios).toHaveBeenLastCalledWith({
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': 'secret-api-key'
+        'x-api-key': 'secret-api-key',
       },
       url: '/v1/authorize',
-      data: null
+      data: null,
     });
   });
 
   it('should return a JWT token', async () => {
     const auth = await authorize();
     expect(auth).toEqual({
-      token: 'json-web-token'
+      token: 'json-web-token',
     });
   });
 

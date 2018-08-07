@@ -12,7 +12,7 @@ describe('Send items action', () => {
 
     sendItems = sendItemsAction({
       routes,
-      request: mocks.request
+      request: mocks.request,
     });
   });
 

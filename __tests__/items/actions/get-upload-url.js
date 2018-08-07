@@ -12,7 +12,7 @@ describe('Get upload URL action', () => {
 
     getUploadUrl = getUploadUrlAction({
       routes,
-      request: mocks.request
+      request: mocks.request,
     });
   });
 
@@ -21,14 +21,14 @@ describe('Get upload URL action', () => {
       {
         id: 'file-id',
         meta: {
-          multipart_upload_id: 'multipart-upload-id'
-        }
+          multipart_upload_id: 'multipart-upload-id',
+        },
       },
       1
     );
     expect(mocks.request.send).toHaveBeenCalledWith({
       method: 'get',
-      url: '/v1/files/file-id/uploads/1/multipart-upload-id'
+      url: '/v1/files/file-id/uploads/1/multipart-upload-id',
     });
   });
 });

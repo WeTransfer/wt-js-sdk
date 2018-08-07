@@ -16,18 +16,18 @@ describe('Create transfer action', () => {
       description: null,
       size: 0,
       total_items: 0,
-      items: []
+      items: [],
     });
 
     create = createAction({
       routes,
-      request: mocks.request
+      request: mocks.request,
     });
   });
 
   it('should create a new transfer request', async () => {
     const transfer = await create({
-      name: 'WeTransfer SDK'
+      name: 'WeTransfer SDK',
     });
     expect(transfer).toMatchSnapshot();
   });
@@ -39,7 +39,7 @@ describe('Create transfer action', () => {
 
     try {
       await create({
-        name: 'WeTransfer SDK'
+        name: 'WeTransfer SDK',
       });
       await authorize();
     } catch (error) {

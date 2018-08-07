@@ -14,19 +14,19 @@ describe('Add files action', () => {
         local_identifier: 'delightful-cat',
         meta: {
           multipart_parts: 3,
-          multipart_upload_id: 'some.random-id--'
+          multipart_upload_id: 'some.random-id--',
         },
         name: 'kittie.gif',
         size: 195906,
         upload_id: 'more.random-ids--',
-        upload_expires_at: 1520410633
-      }
+        upload_expires_at: 1520410633,
+      },
     ]);
 
     addFiles = addFilesAction({
       sendItems,
       futureFile,
-      RemoteFile
+      RemoteFile,
     });
 
     transfer = new RemoteTransfer();
@@ -37,9 +37,9 @@ describe('Add files action', () => {
       {
         url: 'https://wetransfer.com',
         meta: {
-          title: 'WeTransfer'
-        }
-      }
+          title: 'WeTransfer',
+        },
+      },
     ]);
     expect(linkFiles).toMatchSnapshot();
   });

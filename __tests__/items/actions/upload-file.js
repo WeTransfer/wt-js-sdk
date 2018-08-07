@@ -7,7 +7,7 @@ describe('Upload file action', () => {
   beforeEach(() => {
     mocks.request = {
       send: jest.fn(),
-      upload: jest.fn()
+      upload: jest.fn(),
     };
     mocks.request.send.mockReturnValue(
       Promise.resolve({ upload_url: 's3://very-long-url' })
@@ -15,7 +15,7 @@ describe('Upload file action', () => {
 
     uploadFile = uploadFileAction({
       routes,
-      request: mocks.request
+      request: mocks.request,
     });
   });
 
@@ -27,21 +27,21 @@ describe('Upload file action', () => {
         local_identifier: 'delightful-cat',
         meta: {
           multipart_parts: 1,
-          multipart_upload_id: 'some.random-id--'
+          multipart_upload_id: 'some.random-id--',
         },
         name: 'kittie.gif',
-        size: 1
+        size: 1,
       },
       [0]
     );
 
     expect(mocks.request.send).toHaveBeenCalledWith({
       method: 'get',
-      url: '/v1/files/random-hash/uploads/1/some.random-id--'
+      url: '/v1/files/random-hash/uploads/1/some.random-id--',
     });
 
     expect(mocks.request.upload).toHaveBeenCalledWith('s3://very-long-url', [
-      0
+      0,
     ]);
   });
 
@@ -54,22 +54,22 @@ describe('Upload file action', () => {
         local_identifier: 'delightful-cat',
         meta: {
           multipart_parts: 2,
-          multipart_upload_id: 'some.random-id--'
+          multipart_upload_id: 'some.random-id--',
         },
         name: 'kittie.gif',
-        size: sizeFile
+        size: sizeFile,
       },
       []
     );
 
     expect(mocks.request.send).toHaveBeenCalledWith({
       method: 'get',
-      url: '/v1/files/random-hash/uploads/1/some.random-id--'
+      url: '/v1/files/random-hash/uploads/1/some.random-id--',
     });
 
     expect(mocks.request.send).toHaveBeenCalledWith({
       method: 'get',
-      url: '/v1/files/random-hash/uploads/2/some.random-id--'
+      url: '/v1/files/random-hash/uploads/2/some.random-id--',
     });
 
     expect(mocks.request.upload).toHaveBeenCalledWith('s3://very-long-url', []);
@@ -87,10 +87,10 @@ describe('Upload file action', () => {
           local_identifier: 'delightful-cat',
           meta: {
             multipart_parts: 1,
-            multipart_upload_id: 'some.random-id--'
+            multipart_upload_id: 'some.random-id--',
           },
           name: 'kittie.gif',
-          size: 1
+          size: 1,
         },
         []
       );

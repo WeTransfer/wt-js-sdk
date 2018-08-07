@@ -5,5 +5,5 @@ const authorize = require('./authorize');
 
 module.exports = authorize({
   request,
-  routes
+  routes,
 });

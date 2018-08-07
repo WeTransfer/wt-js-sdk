@@ -3,5 +3,5 @@ const RemoteTransfer = require('./remote-transfer');
 
 module.exports = {
   futureTransfer,
-  RemoteTransfer
+  RemoteTransfer,
 };

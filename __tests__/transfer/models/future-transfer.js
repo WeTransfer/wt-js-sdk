@@ -6,7 +6,7 @@ describe('Future transfer normalizer', () => {
     beforeEach(() => {
       transfer = {
         name: 'WeTransfer rocks',
-        description: ''
+        description: '',
       };
     });
 
