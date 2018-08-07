@@ -7,6 +7,9 @@ function defaultLinkItem() {
     url: '',
     content_identifier: 'web_content',
     local_identifier: uuidv4(),
+    meta: {
+      title: '',
+    },
   };
 }
 
