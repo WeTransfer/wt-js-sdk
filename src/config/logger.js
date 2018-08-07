@@ -6,7 +6,7 @@ const { colorize, combine, label, printf } = format;
 const customFormat = printf((info) => `[${info.label}] ${info.message}`);
 
 const transports = {
-  console: new winston.transports.Console({ level: 'info' })
+  console: new winston.transports.Console({ level: 'info' }),
 };
 
 const logger = createLogger({
@@ -16,14 +16,14 @@ const logger = createLogger({
     label({ label: 'WeTransfer SDK' }),
     customFormat
   ),
-  transports: [transports.console]
+  transports: [transports.console],
 });
 
 winston.addColors({
   error: 'red',
   warn: 'yellow',
   info: 'white',
-  debug: 'white'
+  debug: 'white',
 });
 
 function setLoggerLevel(level = 'info') {

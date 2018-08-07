@@ -7,9 +7,9 @@ describe('RemoteLink model', () => {
       id: 'random-hash',
       content_identifier: 'web_content',
       meta: {
-        title: 'WeTransfer'
+        title: 'WeTransfer',
       },
-      url: 'https://wetransfer.com'
+      url: 'https://wetransfer.com',
     });
   });
 

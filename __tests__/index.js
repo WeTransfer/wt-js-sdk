@@ -12,8 +12,8 @@ describe('createWTClient function', () => {
   it('should return a client if API KEY is provided', async () => {
     const apiClient = await createWTClient('super-secret-api-key', {
       logger: {
-        level: 'error'
-      }
+        level: 'error',
+      },
     });
 
     expect(apiClient).toEqual({
@@ -24,11 +24,11 @@ describe('createWTClient function', () => {
         addLinks: expect.any(Function),
         completeFileUpload: expect.any(Function),
         create: expect.any(Function),
-        uploadFile: expect.any(Function)
+        uploadFile: expect.any(Function),
       },
       file: {
-        getUploadURL: expect.any(Function)
-      }
+        getUploadURL: expect.any(Function),
+      },
     });
   });
 

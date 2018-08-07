@@ -12,16 +12,16 @@ describe('Add links action', () => {
         id: 'random-hash',
         content_identifier: 'web_content',
         meta: {
-          title: 'WeTransfer'
+          title: 'WeTransfer',
         },
-        url: 'https://wetransfer.com'
-      }
+        url: 'https://wetransfer.com',
+      },
     ]);
 
     addLinks = addLinksAction({
       sendItems,
       futureLink,
-      RemoteLink
+      RemoteLink,
     });
 
     transfer = new RemoteTransfer();
@@ -32,9 +32,9 @@ describe('Add links action', () => {
       {
         url: 'https://wetransfer.com',
         meta: {
-          title: 'WeTransfer'
-        }
-      }
+          title: 'WeTransfer',
+        },
+      },
     ]);
     expect(linkItems).toMatchSnapshot();
   });

@@ -18,7 +18,7 @@ describe('Request module', () => {
     expect(axios.defaults).toEqual(
       expect.objectContaining({
         baseURL: 'https://dev.wetransfer.com/',
-        method: 'post'
+        method: 'post',
       })
     );
   });
@@ -33,9 +33,9 @@ describe('Request module', () => {
       expect(axios).toHaveBeenLastCalledWith({
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'secret-api-key'
+          'x-api-key': 'secret-api-key',
         },
-        data: null
+        data: null,
       });
     });
   });
@@ -52,9 +52,9 @@ describe('Request module', () => {
         headers: {
           'Authorization': 'Bearer json-web-token',
           'Content-Type': 'application/json',
-          'x-api-key': 'secret-api-key'
+          'x-api-key': 'secret-api-key',
         },
-        data: null
+        data: null,
       });
     });
   });
@@ -69,9 +69,9 @@ describe('Request module', () => {
       expect(axios).toHaveBeenLastCalledWith({
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'secret-api-key'
+          'x-api-key': 'secret-api-key',
         },
-        data: null
+        data: null,
       });
     });
 
@@ -82,9 +82,9 @@ describe('Request module', () => {
         headers: {
           'Authorization': 'Bearer json-web-token',
           'Content-Type': 'application/json',
-          'x-api-key': 'secret-api-key'
+          'x-api-key': 'secret-api-key',
         },
-        data: null
+        data: null,
       });
     });
 
@@ -96,9 +96,9 @@ describe('Request module', () => {
           'Authorization': 'Bearer json-web-token',
           'Content-Type': 'application/json',
           'x-api-key': 'secret-api-key',
-          'X-Extra-Header': 'value'
+          'X-Extra-Header': 'value',
         },
-        data: null
+        data: null,
       });
     });
 
@@ -109,9 +109,9 @@ describe('Request module', () => {
         headers: {
           'Authorization': 'Bearer json-web-token',
           'Content-Type': 'application/json',
-          'x-api-key': 'secret-api-key'
+          'x-api-key': 'secret-api-key',
         },
-        data: 'some-data'
+        data: 'some-data',
       });
     });
   });
@@ -125,7 +125,7 @@ describe('Request module', () => {
       expect(axios).toHaveBeenLastCalledWith({
         data: 'some-data',
         method: 'put',
-        url: 'https://dev.wetransfer.com/very-long-url'
+        url: 'https://dev.wetransfer.com/very-long-url',
       });
     });
   });

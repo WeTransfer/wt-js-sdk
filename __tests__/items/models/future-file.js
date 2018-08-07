@@ -6,7 +6,7 @@ describe('Future file normalizer', () => {
     beforeEach(() => {
       file = {
         filename: 'filename.txt',
-        filesize: 1024
+        filesize: 1024,
       };
     });
 
@@ -16,7 +16,7 @@ describe('Future file normalizer', () => {
         filename: 'filename.txt',
         filesize: 1024,
         content_identifier: 'file',
-        local_identifier: expect.any(String)
+        local_identifier: expect.any(String),
       });
     });
 
@@ -27,7 +27,7 @@ describe('Future file normalizer', () => {
         filename: 'filename.txt',
         filesize: 1024,
         content_identifier: 'file',
-        local_identifier: expect.any(String)
+        local_identifier: expect.any(String),
       });
     });
 
@@ -38,7 +38,7 @@ describe('Future file normalizer', () => {
         filename: 'filename.txt',
         filesize: 0,
         content_identifier: 'file',
-        local_identifier: expect.any(String)
+        local_identifier: expect.any(String),
       });
     });
   });

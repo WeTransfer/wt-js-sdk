@@ -10,12 +10,17 @@ module.exports = {
     return { url: `${this.prefix}/transfers/${transferId}/items` };
   },
   multipart(item, partNumber) {
-    return { url: `${this.prefix}/files/${item.id}/uploads/${partNumber}/${item.meta.multipart_upload_id}`, method: 'get' };
+    return {
+      url: `${this.prefix}/files/${item.id}/uploads/${partNumber}/${
+        item.meta.multipart_upload_id
+      }`,
+      method: 'get',
+    };
   },
   upload(uploadUrl) {
     return { url: uploadUrl };
   },
   uploadComplete(fileId) {
     return { url: `${this.prefix}/files/${fileId}/uploads/complete` };
-  }
+  },
 };

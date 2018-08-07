@@ -12,7 +12,7 @@ class RemoteFile {
       'local_identifier',
       'meta',
       'name',
-      'size'
+      'size',
     ];
   }
 

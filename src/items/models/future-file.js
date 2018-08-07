@@ -7,7 +7,7 @@ function defaultFileItem() {
     filename: '',
     filesize: 0,
     content_identifier: 'file',
-    local_identifier: uuidv4()
+    local_identifier: uuidv4(),
   };
 }
 

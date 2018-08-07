@@ -23,9 +23,9 @@ describe('Custom exception', () => {
         response: {
           status: 403,
           data: {
-            message: 'Nope'
-          }
-        }
+            message: 'Nope',
+          },
+        },
       };
       expect(() =>
         throwError('Random error.', error)
@@ -40,9 +40,9 @@ describe('Custom exception', () => {
         response: {
           status: 201,
           data: {
-            message: 'Nope'
-          }
-        }
+            message: 'Nope',
+          },
+        },
       };
     });
 

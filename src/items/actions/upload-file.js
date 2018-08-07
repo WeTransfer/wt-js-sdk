@@ -5,7 +5,7 @@ module.exports = function({ request, routes }) {
   const getUploadUrl = require('./get-upload-url')({ request, routes });
   const completeFileUpload = require('./complete-file-upload')({
     request,
-    routes
+    routes,
   });
 
   const MAX_CHUNK_SIZE = 6 * 1024 * 1024;

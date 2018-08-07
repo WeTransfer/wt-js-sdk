@@ -2,7 +2,7 @@ const { defaults, pick } = require('lodash');
 
 const defaultTransferItem = {
   name: '',
-  description: ''
+  description: '',
 };
 
 /**

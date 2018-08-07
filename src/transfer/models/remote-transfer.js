@@ -16,7 +16,7 @@ class RemoteTransfer {
         'local_identifier',
         'name',
         'shortened_url',
-        'size'
+        'size',
       ])
     );
   }

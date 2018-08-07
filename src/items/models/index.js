@@ -31,7 +31,7 @@ function normalizer(type, normalizers) {
 function normalizeItem(item) {
   const normalizers = {
     file: futureFile,
-    web_content: futureLink
+    web_content: futureLink,
   };
 
   return normalizer(item.content_identifier, normalizers)(item);
@@ -46,7 +46,7 @@ function normalizeItem(item) {
 function normalizeResponseItem(item) {
   const normalizers = {
     file: RemoteFile,
-    web_content: RemoteLink
+    web_content: RemoteLink,
   };
 
   const RemoteItem = normalizer(item.content_identifier, normalizers);
@@ -59,5 +59,5 @@ module.exports = {
   RemoteFile,
   RemoteLink,
   normalizeItem,
-  normalizeResponseItem
+  normalizeResponseItem,
 };

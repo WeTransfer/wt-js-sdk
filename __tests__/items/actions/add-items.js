@@ -1,7 +1,7 @@
 const addItemsAction = require('../../../src/items/actions/add-items');
 const {
   normalizeItem,
-  normalizeResponseItem
+  normalizeResponseItem,
 } = require('../../../src/items/models');
 
 describe('Add items action', () => {
@@ -15,27 +15,27 @@ describe('Add items action', () => {
         local_identifier: 'delightful-cat',
         meta: {
           multipart_parts: 3,
-          multipart_upload_id: 'some.random-id--'
+          multipart_upload_id: 'some.random-id--',
         },
         name: 'kittie.gif',
         size: 195906,
         upload_id: 'more.random-ids--',
-        upload_expires_at: 1520410633
+        upload_expires_at: 1520410633,
       },
       {
         id: 'random-hash',
         content_identifier: 'web_content',
         meta: {
-          title: 'WeTransfer'
+          title: 'WeTransfer',
         },
-        url: 'https://wetransfer.com'
-      }
+        url: 'https://wetransfer.com',
+      },
     ]);
 
     addItems = addItemsAction({
       sendItems,
       normalizeItem,
-      normalizeResponseItem
+      normalizeResponseItem,
     });
   });
 
@@ -46,9 +46,9 @@ describe('Add items action', () => {
         content_identifier: 'web_content',
         url: 'https://wetransfer.com',
         meta: {
-          title: 'WeTransfer'
-        }
-      }
+          title: 'WeTransfer',
+        },
+      },
     ]);
     expect(items).toMatchSnapshot();
   });

@@ -7,8 +7,8 @@ describe('Future link normalizer', () => {
       link = {
         url: 'https://en.wikipedia.org/wiki/Japan',
         meta: {
-          title: 'Japan'
-        }
+          title: 'Japan',
+        },
       };
     });
 
@@ -17,10 +17,10 @@ describe('Future link normalizer', () => {
       expect(normalized).toMatchObject({
         url: 'https://en.wikipedia.org/wiki/Japan',
         meta: {
-          title: 'Japan'
+          title: 'Japan',
         },
         content_identifier: 'web_content',
-        local_identifier: expect.any(String)
+        local_identifier: expect.any(String),
       });
     });
 
@@ -30,10 +30,10 @@ describe('Future link normalizer', () => {
       expect(normalized).toEqual({
         url: 'https://en.wikipedia.org/wiki/Japan',
         meta: {
-          title: 'Japan'
+          title: 'Japan',
         },
         content_identifier: 'web_content',
-        local_identifier: expect.any(String)
+        local_identifier: expect.any(String),
       });
     });
 
@@ -43,10 +43,10 @@ describe('Future link normalizer', () => {
       expect(normalized).toEqual({
         url: '',
         meta: {
-          title: 'Japan'
+          title: 'Japan',
         },
         content_identifier: 'web_content',
-        local_identifier: expect.any(String)
+        local_identifier: expect.any(String),
       });
     });
   });

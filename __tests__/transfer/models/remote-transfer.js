@@ -12,7 +12,7 @@ describe('RemoteTransfer model', () => {
       description: 'Something about cats, most probably.',
       size: 0,
       total_items: 0,
-      items: []
+      items: [],
     });
   });
 
@@ -28,13 +28,13 @@ describe('RemoteTransfer model', () => {
         {
           id: 'random-hash',
           name: 'kittie.gif',
-          content_identifier: 'file'
+          content_identifier: 'file',
         },
         {
           id: 'random-hash',
           name: 'wetransfer.com',
-          content_identifier: 'web_content'
-        }
+          content_identifier: 'web_content',
+        },
       ];
       transfer.addItems(...items);
     });

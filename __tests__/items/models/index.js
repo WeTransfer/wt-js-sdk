@@ -1,6 +1,6 @@
 const {
   normalizeItem,
-  normalizeResponseItem
+  normalizeResponseItem,
 } = require('../../../src/items/models');
 
 describe('Item model', () => {
@@ -11,7 +11,7 @@ describe('Item model', () => {
         filename: 'filename.txt',
         filesize: 1024,
         content_identifier: 'file',
-        local_identifier: 'filename.txt'
+        local_identifier: 'filename.txt',
       };
     });
 
@@ -46,12 +46,12 @@ describe('Item model', () => {
           local_identifier: 'delightful-cat',
           meta: {
             multipart_parts: 3,
-            multipart_upload_id: 'some.random-id--'
+            multipart_upload_id: 'some.random-id--',
           },
           name: 'kittie.gif',
           size: 195906,
           upload_id: 'more.random-ids--',
-          upload_expires_at: 1520410633
+          upload_expires_at: 1520410633,
         })
       ).toMatchSnapshot();
     });
@@ -62,9 +62,9 @@ describe('Item model', () => {
           id: 'random-hash',
           content_identifier: 'web_content',
           meta: {
-            title: 'WeTransfer'
+            title: 'WeTransfer',
           },
-          url: 'https://wetransfer.com'
+          url: 'https://wetransfer.com',
         })
       ).toMatchSnapshot();
     });
