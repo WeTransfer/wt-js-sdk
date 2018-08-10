@@ -1,42 +1,48 @@
-const { RemoteTransfer } = require('../../../src/transfer/models');
+const { RemoteCollection } = require('../../../src/collections/models');
 
-describe('RemoteTransfer model', () => {
-  let transfer = null;
+describe('RemoteCollection model', () => {
+  let collection = null;
   beforeEach(() => {
-    transfer = new RemoteTransfer({
+    collection = new RemoteCollection({
       id: 'random-hash',
-      version_identifier: null,
-      state: 'uploading',
-      shortened_url: 'https://we.tl/s-random-hash',
       name: 'Little kittens',
       description: 'Something about cats, most probably.',
-      size: 0,
-      total_items: 0,
-      items: [],
+      state: 'uploading',
+      url: 'https://we.tl/s-random-hash',
+      files: [],
+      links: [],
     });
   });
 
   describe('contructor', () => {
-    it('should create a normalized transfer', () => {
-      expect(transfer).toMatchSnapshot();
+    it('should create a normalized collection', () => {
+      expect(collection).toMatchSnapshot();
     });
   });
 
-  describe('when items are added to the transfer', () => {
+  xdescribe('when items are added to the collection', () => {
     beforeEach(() => {
-      const items = [
+      const files = [
         {
           id: 'random-hash',
           name: 'kittie.gif',
           content_identifier: 'file',
         },
+      ];
+
+      const links = [
         {
           id: 'random-hash',
           name: 'wetransfer.com',
+          meta: {
+            title: 'WeTransfer',
+          },
           content_identifier: 'web_content',
         },
       ];
-      transfer.addItems(...items);
+
+      transfer.addFiles(...files);
+      transfer.addLinks(...links);
     });
 
     it('should add items to the transfer', () => {

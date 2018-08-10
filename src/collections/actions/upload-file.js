@@ -12,17 +12,18 @@ module.exports = function({ request, routes }) {
 
   /**
    * Uploads a chunk of the file to S3
+   * @param   {Object}  collection Collection item.
    * @param   {Object}  file       Item containing information about number of parts, upload url, etc.
    * @param   {Buffer}  data       File content
    * @param   {Array}   chunkSizes An array containing the chunk size for each part
    * @param   {Number}  partNumber Which part number we want to upload
    * @returns {Promise}            Empty response if everything goes well 🤔
    */
-  function uploadPart(file, data, partNumber) {
+  function uploadPart(collection, file, data, partNumber) {
     logger.debug(
       `[${file.name}] Requesting S3 upload URL for part #${partNumber}`
     );
-    return getUploadUrl(file, partNumber).then((multipartItem) => {
+    return getUploadUrl(collection, file, partNumber).then((multipartItem) => {
       logger.debug(
         `[${file.name}] Uploading ${
           data.length
@@ -35,12 +36,14 @@ module.exports = function({ request, routes }) {
   /**
    * Given a file content, and the number of parts that must be uploaded to S3,
    * it chunkes the file and uploads each part sequentially
-   * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
-   * @param   {Buffer}  content File content
-   * @returns {Array}           Array of part upload promises
+   * @param   {Object}  collection Collection item.
+   * @param   {Object}  file       Item containing information about number of parts, upload url, etc.
+   * @param   {Buffer}  content    File content
+   * @returns {Array}              Array of part upload promises
    */
-  async function uploadAllParts(file, content) {
-    const totalParts = file.meta.multipart_parts;
+  async function uploadAllParts(collection, file, content) {
+    console.log(file);
+    const totalParts = file.multipart.part_numbers;
     logger.debug(
       `[${
         file.name
@@ -59,6 +62,7 @@ module.exports = function({ request, routes }) {
       );
 
       await uploadPart(
+        collection,
         file,
         content.slice(chunkStart, chunkEnd),
         partNumber + 1
@@ -74,16 +78,17 @@ module.exports = function({ request, routes }) {
   /**
    * Given a file content, and the number of parts that must be uploaded to S3,
    * it chunkes the file and uploads each part sequentially. Completes the file upload at the end.
-   * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
-   * @param   {Buffer}  content File content
-   * @returns {Promise}         Empty response if everything goes well 🤔
+   * @param   {Object}  collection Collection item.
+   * @param   {Object}  file       Item containing information about number of parts, upload url, etc.
+   * @param   {Buffer}  content    File content
+   * @returns {Promise}            Empty response if everything goes well 🤔
    */
-  return async function uploadFile(file, content) {
+  return async function uploadFile(collection, file, content) {
     logger.info(`[${file.name}] Starting file upload.`);
 
     try {
-      await uploadAllParts(file, content);
-      const response = await completeFileUpload(file);
+      await uploadAllParts(collection, file, content);
+      const response = await completeFileUpload(collection, file);
       logger.info(`[${file.name}] File upload complete.`);
 
       return response;

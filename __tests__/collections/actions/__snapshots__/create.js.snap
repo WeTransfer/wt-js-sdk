@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create collection action should create a new collection request 1`] = `
+RemoteCollection {
+  "description": null,
+  "id": "random-hash",
+  "items": Array [],
+  "name": "Little kittens",
+  "url": "https://we.tl/s-random-hash",
+}
+`;

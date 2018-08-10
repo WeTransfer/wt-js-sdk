@@ -3,7 +3,9 @@ const { merge } = require('lodash');
 
 const logger = require('../config/logger');
 
-axios.defaults.baseURL = 'https://dev.wetransfer.com/';
+// axios.defaults.baseURL = 'https://dev.wetransfer.com/';
+axios.defaults.baseURL =
+  'https://8i3i9lpuwe.execute-api.eu-west-1.amazonaws.com/api/';
 axios.defaults.method = 'post';
 
 const auth = {

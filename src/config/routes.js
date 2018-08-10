@@ -1,26 +1,35 @@
+const prefix = '/v2';
+
 module.exports = {
-  prefix: '/v1',
+  prefix: '/v2',
   get authorize() {
-    return { url: `${this.prefix}/authorize` };
+    return { url: `${prefix}/authorize` };
   },
-  get transfers() {
-    return { url: `${this.prefix}/transfers` };
-  },
-  items(transferId) {
-    return { url: `${this.prefix}/transfers/${transferId}/items` };
-  },
-  multipart(item, partNumber) {
-    return {
-      url: `${this.prefix}/files/${item.id}/uploads/${partNumber}/${
-        item.meta.multipart_upload_id
-      }`,
-      method: 'get',
-    };
-  },
-  upload(uploadUrl) {
-    return { url: uploadUrl };
-  },
-  uploadComplete(fileId) {
-    return { url: `${this.prefix}/files/${fileId}/uploads/complete` };
+  collections: {
+    get create() {
+      return { url: `${prefix}/collections` };
+    },
+    addFiles(collectionId) {
+      return { url: `${prefix}/collections/${collectionId}/files` };
+    },
+    multipart(collection, file, partNumber) {
+      return {
+        url: `${prefix}/collections/${collection.id}/files/${
+          file.id
+        }/upload-url/${partNumber}/${file.multipart.id}`,
+        method: 'get',
+      };
+    },
+    upload(uploadUrl) {
+      return { url: uploadUrl };
+    },
+    uploadComplete(collection, file) {
+      return {
+        url: `${prefix}/collections/${collection.id}/files/${
+          file.id
+        }/upload-complete`,
+        method: 'put',
+      };
+    },
   },
 };

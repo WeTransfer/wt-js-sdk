@@ -5,15 +5,17 @@ const logger = require('./config/logger');
 
 const authorize = require('./authorize');
 const request = require('./request');
-const { create } = require('./transfer');
+
+const { createCollection } = require('./collections');
 const {
-  addItems,
-  addFiles,
-  addLinks,
+  addFilesToCollection,
   uploadFile,
-  completeFileUpload,
-  getUploadURL,
-} = require('./items');
+  //   addItems,
+  //   addFiles,
+  //   addLinks,
+  //   completeFileUpload,
+  //   getUploadURL,
+} = require('./collections/actions');
 
 module.exports = async function createWTClient(
   apiKey,
@@ -30,16 +32,16 @@ module.exports = async function createWTClient(
 
   return {
     authorize,
-    transfer: {
-      create,
-      addFiles,
-      addItems,
-      addLinks,
-      uploadFile,
-      completeFileUpload,
+    collection: {
+      create: createCollection,
+      addFiles: addFilesToCollection,
+      uploadFile: uploadFile,
+      // addItems,
+      // addLinks,
+      // completeFileUpload,
     },
-    file: {
-      getUploadURL,
-    },
+    // file: {
+    //   getUploadURL,
+    // },
   };
 };

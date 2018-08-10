@@ -16,34 +16,34 @@ function readFile(path) {
 }
 
 const data = {
-  transfer: {
+  collection: {
     name: 'Japan 🇯🇵'
   },
   files: [
     {
-      filename: 'Japan-01.jpg',
+      name: 'Japan-01.jpg',
       path: path.join(__dirname, './files/Japan-01.jpg'),
-      filesize: 13370099
+      size: 13370099
     },
     {
-      filename: 'Japan-02.jpg',
+      name: 'Japan-02.jpg',
       path: path.join(__dirname, './files/Japan-02.jpg'),
-      filesize: 275639
+      size: 275639
     },
     {
-      filename: 'Japan-03.jpg',
+      name: 'Japan-03.jpg',
       path: path.join(__dirname, './files/Japan-03.jpg'),
-      filesize: 432557
+      size: 432557
     },
     {
-      filename: 'Japan-04.jpg',
+      name: 'Japan-04.jpg',
       path: path.join(__dirname, './files/Japan-04.jpg'),
-      filesize: 368493
+      size: 368493
     },
     {
-      filename: 'Japan-05.jpg',
+      name: 'Japan-05.jpg',
       path: path.join(__dirname, './files/Japan-05.jpg'),
-      filesize: 200668
+      size: 200668
     }
   ],
   links: [
@@ -68,19 +68,18 @@ const data = {
       }
     });
 
-    const transfer = await apiClient.transfer.create(data.transfer);
-    const transferFiles = await apiClient.transfer.addFiles(
-      transfer,
+    const collection = await apiClient.collection.create(data.collection);
+    const collectionFiles = await apiClient.collection.addFiles(
+      collection,
       data.files
     );
-    await apiClient.transfer.addLinks(transfer, data.links);
-
+    console.log(collectionFiles)
+    // await apiClient.collection.addLinks(collection, data.links);
     await Promise.all(
-      transferFiles
-        .filter((item) => item.content_identifier === 'file')
-        .map((item, index) => apiClient.transfer.uploadFile(item, files[index]))
+      collectionFiles
+        .map((item, index) => apiClient.collection.uploadFile(collection, item, files[index]))
     );
-    console.log(transfer.shortened_url);
+    console.log(collection.url);
   } catch (error) {
     console.error(error);
     process.exit(1);
