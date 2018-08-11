@@ -9,8 +9,14 @@ module.exports = {
     get create() {
       return { url: `${prefix}/collections` };
     },
-    addFiles(collectionId) {
-      return { url: `${prefix}/collections/${collectionId}/files` };
+    find(collectionId) {
+      return { url: `${prefix}/collections/${collectionId}`, method: 'get' };
+    },
+    addFiles(collection) {
+      return { url: `${prefix}/collections/${collection.id}/files` };
+    },
+    addLinks(collection) {
+      return { url: `${prefix}/collections/${collection.id}/links` };
     },
     multipart(collection, file, partNumber) {
       return {

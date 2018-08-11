@@ -1,3 +1,4 @@
+const WTError = require('../../error');
 const logger = require('../../config/logger');
 const futureFile = require('../models/future-file');
 const RemoteFile = require('../models/remote-file');
@@ -14,9 +15,8 @@ module.exports = function({ request, routes }) {
       logger.info(
         `Adding ${files.length} files to collection with ID ${collection.id}`
       );
-      console.log(files.map(futureFile));
       const response = await request.send(
-        routes.collections.addFiles(collection.id),
+        routes.collections.addFiles(collection),
         files.map(futureFile)
       );
       const collectionItems = response.map((item) => new RemoteFile(item));

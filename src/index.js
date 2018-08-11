@@ -6,9 +6,10 @@ const logger = require('./config/logger');
 const authorize = require('./authorize');
 const request = require('./request');
 
-const { createCollection } = require('./collections');
+const { createCollection, findCollection } = require('./collections');
 const {
   addFilesToCollection,
+  addLinksToCollection,
   uploadFile,
   //   addItems,
   //   addFiles,
@@ -34,7 +35,9 @@ module.exports = async function createWTClient(
     authorize,
     collection: {
       create: createCollection,
+      find: findCollection,
       addFiles: addFilesToCollection,
+      addLinks: addLinksToCollection,
       uploadFile: uploadFile,
       // addItems,
       // addLinks,
