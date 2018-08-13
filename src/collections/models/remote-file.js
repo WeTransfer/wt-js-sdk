@@ -1,12 +1,18 @@
-const { pick } = require('lodash');
-
 class RemoteFile {
   constructor(values) {
     Object.assign(this, values);
   }
 
+  // Select which properties are going to be serialized,
+  // to avoid JSON circular references
   toJSON() {
-    return pick(this, ['id', 'name', 'size']);
+    return {
+      id: this.id,
+      name: this.name,
+      size: this.size,
+      meta: this.meta,
+      multipart: this.multipart,
+    };
   }
 }
 

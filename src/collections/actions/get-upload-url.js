@@ -8,11 +8,27 @@ module.exports = function({ request, routes }) {
    * @param   {Number}  partNumber Which part number to upload
    * @returns {Promise}            An object containing the upload url, expiring date, etc
    */
-  return async function getUploadURL(collection, file, partNumber) {
+  return async function getFileUploadURLToCollection(
+    collectionId,
+    fileId,
+    partNumber,
+    multipartId
+  ) {
     logger.info(
-      `Requesting S3 upload URL for part #${partNumber} of file ${file.id}`
+      `Requesting S3 upload URL for part #${partNumber} of file ${fileId}`
     );
 
-    return request.send(routes.collections.multipart(collection, file, partNumber));
+    const collection = {
+      id: collectionId,
+    };
+    const file = {
+      id: fileId,
+      multipart: {
+        id: multipartId,
+      },
+    };
+    return request.send(
+      routes.collections.multipart(collection, file, partNumber)
+    );
   };
 };

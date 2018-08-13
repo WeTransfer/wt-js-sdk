@@ -23,7 +23,12 @@ module.exports = function({ request, routes }) {
     logger.debug(
       `[${file.name}] Requesting S3 upload URL for part #${partNumber}`
     );
-    return getUploadUrl(collection, file, partNumber).then((multipartItem) => {
+    return getUploadUrl(
+      collection.id,
+      file.id,
+      partNumber,
+      file.multipart.id
+    ).then((multipartItem) => {
       logger.debug(
         `[${file.name}] Uploading ${
           data.length
@@ -42,7 +47,6 @@ module.exports = function({ request, routes }) {
    * @returns {Array}              Array of part upload promises
    */
   async function uploadAllParts(collection, file, content) {
-    console.log(file);
     const totalParts = file.multipart.part_numbers;
     logger.debug(
       `[${
@@ -83,7 +87,7 @@ module.exports = function({ request, routes }) {
    * @param   {Buffer}  content    File content
    * @returns {Promise}            Empty response if everything goes well 🤔
    */
-  return async function uploadFile(collection, file, content) {
+  return async function uploadFileToCollection(collection, file, content) {
     logger.info(`[${file.name}] Starting file upload.`);
 
     try {

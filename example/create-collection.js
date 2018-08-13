@@ -70,15 +70,22 @@ const data = {
 
     let collection = await apiClient.collection.create(data.collection);
     collection = await apiClient.collection.find(collection.id);
+    await apiClient.collection.addLinks(collection, data.links);
     const collectionFiles = await apiClient.collection.addFiles(
       collection,
       data.files
     );
-    await apiClient.collection.addLinks(collection, data.links);
     await Promise.all(
       collectionFiles.map((item, index) =>
         apiClient.collection.uploadFile(collection, item, files[index])
       )
+    );
+    const file = collectionFiles[0];
+    await apiClient.collection.getFileUploadURL(
+      collection.id,
+      file.id,
+      1,
+      file.multipart.id
     );
     console.log(collection.url);
   } catch (error) {

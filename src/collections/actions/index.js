@@ -6,5 +6,13 @@ module.exports = {
   findCollection: require('./find')({ request, routes }),
   addFilesToCollection: require('./add-files')({ request, routes }),
   addLinksToCollection: require('./add-links')({ request, routes }),
-  uploadFile: require('./upload-file')({ request, routes }),
+  uploadFileToCollection: require('./upload-file')({ request, routes }),
+  getFileUploadURLToCollection: require('./get-upload-url')({
+    request,
+    routes,
+  }),
+  completeFileUploadToCollection: require('./complete-file-upload')({
+    request,
+    routes,
+  }),
 };

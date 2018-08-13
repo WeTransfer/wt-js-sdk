@@ -1,15 +1,8 @@
-const futureCollection = require('./future-collection');
-const futureLink = require('./future-link');
-const futureFile = require('./future-file');
-const RemoteCollection = require('./remote-collection');
-const RemoteFile = require('./remote-file');
-const RemoteLink = require('./remote-link');
-
 module.exports = {
-  futureCollection,
-  futureLink,
-  futureFile,
-  RemoteCollection,
-  RemoteFile,
-  RemoteLink,
+  futureCollection: require('./future-collection'),
+  futureLink: require('./future-link'),
+  futureFile: require('./future-file'),
+  RemoteCollection: require('./remote-collection'),
+  RemoteFile: require('./remote-file'),
+  RemoteLink: require('./remote-link'),
 };

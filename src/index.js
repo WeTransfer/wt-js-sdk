@@ -10,12 +10,9 @@ const { createCollection, findCollection } = require('./collections');
 const {
   addFilesToCollection,
   addLinksToCollection,
-  uploadFile,
-  //   addItems,
-  //   addFiles,
-  //   addLinks,
-  //   completeFileUpload,
-  //   getUploadURL,
+  uploadFileToCollection,
+  getFileUploadURLToCollection,
+  completeFileUploadToCollection,
 } = require('./collections/actions');
 
 module.exports = async function createWTClient(
@@ -38,13 +35,9 @@ module.exports = async function createWTClient(
       find: findCollection,
       addFiles: addFilesToCollection,
       addLinks: addLinksToCollection,
-      uploadFile: uploadFile,
-      // addItems,
-      // addLinks,
-      // completeFileUpload,
+      uploadFile: uploadFileToCollection,
+      getFileUploadURL: getFileUploadURLToCollection,
+      completeFileUpload: completeFileUploadToCollection,
     },
-    // file: {
-    //   getUploadURL,
-    // },
   };
 };

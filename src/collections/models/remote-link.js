@@ -1,12 +1,16 @@
-const { pick } = require('lodash');
-
 class RemoteLink {
   constructor(values) {
     Object.assign(this, values);
   }
 
+  // Select which properties are going to be serialized,
+  // to avoid JSON circular references
   toJSON() {
-    return pick(this, ['id', 'meta', 'url']);
+    return {
+      id: this.id,
+      url: this.url,
+      meta: this.meta,
+    };
   }
 }
 
