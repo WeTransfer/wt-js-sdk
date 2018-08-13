@@ -7,6 +7,8 @@ const authorize = require('./authorize');
 const request = require('./request');
 
 const { createCollection, findCollection } = require('./collections');
+const { createTransfer, findTransfer } = require('./transfers');
+
 const {
   addFilesToCollection,
   addLinksToCollection,
@@ -14,6 +16,11 @@ const {
   getFileUploadURLToCollection,
   completeFileUploadToCollection,
 } = require('./collections/actions');
+
+const {
+  uploadFileToTransfer,
+  finalizeTransfer,
+} = require('./transfers/actions');
 
 module.exports = async function createWTClient(
   apiKey,
@@ -38,6 +45,12 @@ module.exports = async function createWTClient(
       uploadFile: uploadFileToCollection,
       getFileUploadURL: getFileUploadURLToCollection,
       completeFileUpload: completeFileUploadToCollection,
+    },
+    transfer: {
+      create: createTransfer,
+      find: findTransfer,
+      uploadFile: uploadFileToTransfer,
+      finalize: finalizeTransfer,
     },
   };
 };

@@ -38,4 +38,37 @@ module.exports = {
       };
     },
   },
+  transfers: {
+    get create() {
+      return { url: `${prefix}/transfers` };
+    },
+    find(transferId) {
+      return { url: `${prefix}/transfers/${transferId}`, method: 'get' };
+    },
+    multipart(transfer, file, partNumber) {
+      return {
+        url: `${prefix}/transfers/${transfer.id}/files/${
+          file.id
+        }/upload-url/${partNumber}`,
+        method: 'get',
+      };
+    },
+    upload(uploadUrl) {
+      return { url: uploadUrl };
+    },
+    uploadComplete(transfer, file) {
+      return {
+        url: `${prefix}/transfers/${transfer.id}/files/${
+          file.id
+        }/upload-complete`,
+        method: 'put',
+      };
+    },
+    finalize(transfer) {
+      return {
+        url: `${prefix}/transfers/${transfer.id}/finalize`,
+        method: 'put',
+      };
+    },
+  },
 };

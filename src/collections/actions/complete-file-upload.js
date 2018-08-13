@@ -1,7 +1,8 @@
 module.exports = function({ request, routes }) {
   /**
    * Marks the file upload as completed
-   * @param   {Object} file File containing information about number of parts, upload url, etc.
+   * @param   {Object} collection Collection item.
+   * @param   {Object} file       File containing information about number of parts, upload url, etc.
    * @returns {Promise}
    */
   return function completeFileUploadToCollection(collection, file) {

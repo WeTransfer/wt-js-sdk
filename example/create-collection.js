@@ -56,7 +56,7 @@ const data = {
   ],
 };
 
-(async function createTransfer() {
+(async function createCollection() {
   const files = await Promise.all(
     data.files.map((item) => readFile(item.path))
   );
