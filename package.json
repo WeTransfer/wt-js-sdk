@@ -38,7 +38,7 @@
   "dependencies": {
     "axios": "0.18.0",
     "lodash": "4.17.10",
-    "winston": "3.0.0"
+    "winston": "3.1.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "3.0.0",
