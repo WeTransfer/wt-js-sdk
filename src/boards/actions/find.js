@@ -1,6 +1,6 @@
 const WTError = require('../../error');
 const logger = require('../../config/logger');
-const RemoteCollection = require('../models/remote-collection');
+const RemoteCollection = require('../models/remote-board');
 
 module.exports = function({ request, routes }) {
   /**

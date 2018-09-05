@@ -7,6 +7,15 @@
 
 The JavaScript SDK provides convenient access to WeTransfer's Public API.
 
+## User guide
+
+Our user guide includes information on different topics, such as:
+
+  - [Installation](#installation)
+  - [Getting started](#getting-started)
+  - [Transfers](#transfers)
+  - [Boards](#boards)
+
 ## Installation
 
 Install the SDK with:
@@ -15,11 +24,11 @@ Install the SDK with:
 npm i @wetransfer/js-sdk --save
 ```
 
-## Usage
+## Getting started
 
 In order to be able to use the SDK and access our public APIs, you must provide an API key, which is available in our [Developers Portal](https://developers.wetransfer.com/).
 
-You can find a complete working example [here](https://github.com/WeTransfer/wt-js-sdk/blob/master/example/create-transfer.js).
+This is the bare minimum code needed to create a transfer. Copy and paste into a file, place your API Key there, and run with `node path/to/file.js`. Voilà, you just created your very first transfer!
 
 ```javascript
 const createWTClient = require('@wetransfer/js-sdk');
@@ -28,13 +37,53 @@ const createWTClient = require('@wetransfer/js-sdk');
   // An authorization call is made when you create the client.
   // Keep that in mind to perform this operation
   // in the most suitable part of your code
-  const apiClient = await createWTClient('/* YOUR PRIVATE API KEY GOES HERE*/');
+  const wtClient = await createWTClient('/* YOUR PRIVATE API KEY GOES HERE*/');
 
-  const transfer = await apiClient.transfer.create({
-    name: 'My very first transfer!'
+  const content = Buffer.from('Look ma, a transfer!');
+  const transfer = await wtClient.transfer.create({
+    message: 'My very first transfer!',
+    files: [
+      {
+        name: 'hello.txt',
+        size: content.length,
+        content: content
+      }
+    ]
   });
+
+  console.log(transfer.url)
 })();
 ```
+
+## Transfers
+
+## Boards
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Transfer
 

@@ -5,22 +5,22 @@ module.exports = {
   get authorize() {
     return { url: `${prefix}/authorize` };
   },
-  collections: {
+  boards: {
     get create() {
-      return { url: `${prefix}/collections` };
+      return { url: `${prefix}/boards` };
     },
-    find(collectionId) {
-      return { url: `${prefix}/collections/${collectionId}`, method: 'get' };
+    find(boardId) {
+      return { url: `${prefix}/boards/${boardId}`, method: 'get' };
     },
-    addFiles(collection) {
-      return { url: `${prefix}/collections/${collection.id}/files` };
+    addFiles(board) {
+      return { url: `${prefix}/boards/${board.id}/files` };
     },
-    addLinks(collection) {
-      return { url: `${prefix}/collections/${collection.id}/links` };
+    addLinks(board) {
+      return { url: `${prefix}/boards/${board.id}/links` };
     },
-    multipart(collection, file, partNumber) {
+    multipart(board, file, partNumber) {
       return {
-        url: `${prefix}/collections/${collection.id}/files/${
+        url: `${prefix}/boards/${board.id}/files/${
           file.id
         }/upload-url/${partNumber}/${file.multipart.id}`,
         method: 'get',
@@ -29,9 +29,9 @@ module.exports = {
     upload(uploadUrl) {
       return { url: uploadUrl };
     },
-    uploadComplete(collection, file) {
+    uploadComplete(board, file) {
       return {
-        url: `${prefix}/collections/${collection.id}/files/${
+        url: `${prefix}/boards/${board.id}/files/${
           file.id
         }/upload-complete`,
         method: 'put',

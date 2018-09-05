@@ -3,11 +3,21 @@ const logger = require('../../config/logger');
 const futureTransfer = require('../models/future-transfer');
 const RemoteTransfer = require('../models/remote-transfer');
 
-module.exports = function({ request, routes }) {
+module.exports = function({ request, routes, uploadFileToTransfer, finalizeTransfer }) {
+  /**
+   * Check if the user provided also the content for files.
+   * In that case, we can upload the files in one go.
+   *
+   * @param {Array} files A list of file object, containing name, size and maybe content
+   */
+  function shouldUploadFiles(files) {
+    return files.reduce((uploadFiles, file) => (uploadFiles && Boolean(file.content)), true);
+  }
+
   /**
    * Creates a new transfer
    * @param   {Object}  transfer A transfer object containing files.
-   * @returns {Promise}            A transfer object
+   * @returns {Promise}          A transfer object
    */
   return async function createTransfer(transfer) {
     try {
@@ -17,7 +27,19 @@ module.exports = function({ request, routes }) {
         futureTransfer(transfer)
       );
       logger.info(`Transfer created with id ${response.id}.`);
-      return new RemoteTransfer(response);
+
+      let remoteTransfer = new RemoteTransfer(response);
+
+      // If the files array contains the content of the file
+      // lets uplopad directly, without asking the user to do it.
+      if (shouldUploadFiles(transfer.files)) {
+        await Promise.all(remoteTransfer.files.map((file, index) => {
+          return uploadFileToTransfer(remoteTransfer, file, transfer.files[index].content);
+        }));
+        remoteTransfer = await finalizeTransfer(remoteTransfer);
+      }
+
+      return remoteTransfer;
     } catch (error) {
       throw new WTError(
         'There was an error when creating the transfer.',
