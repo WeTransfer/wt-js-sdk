@@ -74,13 +74,13 @@
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@semantic-release/error/-/error-2.2.0.tgz#ee9d5a09c9969eade1ec864776aeda5c5cddbbf0"
 
-"@semantic-release/git@7.0.3":
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/@semantic-release/git/-/git-7.0.3.tgz#758ffbb0156e236f1d731c5d36e2bbf46a8098f2"
+"@semantic-release/git@7.0.4":
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/@semantic-release/git/-/git-7.0.4.tgz#b10c85744044d797ebf979eb0fa1e6e499b4100c"
   dependencies:
     "@semantic-release/error" "^2.1.0"
     aggregate-error "^1.0.0"
-    debug "^3.1.0"
+    debug "^4.0.0"
     dir-glob "^2.0.0"
     execa "^1.0.0"
     fs-extra "^7.0.0"
@@ -1319,6 +1319,12 @@ debug@^2.2.0, debug@^2.3.3, debug@^2.6.8:
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
     ms "2.0.0"
+
+debug@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.0.0.tgz#ef7592a30b1c5e05a78e96926df2e6b36b5544e7"
+  dependencies:
+    ms "^2.1.1"
 
 debuglog@*, debuglog@^1.0.1:
   version "1.0.1"
@@ -5308,9 +5314,9 @@ sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
-semantic-release@15.9.14:
-  version "15.9.14"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-15.9.14.tgz#108fa88649e318b85f728adc9375b12d68075726"
+semantic-release@15.9.15:
+  version "15.9.15"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-15.9.15.tgz#e423dc5468f7e5bf601d5ca8bf4ae6d4ada5eadf"
   dependencies:
     "@semantic-release/commit-analyzer" "^6.0.0"
     "@semantic-release/error" "^2.2.0"
@@ -5319,7 +5325,7 @@ semantic-release@15.9.14:
     "@semantic-release/release-notes-generator" "^7.0.0"
     aggregate-error "^1.0.0"
     cosmiconfig "^5.0.1"
-    debug "^3.1.0"
+    debug "^4.0.0"
     env-ci "^2.4.0"
     execa "^1.0.0"
     figures "^2.0.0"
