@@ -14,7 +14,14 @@ Our user guide includes information on different topics, such as:
   - [Installation](#installation)
   - [Getting started](#getting-started)
   - [Transfers](#transfers)
+    - [Create a transfer](#create-a-transfer)
+    - [Find a transfer](#find-a-transfer)
   - [Boards](#boards)
+    - [Create an empty board](#create-an-empty-board)
+    - [Add links to a board](#add-links-to-a-board)
+    - [Add files to a board](#add-files-to-a-board)
+    - [Upload files to a board](#upload-files-to-a-board)
+    - [Find a board](#find-a-board)
 
 ## Installation
 
@@ -57,9 +64,130 @@ const createWTClient = require('@wetransfer/js-sdk');
 
 ## Transfers
 
+Built to get files from one place to the other, this is the classic WeTransfer experience. Send it up to 2GB of files per transfer and this thing will handle it with ease, with a built-in 7 day expiry.
+
+### Create a transfer
+
+Transfers must be created with files. Once the transfer has been created and finalized, new files cannot be added to it. When creating a transfer you must provide a list of files you want to transfer. Files must include `name` (unique) and `size` (in bytes) properties.
+
+```js
+const transfer = await wtClient.transfer.create({
+  // Message is optional
+  message: 'My very first transfer!',
+  // Files are mandatory. Must include file names (unique!) and file sizes, in bytes.
+  files: [
+    {
+      name: 'hello.txt',
+      size: 1024
+    },
+    {
+      name: 'big-bobis.jpg',
+      size: 13370099
+    }
+  ]
+});
+```
+
+As you can see, the content of the files has not been included as a part of the payload. The contend is not a required property because depending on your use case, you will have access to the file content when the transfer is created, but in other cases, this can be separate process.
+
+These are some possible options:
+
+1. You are writing a CLI tool, where you know where the files are located, our you just expect paths to files that you need to read before you create the transfer. If that's the case, the content will be a [Buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer), returned by `fs.readFile` method. The SDK will take care of the file upload process, we get you covered. Your code will be something like that, if you know the path of the file:
+
+```js
+// Create a promise-based function to read files.
+function readFile(path) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, (error, data) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve(data);
+    });
+  });
+}
+
+// This is variable, and will depend on your application.
+const filePaths = ['path/to/file.txt', 'path/to/image.png'];
+
+// Read the content of the files, in parallel
+const fileContents = await Promise.all(filePaths.map(readFile));
+
+// Create the files array with names, sizes and content.
+const files = filePaths.map((file, index) => {
+  const content = fileContents[index];
+  return {
+    name: name: file.split('/').pop(),
+    size: content.length,
+    content: content
+  };
+});
+
+const transfer = await wtClient.transfer.create({
+  message: 'My very first transfer!',
+  files: files
+});
+
+console.log(transfer.url); // https://we.tl/t-Sa7dYYlOdF
+```
+
+2. If you are trying to create a transfer from the browser, please make use of the [File Web API](https://developer.mozilla.org/en-US/docs/Web/API/File), which gives you access to file information and content. Be aware that using the SDK directly in the browser, will expose your API Key to the wild, and this is not desired. Considering that you have am input to upload multiple files:
+
+```html
+<input type="file" id="files-input" multiple />
+```
+
+```js
+const filesElement = document.getElementById('files-input');
+
+// Create a transfer everytime files are selected.
+filesElement.addEventListener('change', async (event) => {
+  const fileList = event.target.files;
+
+  const files = fileList.map((file) => {
+    return {
+      name: file.name,
+      size: file.size,
+      content: file
+    };
+  });
+
+  const transfer = await wtClient.transfer.create({
+    message: 'My very first transfer!',
+    files: files
+  });
+
+  console.log(transfer.url); // https://we.tl/t-Sa7dYYlOdF
+});
+```
+
+3. A proper solution for the previous example would be to have a client/server application, where your API Key is not exposed in the browser, and you can control which clients can create transfers thanks to CORS settings, for example. That requires a more complicated setup, but it's the best solution both in terms of security and performance. The process is as follows:
+
+    1. Create a transfer, specifing only file names and size.
+    2. Request upload URLs for each part of the file.
+    3. Complete the file upload.
+    4. Repeat 2 and 3 for each file.
+    5. Complete the transfer. The final WeTransfer URL will be returned here.
+
+    Please check this [complete example]() using vanilla JS for the client and Express as a Node.js server. 
+
+### Find a transfer
+
+If you have a transfer id saved from previous steps, you can retrieve the transfer object and files information:
+
+```js
+const transfer = await wtClient.transfer.find('/* your transfer_id */');
+console.log(transfer.url); // https://we.tl/t-Sa7dYYlOdF
+```
+
 ## Boards
 
+Our new Board API is in line with our new mobile app. It can store traditional files as well as links, and is flexible in how it displays it all.
 
+### Create a board
+
+Boards are the latest addition to our Public API. It was built with our iOS and Android apps in mind, but it's also suitable for web/desktop users. It is designed for collecting content rather than transmitting content from A to B (though it can do that, too) and it supports both files and links. Boards are created emtpy, without files or links. Imagine a board like an empty canvas where you can add items at any time.
 
 
 

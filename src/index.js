@@ -17,10 +17,10 @@ const { createTransfer, findTransfer } = require('./transfers');
 //   completeFileUploadToCollection,
 // } = require('./boards/actions');
 
-// const {
-//   uploadFileToTransfer,
-//   finalizeTransfer,
-// } = require('./transfers/actions');
+const {
+  completeFileUploadToTransfer,
+  finalizeTransfer,
+} = require('./transfers/actions');
 
 module.exports = async function createWTClient(
   apiKey,
@@ -39,18 +39,19 @@ module.exports = async function createWTClient(
     authorize,
     board: {
       create: createBoard,
-    //   find: findCollection,
-    //   addFiles: addFilesToCollection,
-    //   addLinks: addLinksToCollection,
-    //   uploadFile: uploadFileToCollection,
-    //   getFileUploadURL: getFileUploadURLToCollection,
-    //   completeFileUpload: completeFileUploadToCollection,
+      find: findBoard,
+      //   addFiles: addFilesToCollection,
+      //   addLinks: addLinksToCollection,
+      //   uploadFile: uploadFileToCollection,
+      //   getFileUploadURL: getFileUploadURLToCollection,
+      //   completeFileUpload: completeFileUploadToCollection,
     },
     transfer: {
       create: createTransfer,
-      // find: findTransfer,
-      // uploadFile: uploadFileToTransfer,
-      // finalize: finalizeTransfer,
+      find: findTransfer,
+      getFileUploadURL: getFileUploadURLToTransfer,
+      completeFileUpload: completeFileUploadToTransfer,
+      finalize: finalizeTransfer,
     },
   };
 };

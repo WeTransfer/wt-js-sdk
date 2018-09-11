@@ -31,9 +31,7 @@ module.exports = {
     },
     uploadComplete(board, file) {
       return {
-        url: `${prefix}/boards/${board.id}/files/${
-          file.id
-        }/upload-complete`,
+        url: `${prefix}/boards/${board.id}/files/${file.id}/upload-complete`,
         method: 'put',
       };
     },

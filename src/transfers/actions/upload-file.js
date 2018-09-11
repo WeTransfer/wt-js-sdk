@@ -8,8 +8,6 @@ module.exports = function({ request, routes }) {
     routes,
   });
 
-  const MAX_CHUNK_SIZE = 5 * 1024 * 1024;
-
   /**
    * Uploads a chunk of the file to S3
    * @param   {Object}  transfer   Transfer item.
@@ -44,7 +42,7 @@ module.exports = function({ request, routes }) {
    * @returns {Array}            Array of part upload promises
    */
   async function uploadAllParts(transfer, file, content) {
-    const totalParts = 1; // Hardcoded for now
+    const totalParts = file.multipart.part_numbers;
     logger.debug(
       `[${
         file.name
@@ -54,8 +52,8 @@ module.exports = function({ request, routes }) {
     );
 
     for (let partNumber = 0; partNumber < totalParts; partNumber++) {
-      const chunkStart = partNumber * MAX_CHUNK_SIZE;
-      const chunkEnd = (partNumber + 1) * MAX_CHUNK_SIZE;
+      const chunkStart = partNumber * file.multipart.chunk_size;
+      const chunkEnd = (partNumber + 1) * file.multipart.chunk_size;
 
       logger.debug(
         `[${file.name}] Part #${partNumber +
