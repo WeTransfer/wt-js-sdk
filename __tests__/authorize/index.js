@@ -24,7 +24,7 @@ describe('Authorize method', () => {
         'Content-Type': 'application/json',
         'x-api-key': 'secret-api-key',
       },
-      url: '/v1/authorize',
+      url: '/v2/authorize',
       data: null,
     });
   });

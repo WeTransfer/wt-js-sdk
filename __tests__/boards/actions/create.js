@@ -1,8 +1,8 @@
 const routes = require('../../../src/config/routes');
-const createAction = require('../../../src/collections/actions/create-collection');
+const createAction = require('../../../src/boards/actions/create');
 const WTError = require('../../../src/error');
 
-describe('Create collection action', () => {
+describe('Create board action', () => {
   let create = null;
   const mocks = {};
   beforeEach(() => {
@@ -13,8 +13,7 @@ describe('Create collection action', () => {
       description: null,
       state: 'uploading',
       url: 'https://we.tl/s-random-hash',
-      files: [],
-      links: [],
+      items: [],
     });
 
     create = createAction({
@@ -23,11 +22,11 @@ describe('Create collection action', () => {
     });
   });
 
-  it('should create a new collection request', async () => {
-    const collection = await create({
+  it('should create a new board request', async () => {
+    const board = await create({
       name: 'WeTransfer SDK',
     });
-    expect(collection).toMatchSnapshot();
+    expect(board).toMatchSnapshot();
   });
 
   it('should throw an exception if the request fails', async () => {

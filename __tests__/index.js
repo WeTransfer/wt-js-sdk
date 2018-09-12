@@ -18,20 +18,21 @@ describe('createWTClient function', () => {
 
     expect(apiClient).toEqual({
       authorize: expect.any(Function),
-      collection: {
+      board: {
         create: expect.any(Function),
+        find: expect.any(Function),
+        addFiles: expect.any(Function),
+        addLinks: expect.any(Function),
+        getFileUploadURL: expect.any(Function),
+        completeFileUpload: expect.any(Function),
       },
-      // transfer: {
-      //   addFiles: expect.any(Function),
-      //   addItems: expect.any(Function),
-      //   addLinks: expect.any(Function),
-      //   completeFileUpload: expect.any(Function),
-      //   create: expect.any(Function),
-      //   uploadFile: expect.any(Function),
-      // },
-      // file: {
-      //   getUploadURL: expect.any(Function),
-      // },
+      transfer: {
+        create: expect.any(Function),
+        find: expect.any(Function),
+        getFileUploadURL: expect.any(Function),
+        completeFileUpload: expect.any(Function),
+        finalize: expect.any(Function),
+      },
     });
   });
 

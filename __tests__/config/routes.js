@@ -2,47 +2,97 @@ const routes = require('../../src/config/routes');
 
 describe('Routes configuration', () => {
   it('should define the right prefix', async () => {
-    expect(routes.prefix).toBe('/v1');
+    expect(routes.prefix).toBe('/v2');
   });
 
   it('should define an authorize path', () => {
-    expect(routes.authorize).toEqual({ url: '/v1/authorize' });
+    expect(routes.authorize).toEqual({ url: '/v2/authorize' });
   });
 
-  it('should define a transfers path', () => {
-    expect(routes.transfers).toEqual({ url: '/v1/transfers' });
-  });
+  describe('boards namespace', () => {
+    it('should define all endpoints', () => {
+      expect(routes.boards).toMatchSnapshot();
+    });
 
-  it('should define an items path', () => {
-    expect(routes.items('id')).toEqual({ url: '/v1/transfers/id/items' });
-  });
+    it('should define a find path', () => {
+      expect(routes.boards.find('board-id')).toMatchSnapshot();
+    });
 
-  it('should define a multipart upload path', () => {
-    expect(
-      routes.multipart(
-        {
-          id: 'item_id',
-          meta: {
-            multipart_upload_id: 'multipart_upload_id',
+    it('should define an addFiles path', () => {
+      expect(routes.boards.addFiles({ id: 'board-id' })).toMatchSnapshot();
+    });
+
+    it('should define an addLinks path', () => {
+      expect(routes.boards.addLinks({ id: 'board-id' })).toMatchSnapshot();
+    });
+
+    it('should define a multipart upload path', () => {
+      expect(
+        routes.boards.multipart(
+          { id: 'board-id' },
+          {
+            id: 'file-id',
+            multipart: {
+              id: 'multipart-upload-id',
+            },
           },
-        },
-        1
-      )
-    ).toEqual({
-      url: '/v1/files/item_id/uploads/1/multipart_upload_id',
-      method: 'get',
+          1
+        )
+      ).toMatchSnapshot();
+    });
+
+    it('should define an upload path', () => {
+      expect(routes.boards.upload('s3://upload-url')).toMatchSnapshot();
+    });
+
+    it('should define an uploadComplete path', () => {
+      expect(
+        routes.boards.uploadComplete({ id: 'board-id' }, { id: 'file-id' })
+      ).toMatchSnapshot();
     });
   });
 
-  it('should define an upload path', () => {
-    expect(routes.upload('https://dev.wetransfer.com/very-long-url')).toEqual({
-      url: 'https://dev.wetransfer.com/very-long-url',
+  describe('transfers namespace', () => {
+    it('should define all endpoints', () => {
+      expect(routes.transfers).toMatchSnapshot();
     });
-  });
 
-  it('should define an uploadComplete path', () => {
-    expect(routes.uploadComplete('id')).toEqual({
-      url: '/v1/files/id/uploads/complete',
+    it('should define a find path', () => {
+      expect(routes.transfers.find('transfer-id')).toMatchSnapshot();
+    });
+
+    it('should define a multipart upload path', () => {
+      expect(
+        routes.transfers.multipart(
+          { id: 'transfer-id' },
+          {
+            id: 'file-id',
+            multipart: {
+              id: 'multipart-upload-id',
+            },
+          },
+          1
+        )
+      ).toMatchSnapshot();
+    });
+
+    it('should define an upload path', () => {
+      expect(routes.transfers.upload('s3://upload-url')).toMatchSnapshot();
+    });
+
+    it('should define an uploadComplete path', () => {
+      expect(
+        routes.transfers.uploadComplete(
+          { id: 'transfer-id' },
+          { id: 'file-id' }
+        )
+      ).toMatchSnapshot();
+    });
+
+    it('should define an finalize path', () => {
+      expect(
+        routes.transfers.finalize({ id: 'transfer-id' })
+      ).toMatchSnapshot();
     });
   });
 });

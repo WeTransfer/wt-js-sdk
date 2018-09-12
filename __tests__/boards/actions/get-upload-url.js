@@ -1,5 +1,5 @@
 const routes = require('../../../src/config/routes');
-const getUploadUrlAction = require('../../../src/items/actions/get-upload-url');
+const getUploadUrlAction = require('../../../src/boards/actions/get-upload-url');
 
 describe('Get upload URL action', () => {
   let getUploadUrl = null;
@@ -7,7 +7,7 @@ describe('Get upload URL action', () => {
   beforeEach(() => {
     mocks.request = { send: jest.fn() };
     mocks.request.send.mockReturnValue(() =>
-      Promise.resolve({ upload_url: 's3://very-long-url' })
+      Promise.resolve({ url: 's3://very-long-url' })
     );
 
     getUploadUrl = getUploadUrlAction({
@@ -17,18 +17,10 @@ describe('Get upload URL action', () => {
   });
 
   it('should send a request to retrieve the url', async () => {
-    await getUploadUrl(
-      {
-        id: 'file-id',
-        meta: {
-          multipart_upload_id: 'multipart-upload-id',
-        },
-      },
-      1
-    );
+    await getUploadUrl('board-id', 'file-id', 1, 'multipart-upload-id');
     expect(mocks.request.send).toHaveBeenCalledWith({
       method: 'get',
-      url: '/v1/files/file-id/uploads/1/multipart-upload-id',
+      url: '/v2/boards/board-id/files/file-id/upload-url/1/multipart-upload-id',
     });
   });
 });

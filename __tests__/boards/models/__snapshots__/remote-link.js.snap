@@ -2,10 +2,11 @@
 
 exports[`RemoteLink model contructor should create a normalized link 1`] = `
 Object {
-  "content_identifier": "web_content",
   "id": "random-hash",
   "meta": Object {
     "title": "WeTransfer",
   },
+  "type": "link",
+  "url": "https://wetransfer.com",
 }
 `;

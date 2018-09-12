@@ -21,6 +21,7 @@ module.exports = function({ request, routes }) {
     logger.debug(
       `[${file.name}] Requesting S3 upload URL for part #${partNumber}`
     );
+
     return getUploadUrl(board.id, file.id, partNumber, file.multipart.id).then(
       (multipartItem) => {
         logger.debug(
@@ -28,7 +29,6 @@ module.exports = function({ request, routes }) {
             data.length
           } bytes for part #${partNumber} to S3`
         );
-        // TODO: change upload_url to url
         return request.upload(multipartItem.url, data);
       }
     );

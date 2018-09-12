@@ -1,5 +1,5 @@
 const routes = require('../../../src/config/routes');
-const uploadFileAction = require('../../../src/items/actions/upload-file');
+const uploadFileAction = require('../../../src/boards/actions/upload-file');
 
 describe('Upload file action', () => {
   let uploadFile = null;
@@ -10,7 +10,7 @@ describe('Upload file action', () => {
       upload: jest.fn(),
     };
     mocks.request.send.mockReturnValue(
-      Promise.resolve({ upload_url: 's3://very-long-url' })
+      Promise.resolve({ url: 's3://very-long-url' })
     );
 
     uploadFile = uploadFileAction({
@@ -21,23 +21,23 @@ describe('Upload file action', () => {
 
   it('should send one request for a small file', async () => {
     await uploadFile(
+      { id: 'board-id' },
       {
         id: 'random-hash',
-        content_identifier: 'file',
-        local_identifier: 'delightful-cat',
-        meta: {
-          multipart_parts: 1,
-          multipart_upload_id: 'some.random-id--',
-        },
         name: 'kittie.gif',
-        size: 1,
+        size: 1024,
+        multipart: {
+          id: 'multipart-id',
+          part_numbers: 1,
+          chunk_size: 1024,
+        },
       },
       [0]
     );
 
     expect(mocks.request.send).toHaveBeenCalledWith({
       method: 'get',
-      url: '/v1/files/random-hash/uploads/1/some.random-id--',
+      url: '/v2/boards/board-id/files/random-hash/upload-url/1/multipart-id',
     });
 
     expect(mocks.request.upload).toHaveBeenCalledWith('s3://very-long-url', [
@@ -46,30 +46,29 @@ describe('Upload file action', () => {
   });
 
   it('should send two requests for a 10MB file', async () => {
-    const sizeFile = 10 * 1024 * 1024;
     await uploadFile(
+      { id: 'board-id' },
       {
         id: 'random-hash',
-        content_identifier: 'file',
-        local_identifier: 'delightful-cat',
-        meta: {
-          multipart_parts: 2,
-          multipart_upload_id: 'some.random-id--',
-        },
         name: 'kittie.gif',
-        size: sizeFile,
+        size: 10 * 1024 * 1024,
+        multipart: {
+          id: 'multipart-id',
+          part_numbers: 2,
+          chunk_size: 6 * 1024 * 1024,
+        },
       },
       []
     );
 
     expect(mocks.request.send).toHaveBeenCalledWith({
       method: 'get',
-      url: '/v1/files/random-hash/uploads/1/some.random-id--',
+      url: '/v2/boards/board-id/files/random-hash/upload-url/2/multipart-id',
     });
 
     expect(mocks.request.send).toHaveBeenCalledWith({
       method: 'get',
-      url: '/v1/files/random-hash/uploads/2/some.random-id--',
+      url: '/v2/boards/board-id/files/random-hash/upload-url/2/multipart-id',
     });
 
     expect(mocks.request.upload).toHaveBeenCalledWith('s3://very-long-url', []);
@@ -81,16 +80,16 @@ describe('Upload file action', () => {
         Promise.reject(new Error('Network error.'))
       );
       await uploadFile(
+        { id: 'board-id' },
         {
           id: 'random-hash',
-          content_identifier: 'file',
-          local_identifier: 'delightful-cat',
-          meta: {
-            multipart_parts: 1,
-            multipart_upload_id: 'some.random-id--',
-          },
           name: 'kittie.gif',
-          size: 1,
+          size: 10 * 1024 * 1024,
+          multipart: {
+            id: 'multipart-id',
+            part_numbers: 2,
+            chunk_size: 6 * 1024 * 1024,
+          },
         },
         []
       );

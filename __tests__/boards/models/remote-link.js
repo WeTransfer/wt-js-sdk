@@ -1,15 +1,15 @@
-const { RemoteLink } = require('../../../src/items/models');
+const { RemoteLink } = require('../../../src/boards/models');
 
 describe('RemoteLink model', () => {
   let link = null;
   beforeEach(() => {
     link = new RemoteLink({
       id: 'random-hash',
-      content_identifier: 'web_content',
       meta: {
         title: 'WeTransfer',
       },
       url: 'https://wetransfer.com',
+      type: 'link',
     });
   });
 

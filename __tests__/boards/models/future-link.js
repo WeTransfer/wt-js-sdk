@@ -1,4 +1,4 @@
-const { futureLink } = require('../../../src/items/models');
+const { futureLink } = require('../../../src/boards/models');
 
 describe('Future link normalizer', () => {
   describe('futureLink function', () => {
@@ -19,8 +19,6 @@ describe('Future link normalizer', () => {
         meta: {
           title: 'Japan',
         },
-        content_identifier: 'web_content',
-        local_identifier: expect.any(String),
       });
     });
 
@@ -32,21 +30,6 @@ describe('Future link normalizer', () => {
         meta: {
           title: 'Japan',
         },
-        content_identifier: 'web_content',
-        local_identifier: expect.any(String),
-      });
-    });
-
-    it('should set default properties', () => {
-      delete link.url;
-      const normalized = futureLink(link);
-      expect(normalized).toEqual({
-        url: '',
-        meta: {
-          title: 'Japan',
-        },
-        content_identifier: 'web_content',
-        local_identifier: expect.any(String),
       });
     });
   });

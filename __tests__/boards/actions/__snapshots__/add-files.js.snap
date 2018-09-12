@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add files action should create an add files request 1`] = `
+Array [
+  Object {
+    "id": "random-hash",
+    "multipart": Object {
+      "chunk_size": 195906,
+      "id": "multipart-id",
+      "part_numbers": 3,
+    },
+    "name": "kittie.gif",
+    "size": 195906,
+    "type": "file",
+  },
+]
+`;
+
+exports[`Add files action should create an upload file request 1`] = `
+Array [
+  Object {
+    "id": "random-hash",
+    "multipart": Object {
+      "chunk_size": 195906,
+      "id": "multipart-id",
+      "part_numbers": 3,
+    },
+    "name": "kittie.gif",
+    "size": 195906,
+    "type": "file",
+  },
+]
+`;
+
+exports[`Add files action should throw an error if arguments are not provided 1`] = `[Error: There was an error when adding files to the board.]`;

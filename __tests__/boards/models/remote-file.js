@@ -1,20 +1,17 @@
-const { RemoteFile } = require('../../../src/items/models');
+const { RemoteFile } = require('../../../src/boards/models');
 
 describe('RemoteFile model', () => {
   let file = null;
   beforeEach(() => {
     file = new RemoteFile({
       id: 'random-hash',
-      content_identifier: 'file',
-      local_identifier: 'delightful-cat',
-      meta: {
-        multipart_parts: 3,
-        multipart_upload_id: 'some.random-id--',
+      multipart: {
+        parts_numbers: 3,
+        chunk_size: 195906,
       },
       name: 'kittie.gif',
       size: 195906,
-      upload_id: 'more.random-ids--',
-      upload_expires_at: 1520410633,
+      type: 'file',
     });
   });
 

@@ -2,14 +2,13 @@
 
 exports[`RemoteFile model contructor should create a normalized file 1`] = `
 Object {
-  "content_identifier": "file",
   "id": "random-hash",
-  "local_identifier": "delightful-cat",
-  "meta": Object {
-    "multipart_parts": 3,
-    "multipart_upload_id": "some.random-id--",
+  "multipart": Object {
+    "chunk_size": 195906,
+    "parts_numbers": 3,
   },
   "name": "kittie.gif",
   "size": 195906,
+  "type": "file",
 }
 `;
