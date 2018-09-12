@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Future board normalizer normalizeBoard function add default values 1`] = `
-Object {
-  "description": undefined,
-  "name": undefined,
-}
-`;
-
 exports[`Future board normalizer normalizeBoard function should remove extra properties 1`] = `
 Object {
   "description": "",

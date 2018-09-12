@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Future transfer normalizer normalizeTransfer function should remove extra properties 1`] = `
+Object {
+  "files": Array [
+    Object {
+      "name": "kittie.gif",
+      "size": 1024,
+    },
+  ],
+  "message": "WeTransfer rocks",
+}
+`;
+
+exports[`Future transfer normalizer normalizeTransfer function should return a normalized transfer 1`] = `
+Object {
+  "files": Array [
+    Object {
+      "name": "kittie.gif",
+      "size": 1024,
+    },
+  ],
+  "message": "WeTransfer rocks",
+}
+`;

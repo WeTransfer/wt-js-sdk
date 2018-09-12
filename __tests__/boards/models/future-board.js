@@ -20,10 +20,5 @@ describe('Future board normalizer', () => {
       const normalized = futureBoard(extraProps);
       expect(normalized).toMatchSnapshot();
     });
-
-    it('add default values', () => {
-      const normalized = futureBoard({});
-      expect(normalized).toMatchSnapshot();
-    });
   });
 });

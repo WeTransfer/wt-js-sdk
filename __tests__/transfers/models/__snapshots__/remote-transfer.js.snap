@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RemoteTransfer model contructor should create a normalized transfer 1`] = `
+RemoteTransfer {
+  "files": Array [
+    Object {
+      "id": "random-hash",
+      "name": "kittie.gif",
+      "type": "file",
+    },
+  ],
+  "id": "random-hash",
+  "message": "Little kittens",
+  "state": "uploading",
+  "url": "https://we.tl/t-random-hash",
+}
+`;

@@ -10,7 +10,8 @@ class RemoteFile {
       id: this.id,
       name: this.name,
       size: this.size,
-      meta: this.meta,
+      multipart: this.multipart,
+      type: this.type,
     };
   }
 }
