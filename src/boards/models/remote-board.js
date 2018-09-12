@@ -1,32 +1,53 @@
 const RemoteFile = require('./remote-file');
 const RemoteLink = require('./remote-link');
 
-class RemoteCollection {
+class RemoteBoard {
   constructor(values) {
     Object.assign(this, values);
 
-    // this.normalizeItems();
-    // this.normalizeLinks();
-    // this.normalizeFiles();
+    this.normalizeItems();
   }
 
-//   addFiles(...files) {
-//     files.forEach((file) => (file.collection = this));
-//     this.files.push(...files);
-//   }
+  normalizeItems() {
+    this.items = this.items.map((item) => {
+      switch (item.type) {
+        case 'link':
+          return new RemoteLink(item);
+        case 'file':
+          return new RemoteFile(item);
+      }
+    });
+  }
 
-//   addLinks(...links) {
-//     links.forEach((link) => (link.collection = this));
-//     this.links.push(...links);
-//   }
+  addLinks(...links) {
+    const remoteLinks = links.map((link) => {
+      const remoteLink = new RemoteLink(link);
+      remoteLink.board = this;
 
-//   normalizeFiles() {
-//     this.files = this.files.map((file) => new (RemoteFile(file))());
-//   }
+      return remoteLink;
+    });
 
-//   normalizeLinks() {
-//     this.links = this.links.map((link) => new (RemoteLink(link))());
-//   }
+    this.items.push(...remoteLinks);
+  }
+
+  addFiles(...files) {
+    const remoteFiles = files.map((file) => {
+      const remoteFile = new RemoteFile(file);
+      remoteFile.board = this;
+
+      return remoteFile;
+    });
+
+    this.items.push(...remoteFiles);
+  }
+
+  get links() {
+    return this.items.filter((item) => item.type === 'link');
+  }
+
+  get files() {
+    return this.items.filter((item) => item.type === 'file');
+  }
 }
 
-module.exports = RemoteCollection;
+module.exports = RemoteBoard;

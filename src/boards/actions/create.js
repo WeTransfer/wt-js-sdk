@@ -19,10 +19,7 @@ module.exports = function({ request, routes }) {
       logger.info(`Board created with id ${response.id}.`);
       return new RemoteBoard(response);
     } catch (error) {
-      throw new WTError(
-        'There was an error when creating the board.',
-        error
-      );
+      throw new WTError('There was an error when creating the board.', error);
     }
   };
 };

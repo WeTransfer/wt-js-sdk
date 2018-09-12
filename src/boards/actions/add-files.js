@@ -3,29 +3,49 @@ const logger = require('../../config/logger');
 const futureFile = require('../models/future-file');
 const RemoteFile = require('../models/remote-file');
 
-module.exports = function({ request, routes }) {
+module.exports = function({ request, routes, uploadFileToBoard }) {
   /**
-   * Add files to an existing collection.
-   * @param   {Object}  collection Existing collection object
-   * @param   {Array}   files      A collection of files to be added to the collection
-   * @returns {Promise}            A collection of created items
+   * Check if the user also passed the content for files.
+   * In that case, we can upload the files in one go.
+   *
+   * @param {Array} files A list of file object, containing name, size and maybe content
    */
-  return async function addFilesToCollection(collection, files) {
+  function shouldUploadFiles(files) {
+    return files.reduce(
+      (uploadFiles, file) => uploadFiles && Boolean(file.content),
+      true
+    );
+  }
+
+  /**
+   * Add files to an existing board.
+   * @param   {Object}  board Existing board object
+   * @param   {Array}   files A board of files to be added to the board
+   * @returns {Promise}       A board of created items
+   */
+  return async function addFilesToBoard(board, files) {
     try {
-      logger.info(
-        `Adding ${files.length} files to collection with ID ${collection.id}`
-      );
+      logger.info(`Adding ${files.length} files to board with ID ${board.id}`);
       const response = await request.send(
-        routes.collections.addFiles(collection),
+        routes.boards.addFiles(board),
         files.map(futureFile)
       );
-      const collectionItems = response.map((item) => new RemoteFile(item));
-      collection.addFiles(...collectionItems);
 
-      return collectionItems;
+      const boardFiles = response.map((item) => new RemoteFile(item));
+      board.addFiles(...boardFiles);
+
+      if (shouldUploadFiles(files)) {
+        await Promise.all(
+          boardFiles.map((file, index) => {
+            return uploadFileToBoard(board, file, files[index].content);
+          })
+        );
+      }
+
+      return boardFiles;
     } catch (error) {
       throw new WTError(
-        'There was an error when adding files to the collection.',
+        'There was an error when adding files to the board.',
         error
       );
     }

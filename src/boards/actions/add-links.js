@@ -5,27 +5,25 @@ const RemoteLink = require('../models/remote-link');
 
 module.exports = function({ request, routes }) {
   /**
-   * Add links to an existing collection.
-   * @param   {Object}  collection Existing collection object
-   * @param   {Array}   links      A collection of links to be added to the collection
-   * @returns {Promise}            A collection of created items
+   * Add links to an existing board.
+   * @param   {Object}  board Existing board object
+   * @param   {Array}   links A list of links to be added to the board
+   * @returns {Promise}       A board with created items
    */
-  return async function addLinksToCollection(collection, links) {
+  return async function addLinksToBoard(board, links) {
     try {
-      logger.info(
-        `Adding ${links.length} links to collection with ID ${collection.id}`
-      );
+      logger.info(`Adding ${links.length} links to board with ID ${board.id}`);
       const response = await request.send(
-        routes.collections.addLinks(collection),
+        routes.boards.addLinks(board),
         links.map(futureLink)
       );
-      const collectionItems = response.map((item) => new RemoteLink(item));
-      collection.addLinks(...collectionItems);
+      const boardLinks = response.map((item) => new RemoteLink(item));
+      board.addLinks(...boardLinks);
 
-      return collectionItems;
+      return boardLinks;
     } catch (error) {
       throw new WTError(
-        'There was an error when adding links to the collection.',
+        'There was an error when adding links to the board.',
         error
       );
     }

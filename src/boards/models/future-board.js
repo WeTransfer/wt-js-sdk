@@ -1,13 +1,13 @@
 /**
- * Normalizes a collection object. Removes non-expected properties.
- * @param   {Object} collection A collection object
- * @returns {Object}            Normalized collection object
+ * Normalizes a board object. Removes non-expected properties.
+ * @param   {Object} board A board object
+ * @returns {Object}       Normalized board object
  */
-function normalizeCollection(values) {
+function normalizeBoard(values) {
   return {
     name: values.name,
     description: values.description,
   };
 }
 
-module.exports = normalizeCollection;
+module.exports = normalizeBoard;

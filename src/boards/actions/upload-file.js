@@ -8,46 +8,41 @@ module.exports = function({ request, routes }) {
     routes,
   });
 
-  const MAX_CHUNK_SIZE = 6 * 1024 * 1024;
-
   /**
    * Uploads a chunk of the file to S3
-   * @param   {Object}  collection Collection item.
+   * @param   {Object}  board      Board item.
    * @param   {Object}  file       Item containing information about number of parts, upload url, etc.
    * @param   {Buffer}  data       File content
    * @param   {Array}   chunkSizes An array containing the chunk size for each part
    * @param   {Number}  partNumber Which part number we want to upload
    * @returns {Promise}            Empty response if everything goes well 🤔
    */
-  function uploadPart(collection, file, data, partNumber) {
+  function uploadPart(board, file, data, partNumber) {
     logger.debug(
       `[${file.name}] Requesting S3 upload URL for part #${partNumber}`
     );
-    return getUploadUrl(
-      collection.id,
-      file.id,
-      partNumber,
-      file.multipart.id
-    ).then((multipartItem) => {
-      logger.debug(
-        `[${file.name}] Uploading ${
-          data.length
-        } bytes for part #${partNumber} to S3`
-      );
-      // TODO: change upload_url to url
-      return request.upload(multipartItem.upload_url, data);
-    });
+    return getUploadUrl(board.id, file.id, partNumber, file.multipart.id).then(
+      (multipartItem) => {
+        logger.debug(
+          `[${file.name}] Uploading ${
+            data.length
+          } bytes for part #${partNumber} to S3`
+        );
+        // TODO: change upload_url to url
+        return request.upload(multipartItem.url, data);
+      }
+    );
   }
 
   /**
    * Given a file content, and the number of parts that must be uploaded to S3,
    * it chunkes the file and uploads each part sequentially
-   * @param   {Object}  collection Collection item.
-   * @param   {Object}  file       Item containing information about number of parts, upload url, etc.
-   * @param   {Buffer}  content    File content
-   * @returns {Array}              Array of part upload promises
+   * @param   {Object}  board   Board item.
+   * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
+   * @param   {Buffer}  content File content
+   * @returns {Array}           Array of part upload promises
    */
-  async function uploadAllParts(collection, file, content) {
+  async function uploadAllParts(board, file, content) {
     const totalParts = file.multipart.part_numbers;
     logger.debug(
       `[${
@@ -58,8 +53,8 @@ module.exports = function({ request, routes }) {
     );
 
     for (let partNumber = 0; partNumber < totalParts; partNumber++) {
-      const chunkStart = partNumber * MAX_CHUNK_SIZE;
-      const chunkEnd = (partNumber + 1) * MAX_CHUNK_SIZE;
+      const chunkStart = partNumber * file.multipart.chunk_size;
+      const chunkEnd = (partNumber + 1) * file.multipart.chunk_size;
 
       logger.debug(
         `[${file.name}] Part #${partNumber +
@@ -67,7 +62,7 @@ module.exports = function({ request, routes }) {
       );
 
       await uploadPart(
-        collection,
+        board,
         file,
         content.slice(chunkStart, chunkEnd),
         partNumber + 1
@@ -83,17 +78,17 @@ module.exports = function({ request, routes }) {
   /**
    * Given a file content, and the number of parts that must be uploaded to S3,
    * it chunkes the file and uploads each part sequentially. Completes the file upload at the end.
-   * @param   {Object}  collection Collection item.
-   * @param   {Object}  file       Item containing information about number of parts, upload url, etc.
-   * @param   {Buffer}  content    File content
-   * @returns {Promise}            Empty response if everything goes well 🤔
+   * @param   {Object}  board   Board item.
+   * @param   {Object}  file    Item containing information about number of parts, upload url, etc.
+   * @param   {Buffer}  content File content
+   * @returns {Promise}         Empty response if everything goes well 🤔
    */
-  return async function uploadFileToCollection(collection, file, content) {
+  return async function uploadFileToBoard(board, file, content) {
     logger.info(`[${file.name}] Starting file upload.`);
 
     try {
-      await uploadAllParts(collection, file, content);
-      const response = await completeFileUpload(collection, file);
+      await uploadAllParts(board, file, content);
+      const response = await completeFileUpload(board, file);
       logger.info(`[${file.name}] File upload complete.`);
 
       return response;

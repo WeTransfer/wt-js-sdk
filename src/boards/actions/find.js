@@ -1,25 +1,20 @@
 const WTError = require('../../error');
 const logger = require('../../config/logger');
-const RemoteCollection = require('../models/remote-board');
+const RemoteBoard = require('../models/remote-board');
 
 module.exports = function({ request, routes }) {
   /**
-   * Retrieve a collection given an id
-   * @param   {strint}  collectionId An existing? collection id
-   * @returns {Promise}              A collection object
+   * Retrieve a board given an id
+   * @param   {strint}  boardId An existing? board id
+   * @returns {Promise}         A board object
    */
-  return async function findCollection(collectionId) {
+  return async function findBoard(boardId) {
     try {
-      logger.info('Retrieving a collection.');
-      const response = await request.send(
-        routes.collections.find(collectionId)
-      );
-      return new RemoteCollection(response);
+      logger.info('Retrieving a board.');
+      const response = await request.send(routes.boards.find(boardId));
+      return new RemoteBoard(response);
     } catch (error) {
-      throw new WTError(
-        'There was an error when finding the collection.',
-        error
-      );
+      throw new WTError('There was an error when finding the board.', error);
     }
   };
 };

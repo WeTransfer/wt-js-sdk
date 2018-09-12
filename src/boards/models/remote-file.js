@@ -12,6 +12,7 @@ class RemoteFile {
       size: this.size,
       meta: this.meta,
       multipart: this.multipart,
+      type: this.type,
     };
   }
 }

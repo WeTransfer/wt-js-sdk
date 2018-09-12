@@ -9,13 +9,12 @@ const request = require('./request');
 const { createBoard, findBoard } = require('./boards');
 const { createTransfer, findTransfer } = require('./transfers');
 
-// const {
-//   addFilesToCollection,
-//   addLinksToCollection,
-//   uploadFileToCollection,
-//   getFileUploadURLToCollection,
-//   completeFileUploadToCollection,
-// } = require('./boards/actions');
+const {
+  addFilesToBoard,
+  addLinksToBoard,
+  getFileUploadURLToBoard,
+  completeFileUploadToBoard,
+} = require('./boards/actions');
 
 const {
   completeFileUploadToTransfer,
@@ -40,11 +39,10 @@ module.exports = async function createWTClient(
     board: {
       create: createBoard,
       find: findBoard,
-      //   addFiles: addFilesToCollection,
-      //   addLinks: addLinksToCollection,
-      //   uploadFile: uploadFileToCollection,
-      //   getFileUploadURL: getFileUploadURLToCollection,
-      //   completeFileUpload: completeFileUploadToCollection,
+      addFiles: addFilesToBoard,
+      addLinks: addLinksToBoard,
+      getFileUploadURL: getFileUploadURLToBoard,
+      completeFileUpload: completeFileUploadToBoard,
     },
     transfer: {
       create: createTransfer,

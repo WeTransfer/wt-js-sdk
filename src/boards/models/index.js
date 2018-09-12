@@ -1,8 +1,8 @@
 module.exports = {
-  futureCollection: require('./future-collection'),
+  futureBoard: require('./future-board'),
   futureLink: require('./future-link'),
   futureFile: require('./future-file'),
-  RemoteCollection: require('./remote-collection'),
+  RemoteBoard: require('./remote-board'),
   RemoteFile: require('./remote-file'),
   RemoteLink: require('./remote-link'),
 };

@@ -10,6 +10,7 @@ class RemoteLink {
       id: this.id,
       url: this.url,
       meta: this.meta,
+      type: this.type,
     };
   }
 }
