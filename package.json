@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "axios": "0.18.0",
-    "lodash": "4.17.10",
+    "lodash": "4.17.11",
     "winston": "3.1.0"
   },
   "devDependencies": {
