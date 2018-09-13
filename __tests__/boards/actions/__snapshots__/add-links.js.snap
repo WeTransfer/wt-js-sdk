@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Add links action should create an add links request 1`] = `
+exports[`Add links action should return a RemoteLink object 1`] = `
 Array [
   Object {
     "id": "random-hash",

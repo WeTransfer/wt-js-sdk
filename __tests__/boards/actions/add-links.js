@@ -30,6 +30,30 @@ describe('Add links action', () => {
   });
 
   it('should create an add links request', async () => {
+    await addLinks(board, [
+      {
+        url: 'https://wetransfer.com',
+        meta: {
+          title: 'WeTransfer',
+        },
+      },
+    ]);
+    expect(mocks.request.send).toHaveBeenCalledWith(
+      {
+        url: '/v2/boards/board-id/links',
+      },
+      [
+        {
+          url: 'https://wetransfer.com',
+          meta: {
+            title: 'WeTransfer',
+          },
+        },
+      ]
+    );
+  });
+
+  it('should return a RemoteLink object', async () => {
     const links = await addLinks(board, [
       {
         url: 'https://wetransfer.com',
