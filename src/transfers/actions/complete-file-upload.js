@@ -6,6 +6,8 @@ module.exports = function({ request, routes }) {
    * @returns {Promise}
    */
   return function completeFileUploadToTransfer(transfer, file) {
-    return request.send(routes.transfers.uploadComplete(transfer, file));
+    return request.send(routes.transfers.uploadComplete(transfer, file), {
+      part_numbers: file.multipart.part_numbers,
+    });
   };
 };
