@@ -170,7 +170,7 @@ filesElement.addEventListener('change', async (event) => {
     4. Repeat 2 and 3 for each file.
     5. Complete the transfer. The final WeTransfer URL will be returned here.
 
-    Please check this [complete example]() using vanilla JS for the client and Express as a Node.js server. 
+    Please check this [example](https://github.com/WeTransfer/wt-js-sdk/blob/v2-integration/example/create-transfer.js) using vanilla JS which shows how to upload chunks.
 
 ### Find a transfer
 
@@ -185,124 +185,74 @@ console.log(transfer.url); // https://we.tl/t-Sa7dYYlOdF
 
 Our new Board API is in line with our new mobile app. It can store traditional files as well as links, and is flexible in how it displays it all.
 
-### Create a board
+### Create an empty board
 
 Boards are the latest addition to our Public API. It was built with our iOS and Android apps in mind, but it's also suitable for web/desktop users. It is designed for collecting content rather than transmitting content from A to B (though it can do that, too) and it supports both files and links. Boards are created emtpy, without files or links. Imagine a board like an empty canvas where you can add items at any time.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Transfer
-
-Transfers can be created with or without items. Once the transfer has been created, items can be added at any time:
-
-```javascript
-const transfer = await apiClient.transfer.create({
-  name: 'My very first transfer!',
+```js
+const board = await wtClient.board.create({
+  name: 'My very first board!',
   // Description is optional.
   description: 'Something about cats, most probably.'
 });
-// transfer.shortened_url contains the public WeTransfer URL
+
+console.log(board.url) // https://we.tl/b-oR7ufV43ZS
 ```
 
-### Add items to a transfer
+As you can see, boards are created without items, but you can already access the public URL. It's time to add some items!
 
-Once a transfer has been created you can then add items (files or links) to it. If you are adding files to the transfer, the files are not uploaded at this point, but in the next step.
+### Add links to a board
+
+Once a board has been created you can then add links to it. Please provide a complete URL and the title od the page.
 
 ```javascript
-const files = await apiClient.transfer.addFiles(transfer, [{
+const links = await apiClient.board.addLinks(board, [{
+  url: 'https://en.wikipedia.org/wiki/Japan',
+  meta: {
+    title: 'Japan - Wikipedia'
+  }
+}, {
+  url: 'https://en.wikipedia.org/wiki/Netherlands',
+  meta: {
+    title: 'Netherlands - Wikipedia'
+  }
+}]);
+
+console.log(links);
+console.log(board.links);
+// [{
+//   id: 'sj63ugt996w8b4c1v20180913113842',
+//   url: 'https://en.wikipedia.org/wiki/Japan',
+//   meta: {
+//     title: 'Japan - Wikipedia'
+//   },
+//   type: 'link'
+// }, {
+//   id: 'sj63ugt996w8b4c1v20180913113843',
+//   url: 'https://en.wikipedia.org/wiki/Netherlands',
+//   meta: {
+//     title: 'Netherlands - Wikipedia'
+//   },
+//   type: 'link'
+// }]
+```
+
+`links` contains the list of links added to the board, with some extra information like an unique `id` or extra meta information, if available.
+
+### Add files to a board
+
+Once a board has been created you can then add files to it. Unlike transfers, files can be added at any time, one by one, in batches, it will depend on your use case. 
+
+```js
+const files = await apiClient.board.addFiles(board, [{
   filename: 'kittie.gif',
   filesize: 1024
 }]);
-
-const links = await apiClient.transfer.addLinks(transfer, [{
-  url: 'https://en.wikipedia.org/wiki/Japan',
-  meta: {
-    title: 'Japan'
-  }
-}]);
 ```
 
-Each method will return an array of objects for each item that was added to the transfer. For files, this objects will be used to upload the correspondent file to the transfer, as explained in the next section.
+From here, the process to upload files is the same as for [transfer](#create-a-transfer). If you already have the content of the file, you can pass it as an extra property named `content`, we will take car of it.
 
-### Upload a file
-
-Once the file has been added to the transfer, next step is to upload the file or files. You must provide the content of the file to upload as a [Buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer), we will NOT read the file for you. The content of the file will be splited and uploaded in chunks of 5MB to our S3 bucket.
-
-```javascript
-// Depending on your application, you will read the file using fs.readFile
-// or it will be a file uploaded to your web server.
-const fileContent = [/* Buffer */];
-await Promise.all(
-  // files is the variable returned by apiClient.transfer.addFiles method
-  files.map((item) => apiClient.transfer.uploadFile(item, fileContent))
-);
-```
-
-### Request an upload URL
-
-The previous steps work well for an environment where accessing the files directly is possible, like a CLI tool. In a web environment, we don't want to upload the files to the server, and from there, upload them to S3, but upload them directly from the client. `apiClient.file.getUploadUrl` method will create the necessary upload URL for a given part.
-
-```js
-// This code lives on the browser
-async function uploadFile(item, content) {
-  const MAX_CHUNK_SIZE = 6 * 1024 * 1024;
-  for (let partNumber = 0; partNumber < item.meta.multipart_parts; partNumber++) {
-    const chunkStart = partNumber * MAX_CHUNK_SIZE;
-    const chunkEnd = (partNumber + 1) * MAX_CHUNK_SIZE;
-
-    const multipartItem = await fetch('https://yourserver.com/create-upload-url', {
-      method: 'POST',
-      body: JSON.stringify({
-        file_id: item.id.
-        multipart_upload_id: item.meta.multipart_upload_id,
-        part_number: partNumber
-      })
-    });
-    
-    await fetch(multipartItem.upload_url, {
-      method: 'PUT',
-      body: content.slice(chunkStart, chunkEnd)
-    });
-  }
-};
-```
-
-```js
-// This code lives on the server. This is an express controller.
-router.post('/create-upload-url', async (req, res) => {
-  const { file_id, multipart_upload_id , part_number } = req.params;
-  const uploadUrl = await apiClient.file.getUploadUrl({
-    id: file_id,
-    meta: {
-      multipart_upload_id
-    }
-  }, part_number);
-
-  res.json(uploadUrl);
-})
-```
+Please check this [example](https://github.com/WeTransfer/wt-js-sdk/blob/v2-integration/example/create-board.js) using vanilla JS which shows how to add items to a board.
 
 ## Logging levels
 

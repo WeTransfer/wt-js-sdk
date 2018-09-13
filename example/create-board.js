@@ -28,7 +28,7 @@ function readFile(path) {
       name: 'Japan 🇯🇵',
     });
 
-    await wtClient.board.addLinks(board, [
+    const links = await wtClient.board.addLinks(board, [
       {
         url: 'https://en.wikipedia.org/wiki/Japan',
         meta: {
@@ -36,6 +36,8 @@ function readFile(path) {
         },
       },
     ]);
+
+    console.log(links);
 
     const filePaths = [
       path.join(__dirname, 'files/Japan-01.jpg'),
