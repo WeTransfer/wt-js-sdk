@@ -241,7 +241,7 @@ console.log(board.links);
 
 ### Add files to a board
 
-Once a board has been created you can then add files to it. Unlike transfers, files can be added at any time, one by one, in batches, it will depend on your use case. 
+Once a board has been created you can then add files to it. Unlike transfers, files can be added at any time, one by one, in batches, it will depend on your use case.
 
 ```js
 const files = await apiClient.board.addFiles(board, [{
@@ -254,6 +254,17 @@ From here, the process to upload files is the same as for [transfer](#create-a-t
 
 Please check this [example](https://github.com/WeTransfer/wt-js-sdk/blob/v2-integration/example/create-board.js) using vanilla JS which shows how to add items to a board.
 
+### Retrieve a board
+
+If you have a board id saved from previous steps, you can retrieve the board object and files information:
+
+```js
+const transfer = await wtClient.board.find('/* your board_id */');
+console.log(transfer.url); // https://we.tl/b-Sa7dYYlOdF
+```
+
+Note that unlike transfers, boards are can always be modified and only expire if not interacted with in 90 days, so you can use this method to retrieve and update a board.
+
 ## Logging levels
 
 Logging levels in this SDK conform to the severity ordering specified by [RFC5424]: _severity of all levels is assumed to be numerically **ascending** from most important to least important._
@@ -261,13 +272,13 @@ Logging levels in this SDK conform to the severity ordering specified by [RFC542
 Each `level` is given a specific integer priority. The higher the priority the more important the message is considered to be, and the lower the corresponding integer priority.
 
 ``` js
-{ 
-  error: 0, 
-  warn: 1, 
-  info: 2, 
-  verbose: 3, 
-  debug: 4, 
-  silly: 5 
+{
+  error: 0,
+  warn: 1,
+  info: 2,
+  verbose: 3,
+  debug: 4,
+  silly: 5
 }
 ```
 
