@@ -8,7 +8,7 @@ describe('Find board action', () => {
   beforeEach(() => {
     mocks.request = { send: jest.fn() };
     mocks.request.send.mockReturnValue({
-      id: 'random-hash',
+      id: 'board-id',
       name: 'Little kittens',
       description: null,
       state: 'uploading',
@@ -23,7 +23,15 @@ describe('Find board action', () => {
   });
 
   it('should create a find board request', async () => {
-    const board = await find('random-hash');
+    await find('board-id');
+    expect(mocks.request.send).toHaveBeenCalledWith({
+      method: 'get',
+      url: '/v2/boards/board-id',
+    });
+  });
+
+  it('should return a RemoteBoard object', async () => {
+    const board = await find('board-id');
     expect(board).toMatchSnapshot();
   });
 
@@ -33,7 +41,7 @@ describe('Find board action', () => {
     );
 
     try {
-      await find('random-hash');
+      await find('board-id');
     } catch (error) {
       expect(error).toBeInstanceOf(WTError);
     }

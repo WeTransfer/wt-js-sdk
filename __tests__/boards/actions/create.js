@@ -22,7 +22,21 @@ describe('Create board action', () => {
     });
   });
 
-  it('should create a new board request', async () => {
+  it('should create a create board request', async () => {
+    await create({
+      name: 'WeTransfer SDK',
+    });
+    expect(mocks.request.send).toHaveBeenCalledWith(
+      {
+        url: '/v2/boards',
+      },
+      {
+        name: 'WeTransfer SDK',
+      }
+    );
+  });
+
+  it('should return a RemoteBoard object', async () => {
     const board = await create({
       name: 'WeTransfer SDK',
     });

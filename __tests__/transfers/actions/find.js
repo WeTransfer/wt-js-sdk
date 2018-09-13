@@ -8,7 +8,7 @@ describe('Find transfer action', () => {
   beforeEach(() => {
     mocks.request = { send: jest.fn() };
     mocks.request.send.mockReturnValue({
-      id: 'random-hash',
+      id: 'transfer-id',
       message: 'Little kittens',
       state: 'uploading',
       url: 'https://we.tl/t-random-hash',
@@ -29,8 +29,16 @@ describe('Find transfer action', () => {
   });
 
   it('should create a find transfer request', async () => {
-    const transfer = await find('random-hash');
-    expect(transfer).toMatchSnapshot();
+    await find('transfer-id');
+    expect(mocks.request.send).toHaveBeenCalledWith({
+      method: 'get',
+      url: '/v2/transfers/transfer-id',
+    });
+  });
+
+  it('should return a RemoteTransfer object', async () => {
+    const board = await find('transfer-id');
+    expect(board).toMatchSnapshot();
   });
 
   it('should throw an exception if the request fails', async () => {

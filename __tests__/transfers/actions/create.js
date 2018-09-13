@@ -31,8 +31,8 @@ describe('Create transfer action', () => {
     });
   });
 
-  it('should create a new transfer request', async () => {
-    const transfer = await create({
+  it('should create a create transfer request', async () => {
+    await create({
       message: 'WeTransfer SDK',
       files: [
         {
@@ -41,7 +41,33 @@ describe('Create transfer action', () => {
         },
       ],
     });
-    expect(transfer).toMatchSnapshot();
+    expect(mocks.request.send).toHaveBeenCalledWith(
+      {
+        url: '/v2/transfers',
+      },
+      {
+        message: 'WeTransfer SDK',
+        files: [
+          {
+            name: 'kittie.gif',
+            size: 1024,
+          },
+        ],
+      }
+    );
+  });
+
+  it('should return a RemoteTransfer object', async () => {
+    const board = await create({
+      message: 'WeTransfer SDK',
+      files: [
+        {
+          name: 'kittie.gif',
+          size: 1024,
+        },
+      ],
+    });
+    expect(board).toMatchSnapshot();
   });
 
   it('should create an upload file request if content is provided', async () => {

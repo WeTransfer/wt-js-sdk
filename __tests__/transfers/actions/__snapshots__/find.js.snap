@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Find transfer action should create a find transfer request 1`] = `
+exports[`Find transfer action should return a RemoteTransfer object 1`] = `
 RemoteTransfer {
   "files": Array [
     Object {
@@ -10,7 +10,7 @@ RemoteTransfer {
       "type": "file",
     },
   ],
-  "id": "random-hash",
+  "id": "transfer-id",
   "message": "Little kittens",
   "state": "uploading",
   "url": "https://we.tl/t-random-hash",

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Create board action should create a new board request 1`] = `
+exports[`Create board action should return a RemoteBoard object 1`] = `
 RemoteBoard {
   "description": null,
   "id": "random-hash",

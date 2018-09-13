@@ -16,8 +16,8 @@ Object {
 }
 `;
 
-exports[`Create transfer action should create a new transfer request 1`] = `
-RemoteTransfer {
+exports[`Create transfer action should create an upload file request if content is provided 1`] = `
+Object {
   "files": Array [
     Object {
       "id": "random-hash",
@@ -32,8 +32,8 @@ RemoteTransfer {
 }
 `;
 
-exports[`Create transfer action should create an upload file request if content is provided 1`] = `
-Object {
+exports[`Create transfer action should return a RemoteTransfer object 1`] = `
+RemoteTransfer {
   "files": Array [
     Object {
       "id": "random-hash",
