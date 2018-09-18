@@ -31,9 +31,7 @@ function readFile(path) {
     const links = await wtClient.board.addLinks(board, [
       {
         url: 'https://en.wikipedia.org/wiki/Japan',
-        meta: {
-          title: 'Japan - Wikipedia',
-        },
+        title: 'Japan - Wikipedia',
       },
     ]);
 
@@ -91,9 +89,6 @@ function readFile(path) {
     await wtClient.board.addLinks(board, [
       {
         url: 'https://en.wikipedia.org/wiki/Japan',
-        meta: {
-          title: 'Japan - Wikipedia',
-        },
       },
     ]);
 
