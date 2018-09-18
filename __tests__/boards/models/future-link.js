@@ -6,9 +6,7 @@ describe('Future link normalizer', () => {
     beforeEach(() => {
       link = {
         url: 'https://en.wikipedia.org/wiki/Japan',
-        meta: {
-          title: 'Japan',
-        },
+        title: 'Japan',
       };
     });
 
@@ -16,9 +14,7 @@ describe('Future link normalizer', () => {
       const normalized = futureLink(link);
       expect(normalized).toMatchObject({
         url: 'https://en.wikipedia.org/wiki/Japan',
-        meta: {
-          title: 'Japan',
-        },
+        title: 'Japan',
       });
     });
 
@@ -27,9 +23,7 @@ describe('Future link normalizer', () => {
       const normalized = futureLink(extraProps);
       expect(normalized).toEqual({
         url: 'https://en.wikipedia.org/wiki/Japan',
-        meta: {
-          title: 'Japan',
-        },
+        title: 'Japan',
       });
     });
   });

@@ -6,9 +6,7 @@
 function normalizeLink(link) {
   return {
     url: link.url,
-    meta: {
-      title: link.meta && link.meta.title,
-    },
+    title: link.title || link.url,
   };
 }
 

@@ -33,9 +33,7 @@ describe('Add links action', () => {
     await addLinks(board, [
       {
         url: 'https://wetransfer.com',
-        meta: {
-          title: 'WeTransfer',
-        },
+        title: 'WeTransfer',
       },
     ]);
     expect(mocks.request.send).toHaveBeenCalledWith(
@@ -45,9 +43,7 @@ describe('Add links action', () => {
       [
         {
           url: 'https://wetransfer.com',
-          meta: {
-            title: 'WeTransfer',
-          },
+          title: 'WeTransfer',
         },
       ]
     );
@@ -57,9 +53,7 @@ describe('Add links action', () => {
     const links = await addLinks(board, [
       {
         url: 'https://wetransfer.com',
-        meta: {
-          title: 'WeTransfer',
-        },
+        title: 'WeTransfer',
       },
     ]);
     expect(links).toMatchSnapshot();

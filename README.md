@@ -208,14 +208,10 @@ Once a board has been created you can then add links to it. Please provide a com
 ```javascript
 const links = await apiClient.board.addLinks(board, [{
   url: 'https://en.wikipedia.org/wiki/Japan',
-  meta: {
-    title: 'Japan - Wikipedia'
-  }
+  title: 'Japan - Wikipedia'
 }, {
   url: 'https://en.wikipedia.org/wiki/Netherlands',
-  meta: {
-    title: 'Netherlands - Wikipedia'
-  }
+  title: 'Netherlands - Wikipedia'
 }]);
 
 console.log(links);
