@@ -49,7 +49,7 @@
     "jest": "23.6.0",
     "jest-watch-typeahead": "0.2.0",
     "nock": "10.0.0",
-    "prettier": "1.14.2",
+    "prettier": "1.14.3",
     "semantic-release": "15.9.15"
   },
   "jest": {
