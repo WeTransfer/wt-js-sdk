@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RemoteBoard model contructor should create a normalized board 1`] = `
+RemoteBoard {
+  "description": "Something about cats, most probably.",
+  "id": "random-hash",
+  "items": Array [],
+  "name": "Little kittens",
+  "state": "uploading",
+  "url": "https://we.tl/s-random-hash",
+}
+`;
+
+exports[`RemoteBoard model contructor should normalize provided items 1`] = `
+Array [
+  Object {
+    "id": "random-hash",
+    "multipart": undefined,
+    "name": "kittie.gif",
+    "size": undefined,
+    "type": "file",
+  },
+  Object {
+    "id": "random-hash",
+    "meta": Object {
+      "title": "WeTransfer",
+    },
+    "type": "link",
+    "url": "https://wetransfer.com",
+  },
+]
+`;
+
+exports[`RemoteBoard model contructor should normalize provided items 2`] = `undefined`;
+
+exports[`RemoteBoard model contructor should normalize provided items 3`] = `
+Array [
+  Object {
+    "id": "random-hash",
+    "meta": Object {
+      "title": "WeTransfer",
+    },
+    "type": "link",
+    "url": "https://wetransfer.com",
+  },
+]
+`;
+
+exports[`RemoteBoard model when items are added to the board files property should return only files 1`] = `
+Array [
+  Object {
+    "id": "random-hash",
+    "multipart": undefined,
+    "name": "kittie.gif",
+    "size": undefined,
+    "type": "file",
+  },
+]
+`;
+
+exports[`RemoteBoard model when items are added to the board links property should return only links 1`] = `
+Array [
+  Object {
+    "id": "random-hash",
+    "meta": Object {
+      "title": "WeTransfer",
+    },
+    "type": "link",
+    "url": "https://wetransfer.com",
+  },
+]
+`;
+
+exports[`RemoteBoard model when items are added to the board should add items to the board 1`] = `
+Array [
+  Object {
+    "id": "random-hash",
+    "multipart": undefined,
+    "name": "kittie.gif",
+    "size": undefined,
+    "type": "file",
+  },
+  Object {
+    "id": "random-hash",
+    "meta": Object {
+      "title": "WeTransfer",
+    },
+    "type": "link",
+    "url": "https://wetransfer.com",
+  },
+]
+`;

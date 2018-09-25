@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RemoteFile model contructor should create a normalized file 1`] = `
+Object {
+  "id": "random-hash",
+  "multipart": Object {
+    "chunk_size": 195906,
+    "parts_numbers": 3,
+  },
+  "name": "kittie.gif",
+  "size": 195906,
+  "type": "file",
+}
+`;

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Finalize transfer action should create a finalize transfer request 1`] = `
+RemoteTransfer {
+  "files": Array [
+    Object {
+      "id": "random-hash",
+      "name": "kittie.gif",
+      "size": 1024,
+      "type": "file",
+    },
+  ],
+  "id": "random-hash",
+  "message": "Little kittens",
+  "state": "uploading",
+  "url": "https://we.tl/t-random-hash",
+}
+`;

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create board action should return a RemoteBoard object 1`] = `
+RemoteBoard {
+  "description": null,
+  "id": "random-hash",
+  "items": Array [],
+  "name": "Little kittens",
+  "state": "uploading",
+  "url": "https://we.tl/s-random-hash",
+}
+`;

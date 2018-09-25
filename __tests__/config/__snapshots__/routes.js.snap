@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Routes configuration boards namespace should define a find path 1`] = `
+Object {
+  "method": "get",
+  "url": "/v2/boards/board-id",
+}
+`;
+
+exports[`Routes configuration boards namespace should define a multipart upload path 1`] = `
+Object {
+  "method": "get",
+  "url": "/v2/boards/board-id/files/file-id/upload-url/1/multipart-upload-id",
+}
+`;
+
+exports[`Routes configuration boards namespace should define all endpoints 1`] = `
+Object {
+  "addFiles": [Function],
+  "addLinks": [Function],
+  "create": Object {
+    "url": "/v2/boards",
+  },
+  "find": [Function],
+  "multipart": [Function],
+  "upload": [Function],
+  "uploadComplete": [Function],
+}
+`;
+
+exports[`Routes configuration boards namespace should define an addFiles path 1`] = `
+Object {
+  "url": "/v2/boards/board-id/files",
+}
+`;
+
+exports[`Routes configuration boards namespace should define an addLinks path 1`] = `
+Object {
+  "url": "/v2/boards/board-id/links",
+}
+`;
+
+exports[`Routes configuration boards namespace should define an upload path 1`] = `
+Object {
+  "url": "s3://upload-url",
+}
+`;
+
+exports[`Routes configuration boards namespace should define an uploadComplete path 1`] = `
+Object {
+  "method": "put",
+  "url": "/v2/boards/board-id/files/file-id/upload-complete",
+}
+`;
+
+exports[`Routes configuration transfers namespace should define a find path 1`] = `
+Object {
+  "method": "get",
+  "url": "/v2/transfers/transfer-id",
+}
+`;
+
+exports[`Routes configuration transfers namespace should define a multipart upload path 1`] = `
+Object {
+  "method": "get",
+  "url": "/v2/transfers/transfer-id/files/file-id/upload-url/1",
+}
+`;
+
+exports[`Routes configuration transfers namespace should define all endpoints 1`] = `
+Object {
+  "create": Object {
+    "url": "/v2/transfers",
+  },
+  "finalize": [Function],
+  "find": [Function],
+  "multipart": [Function],
+  "upload": [Function],
+  "uploadComplete": [Function],
+}
+`;
+
+exports[`Routes configuration transfers namespace should define an finalize path 1`] = `
+Object {
+  "method": "put",
+  "url": "/v2/transfers/transfer-id/finalize",
+}
+`;
+
+exports[`Routes configuration transfers namespace should define an upload path 1`] = `
+Object {
+  "url": "s3://upload-url",
+}
+`;
+
+exports[`Routes configuration transfers namespace should define an uploadComplete path 1`] = `
+Object {
+  "method": "put",
+  "url": "/v2/transfers/transfer-id/files/file-id/upload-complete",
+}
+`;

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add links action should return a RemoteLink object 1`] = `
+Array [
+  Object {
+    "id": "random-hash",
+    "meta": Object {
+      "title": "WeTransfer",
+    },
+    "type": "link",
+    "url": "https://wetransfer.com",
+  },
+]
+`;
+
+exports[`Add links action should throw an error if arguments are not provided 1`] = `[Error: There was an error when adding links to the board.]`;

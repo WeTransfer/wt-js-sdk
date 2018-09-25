@@ -5,7 +5,7 @@ const createWTClient = require('../src');
 describe('createWTClient function', () => {
   beforeEach(() => {
     nock('https://dev.wetransfer.com')
-      .post('/v1/authorize')
+      .post('/v2/authorize')
       .reply(200);
   });
 
@@ -18,16 +18,20 @@ describe('createWTClient function', () => {
 
     expect(apiClient).toEqual({
       authorize: expect.any(Function),
-      transfer: {
-        addFiles: expect.any(Function),
-        addItems: expect.any(Function),
-        addLinks: expect.any(Function),
-        completeFileUpload: expect.any(Function),
+      board: {
         create: expect.any(Function),
-        uploadFile: expect.any(Function),
+        find: expect.any(Function),
+        addFiles: expect.any(Function),
+        addLinks: expect.any(Function),
+        getFileUploadURL: expect.any(Function),
+        completeFileUpload: expect.any(Function),
       },
-      file: {
-        getUploadURL: expect.any(Function),
+      transfer: {
+        create: expect.any(Function),
+        find: expect.any(Function),
+        getFileUploadURL: expect.any(Function),
+        completeFileUpload: expect.any(Function),
+        finalize: expect.any(Function),
       },
     });
   });

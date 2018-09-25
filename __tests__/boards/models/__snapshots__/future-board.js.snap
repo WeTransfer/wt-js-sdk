@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Future board normalizer normalizeBoard function should remove extra properties 1`] = `
+Object {
+  "description": "",
+  "name": "WeTransfer rocks",
+}
+`;
+
+exports[`Future board normalizer normalizeBoard function should return a normalized board 1`] = `
+Object {
+  "description": "",
+  "name": "WeTransfer rocks",
+}
+`;

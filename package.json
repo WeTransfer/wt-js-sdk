@@ -1,10 +1,11 @@
 {
   "name": "@wetransfer/js-sdk",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "A JavaScript SDK for WeTransfer's Public API",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint src __mocks__ __tests__",
+    "lint:fix": "npm run lint -- --fix",
     "precommit": "sh scripts/git/pre_commit_hooks",
     "release": "semantic-release --no-ci",
     "release:dry": "semantic-release --no-ci --dry-run",

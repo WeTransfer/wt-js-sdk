@@ -16,17 +16,26 @@ function readFile(path) {
   });
 }
 
-/**
- * Create a transfer with beautiful pictures of Japan.
- */
-(async function createTransfer() {
+(async function createBoard() {
   try {
-    // Initialize the client
     const wtClient = await createWTClient(process.env.WT_API_KEY, {
       logger: {
         level: 'silly',
       },
     });
+
+    const board = await wtClient.board.create({
+      name: 'Japan 🇯🇵',
+    });
+
+    const links = await wtClient.board.addLinks(board, [
+      {
+        url: 'https://en.wikipedia.org/wiki/Japan',
+        title: 'Japan - Wikipedia',
+      },
+    ]);
+
+    console.log(links);
 
     const filePaths = [
       path.join(__dirname, 'files/Japan-01.jpg'),
@@ -49,15 +58,12 @@ function readFile(path) {
       };
     });
 
-    const transfer = await wtClient.transfer.create({
-      message: 'Japan 🇯🇵',
-      files: files,
-    });
+    await wtClient.board.addFiles(board, files);
 
-    const remoteTransfer = await wtClient.transfer.find(transfer.id);
+    const remoteBoard = await wtClient.board.find(board.id);
 
-    console.log(transfer.url);
-    console.log(remoteTransfer.url);
+    console.log(board.url);
+    console.log(remoteBoard.url);
   } catch (error) {
     console.error(error);
     process.exit(1);
@@ -65,10 +71,10 @@ function readFile(path) {
 })();
 
 /**
- * Create a transfer with beautiful pictures of Japan,
+ * Create a board with beautiful pictures of Japan,
  * but upload the files manually.
  */
-(async function createTransfer() {
+(async function createBoard() {
   try {
     const wtClient = await createWTClient(process.env.WT_API_KEY, {
       logger: {
@@ -76,21 +82,28 @@ function readFile(path) {
       },
     });
 
-    const transfer = await wtClient.transfer.create({
-      message: 'Japan 🇯🇵',
-      files: [
-        {
-          name: 'Japan-02.jpg',
-          size: 275639,
-        },
-        {
-          name: 'Japan-03.jpg',
-          size: 432557,
-        },
-      ],
+    const board = await wtClient.board.create({
+      name: 'Japan 🇯🇵',
     });
 
-    const fileUploads = transfer.files.map(async (file) => {
+    await wtClient.board.addLinks(board, [
+      {
+        url: 'https://en.wikipedia.org/wiki/Japan',
+      },
+    ]);
+
+    const remoteFiles = await wtClient.board.addFiles(board, [
+      {
+        name: 'Japan-02.jpg',
+        size: 275639,
+      },
+      {
+        name: 'Japan-03.jpg',
+        size: 432557,
+      },
+    ]);
+
+    const fileUploads = remoteFiles.map(async (file) => {
       // Read the content of the file
       const fileContent = await readFile(
         path.join(__dirname, 'files/' + file.name)
@@ -104,10 +117,11 @@ function readFile(path) {
         const chunkEnd = (partNumber + 1) * file.multipart.chunk_size;
 
         // Get the upload url for the chunk we want to upload
-        const uploadURL = await wtClient.transfer.getFileUploadURL(
-          transfer.id,
+        const uploadURL = await wtClient.board.getFileUploadURL(
+          board.id,
           file.id,
-          partNumber + 1
+          partNumber + 1,
+          file.multipart.id
         );
 
         // Upload the chunk
@@ -119,15 +133,12 @@ function readFile(path) {
       }
 
       // Complete file upload
-      return await wtClient.transfer.completeFileUpload(transfer, file);
+      return await wtClient.board.completeFileUpload(board, file);
     });
 
     await Promise.all(fileUploads);
 
-    // Finalize transfer
-    const finalTransfer = await wtClient.transfer.finalize(transfer);
-
-    console.log(finalTransfer.url);
+    console.log(board.url);
   } catch (error) {
     console.error(error);
     process.exit(1);

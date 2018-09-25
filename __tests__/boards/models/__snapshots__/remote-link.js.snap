@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RemoteLink model contructor should create a normalized link 1`] = `
+Object {
+  "id": "random-hash",
+  "meta": Object {
+    "title": "WeTransfer",
+  },
+  "type": "link",
+  "url": "https://wetransfer.com",
+}
+`;
