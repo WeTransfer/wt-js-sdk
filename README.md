@@ -170,7 +170,7 @@ filesElement.addEventListener('change', async (event) => {
     4. Repeat 2 and 3 for each file.
     5. Complete the transfer. The final WeTransfer URL will be returned here.
 
-    Please check this [example](https://github.com/WeTransfer/wt-js-sdk/blob/v2-integration/example/create-transfer.js) using vanilla JS which shows how to upload chunks.
+    Please check this [example](https://github.com/WeTransfer/wt-js-sdk/blob/master/example/create-transfer.js) using vanilla JS which shows how to upload chunks.
 
 ### Find a transfer
 
