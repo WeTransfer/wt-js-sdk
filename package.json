@@ -6,7 +6,6 @@
   "scripts": {
     "lint": "eslint src __mocks__ __tests__",
     "lint:fix": "npm run lint -- --fix",
-    "precommit": "sh scripts/git/pre_commit_hooks",
     "release": "semantic-release --no-ci",
     "release:dry": "semantic-release --no-ci --dry-run",
     "test": "jest",
@@ -46,7 +45,7 @@
     "@semantic-release/git": "7.0.4",
     "@wetransfer/eslint-config-wetransfer": "3.0.0",
     "eslint": "5.6.0",
-    "husky": "0.14.3",
+    "husky": "1.0.1",
     "jest": "23.6.0",
     "jest-watch-typeahead": "0.2.0",
     "nock": "10.0.0",

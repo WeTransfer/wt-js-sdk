@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "pre-commit": "sh scripts/git/pre_commit_hooks",
+  }
+}
