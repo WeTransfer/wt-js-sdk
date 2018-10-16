@@ -28,17 +28,15 @@ function readFile(path) {
       name: 'Japan 🇯🇵',
     });
 
-    const links = await wtClient.board.addLinks(board, [
+    await wtClient.board.addLinks(board, [
       {
         url: 'https://en.wikipedia.org/wiki/Japan',
         title: 'Japan - Wikipedia',
       },
     ]);
 
-    console.log(links);
-
     const filePaths = [
-      path.join(__dirname, 'files/Japan-01.jpg'),
+      path.join(__dirname, 'files/Japan-01🇯🇵.jpg'),
       path.join(__dirname, 'files/Japan-02.jpg'),
       path.join(__dirname, 'files/Japan-03.jpg'),
       path.join(__dirname, 'files/Japan-04.jpg'),

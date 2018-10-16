@@ -1,3 +1,5 @@
+const contentForFiles = require('../../utils/content-for-files');
+
 const WTError = require('../../error');
 const logger = require('../../config/logger');
 const { futureTransfer, RemoteTransfer } = require('../models');
@@ -29,6 +31,7 @@ module.exports = function({
   return async function createTransfer(transfer) {
     try {
       logger.info('Creating a new transfer.');
+
       const response = await request.send(
         routes.transfers.create,
         futureTransfer(transfer)
@@ -40,12 +43,13 @@ module.exports = function({
       // If the files array contains the content of the file
       // lets uplopad directly, without asking the user to do it.
       if (shouldUploadFiles(transfer.files)) {
+        const filesContent = contentForFiles(transfer.files);
         await Promise.all(
-          remoteTransfer.files.map((file, index) => {
+          remoteTransfer.files.map((file) => {
             return uploadFileToTransfer(
               remoteTransfer,
               file,
-              transfer.files[index].content
+              filesContent[file.name]
             );
           })
         );

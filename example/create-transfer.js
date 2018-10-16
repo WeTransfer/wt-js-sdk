@@ -29,7 +29,7 @@ function readFile(path) {
     });
 
     const filePaths = [
-      path.join(__dirname, 'files/Japan-01.jpg'),
+      path.join(__dirname, 'files/Japan-01🇯🇵.jpg'),
       path.join(__dirname, 'files/Japan-02.jpg'),
       path.join(__dirname, 'files/Japan-03.jpg'),
       path.join(__dirname, 'files/Japan-04.jpg'),

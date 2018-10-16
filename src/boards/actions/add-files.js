@@ -2,6 +2,7 @@ const WTError = require('../../error');
 const logger = require('../../config/logger');
 const futureFile = require('../models/future-file');
 const RemoteFile = require('../models/remote-file');
+const contentForFiles = require('../../utils/content-for-files');
 
 module.exports = function({ request, routes, uploadFileToBoard }) {
   /**
@@ -35,9 +36,10 @@ module.exports = function({ request, routes, uploadFileToBoard }) {
       board.addFiles(...boardFiles);
 
       if (shouldUploadFiles(files)) {
+        const filesContent = contentForFiles(files);
         await Promise.all(
-          boardFiles.map((file, index) => {
-            return uploadFileToBoard(board, file, files[index].content);
+          boardFiles.map((file) => {
+            return uploadFileToBoard(board, file, filesContent[file.name]);
           })
         );
       }
