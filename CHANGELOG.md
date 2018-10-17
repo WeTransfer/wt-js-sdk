@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/WeTransfer/wt-js-sdk/compare/v1.0.0...v1.0.1) (2018-10-17)
+
+
+### Bug Fixes
+
+* sanitize filenames and upload based on filename ([#138](https://github.com/WeTransfer/wt-js-sdk/issues/138)) ([7f68e48](https://github.com/WeTransfer/wt-js-sdk/commit/7f68e48))
+
 ## [0.6.1](https://github.com/WeTransfer/wt-js-sdk/compare/v0.6.0...v0.6.1) (2018-10-17)
 
 
