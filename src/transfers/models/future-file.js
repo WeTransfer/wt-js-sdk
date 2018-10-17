@@ -1,3 +1,5 @@
+const sanitizeFileName = require('../../utils/sanitize-filename');
+
 /**
  * Normalizes a file object. Removes non-expected properties.
  * @param   {Object} file A file object
@@ -5,7 +7,7 @@
  */
 function normalizeFile(file) {
   return {
-    name: file.name,
+    name: sanitizeFileName(file.name),
     size: file.size,
   };
 }
