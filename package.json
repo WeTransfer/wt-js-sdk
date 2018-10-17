@@ -1,6 +1,6 @@
 {
   "name": "@wetransfer/js-sdk",
-  "version": "0.6.1",
+  "version": "1.0.0",
   "description": "A JavaScript SDK for WeTransfer's Public API",
   "main": "src/index.js",
   "scripts": {
