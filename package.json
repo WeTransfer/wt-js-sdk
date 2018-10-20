@@ -43,8 +43,8 @@
     "winston": "3.1.0"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "3.0.0",
-    "@semantic-release/git": "7.0.4",
+    "@semantic-release/changelog": "3.0.1",
+    "@semantic-release/git": "7.0.5",
     "@wetransfer/eslint-config-wetransfer": "3.0.0",
     "eslint": "5.7.0",
     "husky": "1.1.2",
@@ -52,7 +52,7 @@
     "jest-watch-typeahead": "0.2.0",
     "nock": "10.0.1",
     "prettier": "1.14.3",
-    "semantic-release": "15.9.17"
+    "semantic-release": "15.10.5"
   },
   "jest": {
     "testEnvironment": "node",
