@@ -1,8 +1,13 @@
 const request = require('../../request');
 const routes = require('../../config/routes');
+const RemoteBoard = require('../models/remote-board');
 
 const createBoard = require('./create')({ request, routes });
-const findBoard = require('./find')({ request, routes });
+const findBoard = require('../../actions/find')({
+  request,
+  findRoute: routes.boards.find,
+  RemoteBoard,
+});
 const getUploadUrl = require('../../actions/get-upload-url')({
   request,
   multipartRoute: routes.boards.multipart,

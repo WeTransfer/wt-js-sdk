@@ -1,5 +1,6 @@
 const request = require('../../request');
 const routes = require('../../config/routes');
+const RemoteTransfer = require('../models/remote-transfer');
 
 const getUploadUrl = require('../../actions/get-upload-url')({
   request,
@@ -21,7 +22,11 @@ const createTransfer = require('./create')({
   uploadFileToTransfer,
   finalizeTransfer,
 });
-const findTransfer = require('./find')({ request, routes });
+const findTransfer = require('../../actions/find')({
+  request,
+  findRoute: routes.transfers.find,
+  RemoteTransfer,
+});
 
 module.exports = {
   createTransfer,

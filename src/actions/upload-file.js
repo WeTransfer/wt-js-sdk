@@ -6,12 +6,10 @@ const WTError = require('../error');
 module.exports = function({ request, getUploadUrl, completeFileUpload }) {
   /**
    * Uploads a chunk of the file to S3
-   *
    * @param   {Object}  transferOrBoard Transfer or Board item.
    * @param   {Object}  file            Item containing information about number of parts, upload url, etc.
    * @param   {Buffer}  data            File content
    * @param   {Number}  partNumber      Which part number we want to upload
-   *
    * @returns {Promise}                 Empty response if everything goes well 🤔
    */
   function uploadPart(transferOrBoard, file, data, partNumber) {
@@ -37,7 +35,6 @@ module.exports = function({ request, getUploadUrl, completeFileUpload }) {
   /**
    * Given the content of the file, and the number of parts that must be uploaded to S3,
    * it splits the file into chunks and uploads each part sequentially
-   *
    * @param   {Object}  transferOrBoard Transfer or Board item.
    * @param   {Object}  file            Item containing information about number of parts, upload url, etc.
    * @param   {Buffer}  content         File content
@@ -79,11 +76,9 @@ module.exports = function({ request, getUploadUrl, completeFileUpload }) {
    * Given the content of the file, and the number of parts that must be uploaded to S3,
    * it splits the file into chunks and uploads each part sequentially.
    * Completes the file upload at the end.
-   *
    * @param   {Object}  transferOrBoard Transfer or Board item.
    * @param   {Object}  file            Item containing information about number of parts, upload url, etc.
    * @param   {Buffer}  content         File content
-   *
    * @returns {Promise}                 Empty response if everything goes well 🤔
    */
   return async function uploadFile(transferOrBoard, file, content) {

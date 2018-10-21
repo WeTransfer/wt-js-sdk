@@ -3,12 +3,10 @@ const logger = require('../config/logger');
 module.exports = function({ request, multipartRoute }) {
   /**
    * Get an upload URL for an specific file part
-   *
    * @param   {Object}  transferOrBoardId Board or Transfer id.
    * @param   {Object}  fileId            File identifier
    * @param   {Number}  partNumber        Which part number to upload
    * @param   {Number}  [multipartId]     Multipart identifier for files in boards
-   *
    * @returns {Promise}                   An object containing the upload url, expiring date, etc
    */
   return async function getFileUploadURL(
