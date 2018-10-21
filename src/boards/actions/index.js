@@ -6,7 +6,7 @@ const createBoard = require('./create')({ request, routes });
 const findBoard = require('../../actions/find')({
   request,
   findRoute: routes.boards.find,
-  RemoteBoard,
+  RemoteItem: RemoteBoard,
 });
 const getUploadUrl = require('../../actions/get-upload-url')({
   request,

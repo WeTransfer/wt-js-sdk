@@ -25,7 +25,7 @@ const createTransfer = require('./create')({
 const findTransfer = require('../../actions/find')({
   request,
   findRoute: routes.transfers.find,
-  RemoteTransfer,
+  RemoteItem: RemoteTransfer,
 });
 
 module.exports = {
