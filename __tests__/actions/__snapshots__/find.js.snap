@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Find action when finding a board should return a RemoteBoard object 1`] = `
+RemoteBoard {
+  "description": null,
+  "id": "board-id",
+  "items": Array [],
+  "name": "Little kittens",
+  "state": "uploading",
+  "url": "https://we.tl/s-random-hash",
+}
+`;
+
+exports[`Find action when finding a transfer should return a RemoteTransfer object 1`] = `
+RemoteTransfer {
+  "files": Array [],
+  "id": "transfer-id",
+  "message": "Little kittens",
+  "state": "uploading",
+  "url": "https://we.tl/s-random-hash",
+}
+`;

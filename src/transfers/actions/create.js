@@ -41,7 +41,7 @@ module.exports = function({
       let remoteTransfer = new RemoteTransfer(response);
 
       // If the files array contains the content of the file
-      // lets uplopad directly, without asking the user to do it.
+      // lets upload directly, without asking the user to do it.
       if (shouldUploadFiles(transfer.files)) {
         const filesContent = contentForFiles(transfer.files);
         await Promise.all(
