@@ -58,7 +58,7 @@ describe('Find action', () => {
   describe('when finding a transfer', () => {
     beforeEach(() => {
       mocks.request.send.mockReturnValue({
-        id: 'board-id',
+        id: 'transfer-id',
         message: 'Little kittens',
         state: 'uploading',
         url: 'https://we.tl/s-random-hash',
