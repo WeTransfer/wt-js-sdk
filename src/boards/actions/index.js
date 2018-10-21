@@ -1,23 +1,33 @@
 const request = require('../../request');
 const routes = require('../../config/routes');
 
-const uploadFileToBoard = require('./upload-file')({ request, routes });
+const createBoard = require('./create')({ request, routes });
+const findBoard = require('./find')({ request, routes });
+const getUploadUrl = require('../../actions/get-upload-url')({
+  request,
+  multipartRoute: routes.boards.multipart,
+});
+const completeFileUpload = require('../../actions/complete-file-upload')({
+  request,
+  uploadCompleteRoute: routes.boards.uploadComplete,
+});
+const uploadFileToBoard = require('../../actions/upload-file')({
+  request,
+  getUploadUrl,
+  completeFileUpload,
+});
+const addFilesToBoard = require('./add-files')({
+  request,
+  routes,
+  uploadFileToBoard,
+});
+const addLinksToBoard = require('./add-links')({ request, routes });
 
 module.exports = {
-  createBoard: require('./create')({ request, routes }),
-  findBoard: require('./find')({ request, routes }),
-  addFilesToBoard: require('./add-files')({
-    request,
-    routes,
-    uploadFileToBoard,
-  }),
-  addLinksToBoard: require('./add-links')({ request, routes }),
-  getFileUploadURLToBoard: require('./get-upload-url')({
-    request,
-    routes,
-  }),
-  completeFileUploadToBoard: require('./complete-file-upload')({
-    request,
-    routes,
-  }),
+  createBoard,
+  findBoard,
+  addFilesToBoard,
+  addLinksToBoard,
+  getFileUploadURLToBoard: getUploadUrl,
+  completeFileUploadToBoard: completeFileUpload,
 };

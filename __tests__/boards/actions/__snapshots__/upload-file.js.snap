@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Upload file action should throw an error if request fails 1`] = `[Error: There was an error when uploading kittie.gif.]`;
