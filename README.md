@@ -261,6 +261,17 @@ console.log(transfer.url); // https://we.tl/b-Sa7dYYlOdF
 
 Note that unlike transfers, boards are can always be modified and only expire if not interacted with in 90 days, so you can use this method to retrieve and update a board.
 
+## Retry network requests
+
+We intercept failed requests and retry them whenever possible. But default, we retry each request 15 times using [exponential backoff](https://developers.google.com/analytics/devguides/reporting/core/v3/errors#backoff). Both parameters can be configured when creating the client:
+
+```js
+const apiClient = await createWTClient('/* YOUR PRIVATE API KEY GOES HERE*/', {
+  retries: 5,
+  retryDelay: (retryCount) => retryCount * 1000,
+});
+```
+
 ## Logging levels
 
 Logging levels in this SDK conform to the severity ordering specified by [RFC5424]: _severity of all levels is assumed to be numerically **ascending** from most important to least important._
