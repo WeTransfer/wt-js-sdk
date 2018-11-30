@@ -2,6 +2,7 @@
 
 exports[`Create transfer action should create a finalize transfer request if content is provided 1`] = `
 Object {
+  "expires_at": Object {},
   "files": Array [
     Object {
       "id": "random-hash",
@@ -17,7 +18,8 @@ Object {
 `;
 
 exports[`Create transfer action should create an upload file request if content is provided 1`] = `
-Object {
+RemoteTransfer {
+  "expires_at": 2018-01-01T00:00:00.000Z,
   "files": Array [
     Object {
       "id": "random-hash",
@@ -34,6 +36,7 @@ Object {
 
 exports[`Create transfer action should return a RemoteTransfer object 1`] = `
 RemoteTransfer {
+  "expires_at": 2018-01-01T00:00:00.000Z,
   "files": Array [
     Object {
       "id": "random-hash",

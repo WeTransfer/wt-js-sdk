@@ -13,6 +13,7 @@ RemoteBoard {
 
 exports[`Find action when finding a transfer should return a RemoteTransfer object 1`] = `
 RemoteTransfer {
+  "expires_at": 2018-01-01T00:00:00.000Z,
   "files": Array [],
   "id": "transfer-id",
   "message": "Little kittens",

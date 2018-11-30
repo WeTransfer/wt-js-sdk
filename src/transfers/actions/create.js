@@ -59,17 +59,14 @@ module.exports = function({
       );
       logger.info(`Transfer created with id ${response.id}.`);
 
-      let remoteTransfer = new RemoteTransfer(response);
+      const remoteTransfer = new RemoteTransfer(response);
 
       // If the files array contains the content of the file
       // lets upload directly, without asking the user to do it,
       // and finalize the transfer in one go.
       if (shouldUploadFiles(transfer.files)) {
         const filesContent = contentForFiles(transfer.files);
-        remoteTransfer = await uploadFilesAndFinalize(
-          filesContent,
-          remoteTransfer
-        );
+        return await uploadFilesAndFinalize(filesContent, remoteTransfer);
       }
 
       return remoteTransfer;

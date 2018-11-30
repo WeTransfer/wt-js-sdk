@@ -8,8 +8,9 @@ describe('Create transfer action', () => {
   beforeEach(() => {
     mocks.request = { send: jest.fn() };
     mocks.uploadFileToTransfer = jest.fn();
-    mocks.finalizeTransfer = jest.fn();
-    mocks.finalizeTransfer = mocks.request.send.mockReturnValue({
+    mocks.finalizeTransfer = jest.fn((transfer) => transfer);
+
+    mocks.request.send.mockReturnValue({
       id: 'random-hash',
       message: 'Little kittens',
       state: 'uploading',
@@ -21,6 +22,7 @@ describe('Create transfer action', () => {
           type: 'file',
         },
       ],
+      expires_at: '2018-01-01T00:00:00Z',
     });
 
     create = createAction({
