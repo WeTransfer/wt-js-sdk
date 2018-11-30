@@ -2,6 +2,7 @@
 
 exports[`Finalize transfer action should create a finalize transfer request 1`] = `
 RemoteTransfer {
+  "expires_at": 2018-01-01T00:00:00.000Z,
   "files": Array [
     Object {
       "id": "random-hash",
