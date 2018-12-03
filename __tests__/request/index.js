@@ -1,12 +1,15 @@
 const axios = require('axios');
+const axiosRetry = require('axios-retry');
 
 const request = require('../../src/request');
 
 jest.mock('axios');
+jest.mock('axios-retry');
 
 describe('Request module', () => {
   beforeEach(() => {
     axios.mockImplementation(() => Promise.resolve({ data: {} }));
+    axiosRetry.mockImplementation(() => null);
   });
 
   afterEach(() => {
@@ -126,6 +129,30 @@ describe('Request module', () => {
         data: 'some-data',
         method: 'put',
         url: 'https://dev.wetransfer.com/very-long-url',
+      });
+    });
+  });
+
+  describe('configure method', () => {
+    it('should configure with default values', () => {
+      request.configure();
+      expect(axiosRetry).toHaveBeenLastCalledWith(expect.any(Function), {
+        retries: 15,
+        retryDelay: axiosRetry.exponentialDelay,
+        retryCondition: expect.any(Function),
+      });
+    });
+
+    it('should configure with provided values', () => {
+      const retryDelay = (retry) => retry * 1000;
+      request.configure({
+        retries: 5,
+        retryDelay,
+      });
+      expect(axiosRetry).toHaveBeenLastCalledWith(expect.any(Function), {
+        retries: 5,
+        retryDelay: retryDelay,
+        retryCondition: expect.any(Function),
       });
     });
   });

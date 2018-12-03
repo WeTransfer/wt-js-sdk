@@ -1,37 +1,35 @@
 const SAFE_HTTP_METHODS = ['get', 'head', 'options'];
-const IDEMPOTENT_HTTP_METHODS = SAFE_HTTP_METHODS.concat([
-  'post',
-  'put',
-  'delete',
-]);
+const IDEMPOTENT_HTTP_METHODS = SAFE_HTTP_METHODS.concat(['put', 'delete']);
 
 function isNetworkError(response) {
   // Prevents retrying cancelled requests
-  return !response && Boolean(response.status);
+  return Boolean(response.status);
 }
 
 function isRetryableError(response) {
   return (
     !response ||
-    response.status === 400 ||
+    // 429 - Retry ("Too Many Requests")
+    response.status === 429 ||
+    // 5XX - Retry (Server errors)
     (response.status >= 500 && response.status <= 599)
   );
 }
 
 function isIdempotentRequestError(response) {
+  // Cannot determine if the request can be retried
   if (!response.config) {
-    // Cannot determine if the request can be retried
     return false;
   }
 
   return (
     isRetryableError(response) &&
-    IDEMPOTENT_HTTP_METHODS.indexOf(response.config.method) !== -1
+    IDEMPOTENT_HTTP_METHODS.includes(response.config.method)
   );
 }
 
 function isNetworkOrIdempotentRequestError(response) {
-  return isNetworkError(response) || isIdempotentRequestError(response);
+  return isNetworkError(response) && isIdempotentRequestError(response);
 }
 
 module.exports = {
