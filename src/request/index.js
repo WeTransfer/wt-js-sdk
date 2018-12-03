@@ -18,7 +18,7 @@ function configure(options = {}) {
     retries: get(options, 'retries', 15),
     retryDelay: get(options, 'retryDelay', axiosRetry.exponentialDelay),
     // Retry if it's a network error, a 5XX error, API rate limit error on an idempotent request
-    retryCondition: (error) => {
+    retryCondition(error) {
       const retry = isNetworkOrIdempotentRequestError(error.response);
       if (retry) {
         logger.debug('Retrying previous network request.');

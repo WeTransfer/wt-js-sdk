@@ -156,4 +156,38 @@ describe('Request module', () => {
       });
     });
   });
+
+  describe('retriable request', () => {
+    it('should retry on network error', () => {
+      let spyOnRetry;
+      axiosRetry.mockImplementation((axios, config) => {
+        spyOnRetry = config.retryCondition({
+          response: {
+            status: 500,
+            config: {
+              method: 'get',
+            },
+          },
+        });
+      });
+      request.configure();
+      expect(spyOnRetry).toBe(true);
+    });
+
+    it('should not retry on succesful request', () => {
+      let spyOnRetry;
+      axiosRetry.mockImplementation((axios, config) => {
+        spyOnRetry = config.retryCondition({
+          response: {
+            status: 200,
+            config: {
+              method: 'get',
+            },
+          },
+        });
+      });
+      request.configure();
+      expect(spyOnRetry).toBe(false);
+    });
+  });
 });
