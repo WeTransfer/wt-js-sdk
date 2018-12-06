@@ -1,12 +1,15 @@
 const axios = require('axios');
+const axiosRetry = require('axios-retry');
 
 const request = require('../../src/request');
 
 jest.mock('axios');
+jest.mock('axios-retry');
 
 describe('Request module', () => {
   beforeEach(() => {
     axios.mockImplementation(() => Promise.resolve({ data: {} }));
+    axiosRetry.mockImplementation(() => null);
   });
 
   afterEach(() => {
@@ -127,6 +130,64 @@ describe('Request module', () => {
         method: 'put',
         url: 'https://dev.wetransfer.com/very-long-url',
       });
+    });
+  });
+
+  describe('configure method', () => {
+    it('should configure with default values', () => {
+      request.configure();
+      expect(axiosRetry).toHaveBeenLastCalledWith(expect.any(Function), {
+        retries: 15,
+        retryDelay: axiosRetry.exponentialDelay,
+        retryCondition: expect.any(Function),
+      });
+    });
+
+    it('should configure with provided values', () => {
+      const retryDelay = (retry) => retry * 1000;
+      request.configure({
+        retries: 5,
+        retryDelay,
+      });
+      expect(axiosRetry).toHaveBeenLastCalledWith(expect.any(Function), {
+        retries: 5,
+        retryDelay: retryDelay,
+        retryCondition: expect.any(Function),
+      });
+    });
+  });
+
+  describe('retriable request', () => {
+    it('should retry on network error', () => {
+      let spyOnRetry;
+      axiosRetry.mockImplementation((axios, config) => {
+        spyOnRetry = config.retryCondition({
+          response: {
+            status: 500,
+            config: {
+              method: 'get',
+            },
+          },
+        });
+      });
+      request.configure();
+      expect(spyOnRetry).toBe(true);
+    });
+
+    it('should not retry on succesful request', () => {
+      let spyOnRetry;
+      axiosRetry.mockImplementation((axios, config) => {
+        spyOnRetry = config.retryCondition({
+          response: {
+            status: 200,
+            config: {
+              method: 'get',
+            },
+          },
+        });
+      });
+      request.configure();
+      expect(spyOnRetry).toBe(false);
     });
   });
 });

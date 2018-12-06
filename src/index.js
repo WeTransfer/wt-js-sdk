@@ -33,6 +33,7 @@ module.exports = async function createWTClient(
 
   request.apiKey = apiKey;
   request.jwt = (await authorize()).token;
+  request.configure(options);
 
   return {
     authorize,

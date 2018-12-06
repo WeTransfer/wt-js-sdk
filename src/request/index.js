@@ -1,7 +1,9 @@
 const axios = require('axios');
-const { merge } = require('lodash');
+const axiosRetry = require('axios-retry');
+const { get, merge } = require('lodash');
 
 const logger = require('../config/logger');
+const { isNetworkOrIdempotentRequestError } = require('./retry');
 
 axios.defaults.baseURL = 'https://dev.wetransfer.com/';
 axios.defaults.method = 'post';
@@ -10,6 +12,22 @@ const auth = {
   apiKey: null,
   jwt: null,
 };
+
+function configure(options = {}) {
+  axiosRetry(axios, {
+    retries: get(options, 'retries', 15),
+    retryDelay: get(options, 'retryDelay', axiosRetry.exponentialDelay),
+    // Retry if it's a network error, a 5XX error, API rate limit error on an idempotent request
+    retryCondition(error) {
+      const retry = isNetworkOrIdempotentRequestError(error.response);
+      if (retry) {
+        logger.debug('Retrying previous network request.');
+      }
+
+      return retry;
+    },
+  });
+}
 
 function defaultOptions(apiKey, jwt) {
   const options = {
@@ -57,6 +75,7 @@ function upload(uploadUrl, data) {
 module.exports = {
   send,
   upload,
+  configure,
   set apiKey(apiKey) {
     auth.apiKey = apiKey;
   },
