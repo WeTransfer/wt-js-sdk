@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/WeTransfer/wt-js-sdk.git/compare/v1.0.1...v1.1.0) (2018-12-06)
+
+
+### Features
+
+* add expires_at property to remote transfer ([#164](https://github.com/WeTransfer/wt-js-sdk.git/issues/164)) ([8b797fa](https://github.com/WeTransfer/wt-js-sdk.git/commit/8b797fa))
+* add retriable request functionality ([#166](https://github.com/WeTransfer/wt-js-sdk.git/issues/166)) ([19b8134](https://github.com/WeTransfer/wt-js-sdk.git/commit/19b8134))
+
 ## [1.0.1](https://github.com/WeTransfer/wt-js-sdk/compare/v1.0.0...v1.0.1) (2018-10-17)
 
 
