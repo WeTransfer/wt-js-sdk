@@ -53,7 +53,7 @@
     "jest-watch-typeahead": "0.2.0",
     "nock": "10.0.4",
     "prettier": "1.15.3",
-    "semantic-release": "15.12.4"
+    "semantic-release": "15.12.5"
   },
   "jest": {
     "testEnvironment": "node",
