@@ -92,7 +92,7 @@ As you can see, the content of the files has not been included as a part of the 
 
 These are some possible options:
 
-1. You are writing a CLI tool, where you know where the files are located, our you just expect paths to files that you need to read before you create the transfer. If that's the case, the content will be a [Buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer), returned by `fs.readFile` method. The SDK will take care of the file upload process, we get you covered. Your code will be something like that, if you know the path of the file:
+1. You are writing a CLI tool, where you know where the files are located, our you just expect paths to files that you need to read before you create the transfer. If that's the case, the content will be a [Buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer), returned by `fs.readFile` method. The SDK will take care of the file upload process, we got you covered. Your code will be something like this, provided you know the path of the file:
 
 ```js
 // Create a promise-based function to read files.
@@ -118,7 +118,7 @@ const fileContents = await Promise.all(filePaths.map(readFile));
 const files = filePaths.map((file, index) => {
   const content = fileContents[index];
   return {
-    name: name: file.split('/').pop(),
+    name: file.split('/').pop(),
     size: content.length,
     content: content
   };
@@ -132,7 +132,7 @@ const transfer = await wtClient.transfer.create({
 console.log(transfer.url); // https://we.tl/t-Sa7dYYlOdF
 ```
 
-2. If you are trying to create a transfer from the browser, please make use of the [File Web API](https://developer.mozilla.org/en-US/docs/Web/API/File), which gives you access to file information and content. Be aware that using the SDK directly in the browser, will expose your API Key to the wild, and this is not desired. Considering that you have am input to upload multiple files:
+2. If you are trying to create a transfer from the browser, please make use of the [File Web API](https://developer.mozilla.org/en-US/docs/Web/API/File), which gives you access to file information and content. Be aware that using the SDK directly in the browser, will expose your API Key to the wild, and this is not desired. Considering that you have an input to upload multiple files:
 
 ```html
 <input type="file" id="files-input" multiple />
@@ -162,7 +162,7 @@ filesElement.addEventListener('change', async (event) => {
 });
 ```
 
-3. A proper solution for the previous example would be to have a client/server application, where your API Key is not exposed in the browser, and you can control which clients can create transfers thanks to CORS settings, for example. That requires a more complicated setup, but it's the best solution both in terms of security and performance. The process is as follows:
+3. A proper solution for the previous example would be to have a client/server application where your API Key is not exposed in the browser. This is so you can control which clients can create transfers based to CORS settings, for example. That requires a more complicated setup, but it's the best solution both in terms of security and performance. The process is as follows:
 
     1. Create a transfer, specifing only file names and size.
     2. Request upload URLs for each part of the file.
@@ -183,7 +183,7 @@ console.log(transfer.url); // https://we.tl/t-Sa7dYYlOdF
 
 ## Boards
 
-Our new Board API is in line with our new mobile app. It can store traditional files as well as links, and is flexible in how it displays it all.
+Our Board API is in line with our new mobile app. It can store traditional files as well as links, and is flexible in how it displays it all.
 
 ### Create an empty board
 
@@ -246,7 +246,7 @@ const files = await apiClient.board.addFiles(board, [{
 }]);
 ```
 
-From here, the process to upload files is the same as for [transfer](#create-a-transfer). If you already have the content of the file, you can pass it as an extra property named `content`, we will take car of it.
+From here, the process to upload files is the same as for [transfer](#create-a-transfer). If you already have the content of the file, you can pass it as an extra property named `content`, we will take care of it.
 
 Please check this [example](https://github.com/WeTransfer/wt-js-sdk/blob/v2-integration/example/create-board.js) using vanilla JS which shows how to add items to a board.
 
