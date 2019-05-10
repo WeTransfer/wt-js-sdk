@@ -1,6 +1,24 @@
 class RemoteFile {
   constructor(values) {
     Object.assign(this, values);
+
+    this.chunks = [];
+  }
+
+  onUploadComplete() {
+    return new Promise((resolve) => {
+      this.uploadCompleted = resolve;
+    });
+  }
+
+  chunkUploaded() {
+    if (this.allChunksUploaded()) {
+      this.uploadCompleted();
+    }
+  }
+
+  allChunksUploaded() {
+    return this.chunks.every((chunk) => chunk.done);
   }
 
   // Select which properties are going to be serialized,

@@ -7,7 +7,10 @@ const { futureTransfer, RemoteTransfer } = require('../models');
 module.exports = function({
   request,
   routes,
-  uploadFileToTransfer,
+  enqueueChunks,
+  createUploadUrl,
+  createMultipartChunksForFile,
+  completeFileUpload,
   finalizeTransfer,
 }) {
   /**
@@ -23,25 +26,28 @@ module.exports = function({
     );
   }
 
+  function createFileMultipartChunks(remoteTransfer, filesContent) {
+    const uploadUrl = createUploadUrl(remoteTransfer.id);
+
+    return remoteTransfer.files.map((file) => {
+      file.chunks = createMultipartChunksForFile(
+        file,
+        filesContent[file.name],
+        uploadUrl
+      );
+      return file;
+    });
+  }
+
   /**
-   * Given the content of the files and a remote transfer,
-   * upload all the files and finalize the transfer.
-   * @param   {Array}   filesContent   An array containing the content of each file
-   * @param   {Object}  remoteTransfer A transfer object
+   * Given a list of chunks and a remote transfer,
+   * queues the tasks with a concurrency of 3 and finalizes the transfer.
+   * @param   {Array}   chunks         An array of chunks that must be uploaded to S3 concurrently
    * @returns {Promise}                A transfer object
    */
-  async function uploadFilesAndFinalize(filesContent, remoteTransfer) {
-    await Promise.all(
-      remoteTransfer.files.map((file) => {
-        return uploadFileToTransfer(
-          remoteTransfer,
-          file,
-          filesContent[file.name]
-        );
-      })
-    );
-
-    return await finalizeTransfer(remoteTransfer);
+  async function uploadChunksAndComplete(fileMultipartChunks) {
+    const chunks = fileMultipartChunks.map((file) => file.chunks);
+    return enqueueChunks([].concat(...chunks));
   }
 
   /**
@@ -65,8 +71,21 @@ module.exports = function({
       // lets upload directly, without asking the user to do it,
       // and finalize the transfer in one go.
       if (shouldUploadFiles(transfer.files)) {
-        const filesContent = contentForFiles(transfer.files);
-        return await uploadFilesAndFinalize(filesContent, remoteTransfer);
+        const fileMultipartChunks = createFileMultipartChunks(
+          remoteTransfer,
+          contentForFiles(transfer.files)
+        );
+        const filesUploadCompleted = fileMultipartChunks.map((file) =>
+          file
+            .onUploadComplete()
+            .then(() => completeFileUpload(remoteTransfer, file))
+        );
+
+        uploadChunksAndComplete(fileMultipartChunks);
+
+        return await Promise.all(filesUploadCompleted).then(() =>
+          finalizeTransfer(remoteTransfer)
+        );
       }
 
       return remoteTransfer;
