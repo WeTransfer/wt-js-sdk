@@ -12,13 +12,19 @@ const getUploadUrl = require('../../actions/get-upload-url')({
   request,
   multipartRoute: routes.boards.multipart,
 });
+const uploadChunk = require('../../actions/upload-chunk')({
+  request,
+});
+const enqueueChunk = require('../../actions/queues/chunks-queue')({
+  uploadChunk,
+});
 const completeFileUpload = require('../../actions/complete-file-upload')({
   request,
   uploadCompleteRoute: routes.boards.uploadComplete,
 });
 const uploadFileToBoard = require('../../actions/upload-file')({
-  request,
   getUploadUrl,
+  enqueueChunk,
   completeFileUpload,
 });
 const addFilesToBoard = require('./add-files')({

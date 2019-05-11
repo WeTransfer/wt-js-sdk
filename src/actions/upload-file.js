@@ -3,43 +3,46 @@ const { get } = require('lodash');
 const logger = require('../config/logger');
 const WTError = require('../error');
 
-module.exports = function({ request, getUploadUrl, completeFileUpload }) {
-  /**
-   * Uploads a chunk of the file to S3
-   * @param   {Object}  transferOrBoard Transfer or Board item.
-   * @param   {Object}  file            Item containing information about number of parts, upload url, etc.
-   * @param   {Buffer}  data            File content
-   * @param   {Number}  partNumber      Which part number we want to upload
-   * @returns {Promise}                 Empty response if everything goes well 🤔
-   */
-  function uploadPart(transferOrBoard, file, data, partNumber) {
-    logger.debug(
-      `[${file.name}] Requesting S3 upload URL for part #${partNumber}`
-    );
+const MultipartChunk = require('./models/multipart-chunk');
 
-    return getUploadUrl(
-      transferOrBoard.id,
-      file.id,
-      partNumber,
-      get(file, 'multipart.id')
-    ).then((multipartItem) => {
-      logger.debug(
-        `[${file.name}] Uploading ${
-          data.length
-        } bytes for part #${partNumber} to S3`
-      );
-      return request.upload(multipartItem.url, data);
+module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
+  /**
+   * Given a list of chunks, it enqueues the tasks and resolves the promise
+   * when all tasks have been completed
+   * @param   {Array}   chunks A list of chunks
+   * @returns {Promise}
+   */
+  function uploadAllChunks(chunks) {
+    let uploadedChunks = 0;
+
+    return new Promise((resolve) => {
+      function callback() {
+        uploadedChunks++;
+
+        // After a chunk is completed, check if all of them have completed
+        // It could be safer to store the state of each chunk and
+        // and check if all chunks have been completed.
+        // Callbacks and counters are a explosive combination.
+        if (uploadedChunks === chunks.length) {
+          return resolve();
+        }
+      }
+
+      chunks.forEach((chunk) => {
+        enqueueChunk(chunk, callback);
+      });
     });
   }
 
   /**
    * Given the content of the file, and the number of parts that must be uploaded to S3,
-   * it splits the file into chunks and uploads each part sequentially
-   * @param   {Object}  transferOrBoard Transfer or Board item.
-   * @param   {Object}  file            Item containing information about number of parts, upload url, etc.
-   * @param   {Buffer}  content         File content
+   * it splits the file into chunks and create a task ready to be executed
+   * @param   {Object}   transferOrBoard Transfer or Board item.
+   * @param   {Object}   file            Item containing information about number of parts, upload url, etc.
+   * @param   {Buffer}   content         File content
+   * @returns {Array}    chunks          A list of chunks ready to be uploaded
    */
-  async function uploadAllParts(transferOrBoard, file, content) {
+  function createMultipartChunksForFile(transferOrBoard, file, content) {
     const totalParts = file.multipart.part_numbers;
     logger.debug(
       `[${
@@ -49,6 +52,7 @@ module.exports = function({ request, getUploadUrl, completeFileUpload }) {
       } bytes.`
     );
 
+    const chunks = [];
     for (let partNumber = 0; partNumber < totalParts; partNumber++) {
       const chunkStart = partNumber * file.multipart.chunk_size;
       const chunkEnd = (partNumber + 1) * file.multipart.chunk_size;
@@ -58,18 +62,23 @@ module.exports = function({ request, getUploadUrl, completeFileUpload }) {
           1} of ${totalParts}. Bytes from ${chunkStart} to ${chunkEnd}.`
       );
 
-      await uploadPart(
-        transferOrBoard,
-        file,
-        content.slice(chunkStart, chunkEnd),
-        partNumber + 1
-      );
-
-      logger.debug(
-        `[${file.name}] Uploaded part #${partNumber +
-          1} of ${totalParts} to S3"`
+      chunks.push(
+        new MultipartChunk(
+          file,
+          content.slice(chunkStart, chunkEnd),
+          () =>
+            getUploadUrl(
+              transferOrBoard.id,
+              file.id,
+              partNumber + 1,
+              get(file, 'multipart.id')
+            ),
+          partNumber + 1
+        )
       );
     }
+
+    return chunks;
   }
 
   /**
@@ -85,7 +94,12 @@ module.exports = function({ request, getUploadUrl, completeFileUpload }) {
     logger.info(`[${file.name}] Starting file upload.`);
 
     try {
-      await uploadAllParts(transferOrBoard, file, content);
+      const chunks = createMultipartChunksForFile(
+        transferOrBoard,
+        file,
+        content
+      );
+      await uploadAllChunks(chunks);
       const response = await completeFileUpload(transferOrBoard, file);
       logger.info(`[${file.name}] File upload complete.`);
 
