@@ -15,8 +15,12 @@ module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
   function uploadAllChunks(chunks) {
     let uploadedChunks = 0;
 
-    return new Promise((resolve) => {
-      function callback() {
+    return new Promise((resolve, reject) => {
+      function callback(error) {
+        if (error) {
+          return reject(error);
+        }
+
         uploadedChunks++;
 
         // After a chunk is completed, check if all of them have completed

@@ -1,6 +1,8 @@
 const routes = require('../../src/config/routes');
 const uploadFileAction = require('../../src/actions/upload-file');
+const enqueueChunkAction = require('../../src/actions/queues/chunks-queue');
 const getUploadUrlAction = require('../../src/actions/get-upload-url');
+const uploadChunkAction = require('../../src/actions/upload-chunk');
 const completeFileUploadAction = require('../../src/actions/complete-file-upload');
 
 describe('Upload file action', () => {
@@ -19,10 +21,12 @@ describe('Upload file action', () => {
   describe('when uploading files for boards', () => {
     beforeEach(() => {
       uploadFile = uploadFileAction({
-        request: mocks.request,
         getUploadUrl: getUploadUrlAction({
           request: mocks.request,
           multipartRoute: routes.boards.multipart,
+        }),
+        enqueueChunk: enqueueChunkAction({
+          uploadChunk: uploadChunkAction({ request: mocks.request }),
         }),
         completeFileUpload: completeFileUploadAction({
           request: mocks.request,
@@ -119,10 +123,12 @@ describe('Upload file action', () => {
   describe('when uploading files for transfers', () => {
     beforeEach(() => {
       uploadFile = uploadFileAction({
-        request: mocks.request,
         getUploadUrl: getUploadUrlAction({
           request: mocks.request,
           multipartRoute: routes.transfers.multipart,
+        }),
+        enqueueChunk: enqueueChunkAction({
+          uploadChunk: uploadChunkAction({ request: mocks.request }),
         }),
         completeFileUpload: completeFileUploadAction({
           request: mocks.request,

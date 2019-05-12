@@ -19,14 +19,13 @@ module.exports = function({ uploadChunk }) {
         logger.debug(
           `[${chunk.file.name}] Chunk #${chunk.partNumber} failed to upload.`
         );
-        logger.error(error);
 
         chunk.retries++;
-        return enqueueChunk(chunk);
+        return enqueueChunk(chunk, callback);
       }
 
       if (error && !chunk.canRetry) {
-        throw new Error(error);
+        return callback(error);
       }
 
       callback();
