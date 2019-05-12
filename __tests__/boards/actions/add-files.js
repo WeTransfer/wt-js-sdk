@@ -61,6 +61,7 @@ describe('Add files action', () => {
         name: 'kittie.gif',
         size: 195906,
         type: 'file',
+        chunks: [],
       },
       []
     );

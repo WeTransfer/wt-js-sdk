@@ -1,4 +1,4 @@
-const { RemoteFile } = require('../../../src/transfers/models');
+const { RemoteFile } = require('../../../src/models');
 
 describe('RemoteFile model', () => {
   let file = null;

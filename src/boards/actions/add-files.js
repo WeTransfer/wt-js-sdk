@@ -1,7 +1,7 @@
 const WTError = require('../../error');
 const logger = require('../../config/logger');
 const futureFile = require('../models/future-file');
-const RemoteFile = require('../models/remote-file');
+const { RemoteFile } = require('../../models');
 const contentForFiles = require('../../utils/content-for-files');
 
 module.exports = function({ request, routes, uploadFileToBoard }) {

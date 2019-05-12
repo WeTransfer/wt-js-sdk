@@ -3,31 +3,25 @@ const { get } = require('lodash');
 const logger = require('../config/logger');
 const WTError = require('../error');
 
-const MultipartChunk = require('./models/multipart-chunk');
+const { MultipartChunk } = require('../models');
 
 module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
   /**
    * Given a list of chunks, it enqueues the tasks and resolves the promise
    * when all tasks have been completed
+   * @param   {Object}  file   Item containing information about number of parts, upload url, etc.
    * @param   {Array}   chunks A list of chunks
    * @returns {Promise}
    */
-  function uploadAllChunks(chunks) {
-    let uploadedChunks = 0;
-
+  function uploadAllChunks(file, chunks) {
     return new Promise((resolve, reject) => {
       function callback(error) {
         if (error) {
           return reject(error);
         }
 
-        uploadedChunks++;
-
-        // After a chunk is completed, check if all of them have completed
-        // It could be safer to store the state of each chunk and
-        // and check if all chunks have been completed.
-        // Callbacks and counters are a explosive combination.
-        if (uploadedChunks === chunks.length) {
+        // After a chunk is completed, check if all file chunks have been uploaded.
+        if (file.uploadComplete()) {
           return resolve();
         }
       }
@@ -103,7 +97,7 @@ module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
         file,
         content
       );
-      await uploadAllChunks(chunks);
+      await uploadAllChunks(file, chunks);
       const response = await completeFileUpload(transferOrBoard, file);
       logger.info(`[${file.name}] File upload complete.`);
 

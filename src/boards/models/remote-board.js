@@ -1,4 +1,4 @@
-const RemoteFile = require('./remote-file');
+const { RemoteFile } = require('./../../models');
 const RemoteLink = require('./remote-link');
 
 class RemoteBoard {

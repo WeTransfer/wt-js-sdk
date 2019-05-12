@@ -4,11 +4,24 @@ const enqueueChunkAction = require('../../src/actions/queues/chunks-queue');
 const getUploadUrlAction = require('../../src/actions/get-upload-url');
 const uploadChunkAction = require('../../src/actions/upload-chunk');
 const completeFileUploadAction = require('../../src/actions/complete-file-upload');
+const { RemoteFile } = require('../../src/models');
 
 describe('Upload file action', () => {
+  let file;
   let uploadFile = null;
   const mocks = {};
+
   beforeEach(() => {
+    file = new RemoteFile({
+      id: 'random-hash',
+      name: 'kittie.gif',
+      size: 1024,
+      multipart: {
+        id: 'multipart-id',
+        part_numbers: 1,
+        chunk_size: 1024,
+      },
+    });
     mocks.request = {
       send: jest.fn(),
       upload: jest.fn(),
@@ -36,20 +49,7 @@ describe('Upload file action', () => {
     });
 
     it('should send one request for a small file', async () => {
-      await uploadFile(
-        { id: 'board-id' },
-        {
-          id: 'random-hash',
-          name: 'kittie.gif',
-          size: 1024,
-          multipart: {
-            id: 'multipart-id',
-            part_numbers: 1,
-            chunk_size: 1024,
-          },
-        },
-        [0]
-      );
+      await uploadFile({ id: 'board-id' }, file, [0]);
 
       expect(mocks.request.send).toHaveBeenCalledWith({
         method: 'get',
@@ -62,20 +62,9 @@ describe('Upload file action', () => {
     });
 
     it('should send two requests for a 10MB file', async () => {
-      await uploadFile(
-        { id: 'board-id' },
-        {
-          id: 'random-hash',
-          name: 'kittie.gif',
-          size: 10 * 1024 * 1024,
-          multipart: {
-            id: 'multipart-id',
-            part_numbers: 2,
-            chunk_size: 6 * 1024 * 1024,
-          },
-        },
-        []
-      );
+      file.size = 10 * 1024 * 1024;
+      file.multipart.part_numbers = 2;
+      await uploadFile({ id: 'board-id' }, file, []);
 
       expect(mocks.request.send).toHaveBeenCalledWith({
         method: 'get',
@@ -98,20 +87,7 @@ describe('Upload file action', () => {
         mocks.request.send.mockImplementation(() =>
           Promise.reject(new Error('Network error.'))
         );
-        await uploadFile(
-          { id: 'board-id' },
-          {
-            id: 'random-hash',
-            name: 'kittie.gif',
-            size: 10 * 1024 * 1024,
-            multipart: {
-              id: 'multipart-id',
-              part_numbers: 2,
-              chunk_size: 6 * 1024 * 1024,
-            },
-          },
-          []
-        );
+        await uploadFile({ id: 'board-id' }, file, []);
       } catch (error) {
         expect(error.message).toBe(
           'There was an error when uploading kittie.gif.'
@@ -138,19 +114,7 @@ describe('Upload file action', () => {
     });
 
     it('should send one request for a small file', async () => {
-      await uploadFile(
-        { id: 'transfer-id' },
-        {
-          id: 'random-hash',
-          name: 'kittie.gif',
-          size: 1024,
-          multipart: {
-            part_numbers: 1,
-            chunk_size: 1024,
-          },
-        },
-        [0]
-      );
+      await uploadFile({ id: 'transfer-id' }, file, [0]);
 
       expect(mocks.request.send).toHaveBeenCalledWith({
         method: 'get',
@@ -163,19 +127,9 @@ describe('Upload file action', () => {
     });
 
     it('should send two requests for a 10MB file', async () => {
-      await uploadFile(
-        { id: 'transfer-id' },
-        {
-          id: 'random-hash',
-          name: 'kittie.gif',
-          size: 10 * 1024 * 1024,
-          multipart: {
-            part_numbers: 2,
-            chunk_size: 6 * 1024 * 1024,
-          },
-        },
-        []
-      );
+      file.size = 10 * 1024 * 1024;
+      file.multipart.part_numbers = 2;
+      await uploadFile({ id: 'transfer-id' }, file, []);
 
       expect(mocks.request.send).toHaveBeenCalledWith({
         method: 'get',
@@ -198,19 +152,7 @@ describe('Upload file action', () => {
         mocks.request.send.mockImplementation(() =>
           Promise.reject(new Error('Network error.'))
         );
-        await uploadFile(
-          { id: 'transfer-id' },
-          {
-            id: 'random-hash',
-            name: 'kittie.gif',
-            size: 10 * 1024 * 1024,
-            multipart: {
-              part_numbers: 2,
-              chunk_size: 6 * 1024 * 1024,
-            },
-          },
-          []
-        );
+        await uploadFile({ id: 'transfer-id' }, file, []);
       } catch (error) {
         expect(error.message).toBe(
           'There was an error when uploading kittie.gif.'
