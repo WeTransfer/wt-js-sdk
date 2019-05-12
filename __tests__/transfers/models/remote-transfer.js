@@ -13,6 +13,7 @@ describe('RemoteTransfer model', () => {
           id: 'random-hash',
           name: 'kittie.gif',
           type: 'file',
+          size: 1024,
         },
       ],
       expires_at: '2018-01-01T00:00:00Z',

@@ -6,6 +6,7 @@ Object {
   "files": Array [
     Object {
       "id": "random-hash",
+      "multipart": undefined,
       "name": "kittie.gif",
       "size": 1024,
       "type": "file",
@@ -23,6 +24,7 @@ RemoteTransfer {
   "files": Array [
     Object {
       "id": "random-hash",
+      "multipart": undefined,
       "name": "kittie.gif",
       "size": 1024,
       "type": "file",
@@ -40,6 +42,7 @@ RemoteTransfer {
   "files": Array [
     Object {
       "id": "random-hash",
+      "multipart": undefined,
       "name": "kittie.gif",
       "size": 1024,
       "type": "file",

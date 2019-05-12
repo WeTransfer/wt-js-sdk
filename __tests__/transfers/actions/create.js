@@ -86,7 +86,14 @@ describe('Create transfer action', () => {
     expect(transfer).toMatchSnapshot();
     expect(mocks.uploadFileToTransfer).toHaveBeenCalledWith(
       transfer,
-      { id: 'random-hash', name: 'kittie.gif', size: 1024, type: 'file' },
+      {
+        id: 'random-hash',
+        name: 'kittie.gif',
+        size: 1024,
+        type: 'file',
+        multipart: undefined,
+        chunks: [],
+      },
       []
     );
   });
