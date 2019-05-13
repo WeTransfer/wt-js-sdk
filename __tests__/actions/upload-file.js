@@ -1,3 +1,4 @@
+const config = require('../../src/config');
 const routes = require('../../src/config/routes');
 const uploadFileAction = require('../../src/actions/upload-file');
 const enqueueChunkAction = require('../../src/actions/queues/chunks-queue');
@@ -12,6 +13,8 @@ describe('Upload file action', () => {
   const mocks = {};
 
   beforeEach(() => {
+    config.chunkRetries = 0;
+
     file = new RemoteFile({
       id: 'random-hash',
       name: 'kittie.gif',

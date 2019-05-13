@@ -1,6 +1,3 @@
-// TODO: make it part of the client configuration
-const MAX_RETRIES = 5;
-
 class MultipartChunk {
   constructor(file, content, getUploadUrl, partNumber) {
     this.retries = 0;
@@ -10,10 +7,6 @@ class MultipartChunk {
     this.content = content;
     this.getUploadUrl = getUploadUrl;
     this.partNumber = partNumber;
-  }
-
-  get canRetry() {
-    return this.retries < MAX_RETRIES;
   }
 
   async uploadUrl() {

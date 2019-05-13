@@ -1,11 +1,16 @@
 const queue = require('async/queue');
 
+const config = require('../../config');
 const logger = require('../../config/logger');
 
 module.exports = function({ uploadChunk }) {
-  // Create a queue object with concurrency of 3
-  // uploadChunk will be executed for every chunk
-  const uploadQueue = queue(uploadChunk, 3);
+  function canRetryUpload(chunk, config) {
+    return chunk.retries < config.chunkRetries;
+  }
+
+  // Create a queue object with concurrency of 5 (default).
+  // uploadChunk will be executed for every chunk.
+  const uploadQueue = queue(uploadChunk, config.concurrency);
 
   return function enqueueChunk(chunk, callback) {
     logger.debug(
@@ -15,16 +20,21 @@ module.exports = function({ uploadChunk }) {
     );
 
     uploadQueue.push(chunk, (error) => {
-      if (error && chunk.canRetry) {
+      const canRetry = canRetryUpload(chunk, config);
+
+      if (error && canRetry) {
         logger.debug(
           `[${chunk.file.name}] Chunk #${chunk.partNumber} failed to upload.`
         );
 
         chunk.retries++;
-        return enqueueChunk(chunk, callback);
+        return setTimeout(
+          () => enqueueChunk(chunk, callback),
+          config.chunkRetryDelay
+        );
       }
 
-      if (error && !chunk.canRetry) {
+      if (error && !canRetry) {
         return callback(error);
       }
 
