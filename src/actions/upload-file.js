@@ -34,7 +34,7 @@ module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
 
   /**
    * Given the content of the file, and the number of parts that must be uploaded to S3,
-   * it splits the file into chunks and create a task ready to be executed
+   * it splits the file into chunks and creates a "task" ready to be executed by the queue worker.
    * @param   {Object}   transferOrBoard Transfer or Board item.
    * @param   {Object}   file            Item containing information about number of parts, upload url, etc.
    * @param   {Buffer}   content         File content
