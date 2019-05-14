@@ -13,7 +13,7 @@ module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
    * @param   {Array}   chunks A list of chunks
    * @returns {Promise}
    */
-  function uploadAllChunks(file, chunks) {
+  function uploadAllChunks(file) {
     return new Promise((resolve, reject) => {
       function callback(error, chunk) {
         if (error) {
@@ -27,7 +27,7 @@ module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
         }
       }
 
-      chunks.forEach((chunk) => {
+      file.chunks.forEach((chunk) => {
         enqueueChunk(chunk, callback);
       });
     });
@@ -93,12 +93,12 @@ module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
     logger.info(`[${file.name}] Starting file upload.`);
 
     try {
-      const chunks = createMultipartChunksForFile(
+      file.chunks = createMultipartChunksForFile(
         transferOrBoard,
         file,
         content
       );
-      await uploadAllChunks(file, chunks);
+      await uploadAllChunks(file);
       const response = await completeFileUpload(transferOrBoard, file);
       logger.info(`[${file.name}] File upload complete.`);
 

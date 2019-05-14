@@ -40,6 +40,9 @@ module.exports = function({ uploadChunk }) {
         return callback(error);
       }
 
+      logger.debug(
+        `[${chunk.file.name}] Chunk #${chunk.partNumber} upload complete.`
+      );
       callback(null, chunk);
     });
   };
