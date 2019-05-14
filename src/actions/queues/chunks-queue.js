@@ -12,14 +12,6 @@ module.exports = function({ uploadChunk }) {
     return chunk.retries < config.chunkRetries;
   }
 
-  function retryUpload(chunk, callback, config) {
-    chunk.retries++;
-    return setTimeout(
-      () => enqueueChunk(chunk, callback),
-      config.chunkRetryDelay
-    );
-  }
-
   return function enqueueChunk(chunk, callback) {
     logger.debug(
       `[${chunk.file.name}] Queuing chunk #${chunk.partNumber}. Retry #${
@@ -34,7 +26,8 @@ module.exports = function({ uploadChunk }) {
         );
 
         if (canRetryUpload(chunk, config)) {
-          return retryUpload(chunk, callback, config);
+          chunk.retries++;
+          return enqueueChunk(chunk, callback);
         }
 
         return callback(error);

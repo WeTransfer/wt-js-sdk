@@ -15,6 +15,8 @@ describe('Upload file action', () => {
   const mocks = {};
 
   beforeEach(() => {
+    jest.useFakeTimers();
+
     config.chunkRetries = 0;
 
     transfer = { id: 'transfer-id' };
@@ -165,6 +167,19 @@ describe('Upload file action', () => {
           'There was an error when uploading kittie.gif.'
         );
       }
+    });
+
+    it('should retry upload at least once', (done) => {
+      config.chunkRetries = 1;
+      mocks.request.upload.mockImplementation(() =>
+        Promise.reject(new Error('Network error.'))
+      );
+      uploadFile(transfer, file, []).catch((error) => {
+        expect(error.message).toBe(
+          'There was an error when uploading kittie.gif.'
+        );
+        done();
+      });
     });
   });
 });
