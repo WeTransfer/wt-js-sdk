@@ -9,12 +9,16 @@ const { RemoteFile } = require('../../src/models');
 
 describe('Upload file action', () => {
   let file;
+  let board;
+  let transfer;
   let uploadFile = null;
   const mocks = {};
 
   beforeEach(() => {
     config.chunkRetries = 0;
 
+    transfer = { id: 'transfer-id' };
+    board = { id: 'board-id' };
     file = new RemoteFile({
       id: 'random-hash',
       name: 'kittie.gif',
@@ -52,7 +56,7 @@ describe('Upload file action', () => {
     });
 
     it('should send one request for a small file', async () => {
-      await uploadFile({ id: 'board-id' }, file, [0]);
+      await uploadFile(board, file, [0]);
 
       expect(mocks.request.send).toHaveBeenCalledWith({
         method: 'get',
@@ -67,7 +71,7 @@ describe('Upload file action', () => {
     it('should send two requests for a 10MB file', async () => {
       file.size = 10 * 1024 * 1024;
       file.multipart.part_numbers = 2;
-      await uploadFile({ id: 'board-id' }, file, []);
+      await uploadFile(board, file, []);
 
       expect(mocks.request.send).toHaveBeenCalledWith({
         method: 'get',
@@ -117,7 +121,7 @@ describe('Upload file action', () => {
     });
 
     it('should send one request for a small file', async () => {
-      await uploadFile({ id: 'transfer-id' }, file, [0]);
+      await uploadFile(transfer, file, [0]);
 
       expect(mocks.request.send).toHaveBeenCalledWith({
         method: 'get',
@@ -132,7 +136,7 @@ describe('Upload file action', () => {
     it('should send two requests for a 10MB file', async () => {
       file.size = 10 * 1024 * 1024;
       file.multipart.part_numbers = 2;
-      await uploadFile({ id: 'transfer-id' }, file, []);
+      await uploadFile(transfer, file, []);
 
       expect(mocks.request.send).toHaveBeenCalledWith({
         method: 'get',
@@ -155,7 +159,7 @@ describe('Upload file action', () => {
         mocks.request.send.mockImplementation(() =>
           Promise.reject(new Error('Network error.'))
         );
-        await uploadFile({ id: 'transfer-id' }, file, []);
+        await uploadFile(transfer, file, []);
       } catch (error) {
         expect(error.message).toBe(
           'There was an error when uploading kittie.gif.'
