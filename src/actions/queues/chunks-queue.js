@@ -38,6 +38,7 @@ module.exports = function({ uploadChunk }) {
         return callback(error);
       }
 
+      chunk.uploadComplete();
       callback();
     });
   };

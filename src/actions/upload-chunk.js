@@ -9,6 +9,5 @@ module.exports = function({ request }) {
     );
     const url = await chunk.uploadUrl();
     await request.upload(url, chunk.content);
-    chunk.uploadComplete();
   };
 };
