@@ -9,7 +9,7 @@ module.exports = function({ request, getUploadUrl }) {
     );
     const { url } = await getUploadUrl(
       chunk.transferOrBoardId,
-      chunk.file.id,
+      chunk.fileId,
       chunk.partNumber,
       chunk.multipartId
     );

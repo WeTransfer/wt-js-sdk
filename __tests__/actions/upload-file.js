@@ -36,12 +36,14 @@ describe('Upload file action', () => {
   describe('when uploading files for boards', () => {
     beforeEach(() => {
       uploadFile = uploadFileAction({
-        getUploadUrl: getUploadUrlAction({
-          request: mocks.request,
-          multipartRoute: routes.boards.multipart,
-        }),
         enqueueChunk: enqueueChunkAction({
-          uploadChunk: uploadChunkAction({ request: mocks.request }),
+          uploadChunk: uploadChunkAction({
+            request: mocks.request,
+            getUploadUrl: getUploadUrlAction({
+              request: mocks.request,
+              multipartRoute: routes.boards.multipart,
+            }),
+          }),
         }),
         completeFileUpload: completeFileUploadAction({
           request: mocks.request,
@@ -101,12 +103,14 @@ describe('Upload file action', () => {
   describe('when uploading files for transfers', () => {
     beforeEach(() => {
       uploadFile = uploadFileAction({
-        getUploadUrl: getUploadUrlAction({
-          request: mocks.request,
-          multipartRoute: routes.transfers.multipart,
-        }),
         enqueueChunk: enqueueChunkAction({
-          uploadChunk: uploadChunkAction({ request: mocks.request }),
+          uploadChunk: uploadChunkAction({
+            request: mocks.request,
+            getUploadUrl: getUploadUrlAction({
+              request: mocks.request,
+              multipartRoute: routes.transfers.multipart,
+            }),
+          }),
         }),
         completeFileUpload: completeFileUploadAction({
           request: mocks.request,
