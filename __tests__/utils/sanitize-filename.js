@@ -16,7 +16,7 @@ describe('Sanitize filename util', () => {
   });
 
   it('should keep russian characters', () => {
-    expect(sanitizeFilename('mосква.ru')).toBe('mосква.ru');
+    expect(sanitizeFilename('москва.ru')).toBe('москва.ru');
   });
 
   it('should convert undefined into an empty string', () => {
