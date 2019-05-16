@@ -15,9 +15,13 @@ exports[`RemoteBoard model contructor should normalize provided items 1`] = `
 Array [
   Object {
     "id": "random-hash",
-    "multipart": undefined,
+    "multipart": Object {
+      "chunk_size": 1024,
+      "id": "multipart-id",
+      "part_numbers": 1,
+    },
     "name": "kittie.gif",
-    "size": undefined,
+    "size": 1024,
     "type": "file",
   },
   Object {
@@ -50,9 +54,13 @@ exports[`RemoteBoard model when items are added to the board files property shou
 Array [
   Object {
     "id": "random-hash",
-    "multipart": undefined,
+    "multipart": Object {
+      "chunk_size": 1024,
+      "id": "multipart-id",
+      "part_numbers": 1,
+    },
     "name": "kittie.gif",
-    "size": undefined,
+    "size": 1024,
     "type": "file",
   },
 ]
@@ -75,9 +83,13 @@ exports[`RemoteBoard model when items are added to the board should add items to
 Array [
   Object {
     "id": "random-hash",
-    "multipart": undefined,
+    "multipart": Object {
+      "chunk_size": 1024,
+      "id": "multipart-id",
+      "part_numbers": 1,
+    },
     "name": "kittie.gif",
-    "size": undefined,
+    "size": 1024,
     "type": "file",
   },
   Object {

@@ -14,6 +14,7 @@ const getUploadUrl = require('../../actions/get-upload-url')({
 });
 const uploadChunk = require('../../actions/upload-chunk')({
   request,
+  getUploadUrl,
 });
 const enqueueChunk = require('../../actions/queues/chunks-queue')({
   uploadChunk,
@@ -23,7 +24,6 @@ const completeFileUpload = require('../../actions/complete-file-upload')({
   uploadCompleteRoute: routes.boards.uploadComplete,
 });
 const uploadFileToBoard = require('../../actions/upload-file')({
-  getUploadUrl,
   enqueueChunk,
   completeFileUpload,
 });

@@ -7,6 +7,8 @@ const uploadChunkAction = require('../../src/actions/upload-chunk');
 const completeFileUploadAction = require('../../src/actions/complete-file-upload');
 const { RemoteFile } = require('../../src/models');
 
+const createRemoteMockFile = require('../fixtures/create-remote-file');
+
 describe('Upload file action', () => {
   let file;
   let board;
@@ -21,16 +23,7 @@ describe('Upload file action', () => {
 
     transfer = { id: 'transfer-id' };
     board = { id: 'board-id' };
-    file = new RemoteFile({
-      id: 'random-hash',
-      name: 'kittie.gif',
-      size: 1024,
-      multipart: {
-        id: 'multipart-id',
-        part_numbers: 1,
-        chunk_size: 1024,
-      },
-    });
+    file = new RemoteFile(createRemoteMockFile());
     mocks.request = {
       send: jest.fn(),
       upload: jest.fn(),
@@ -96,7 +89,7 @@ describe('Upload file action', () => {
         mocks.request.send.mockImplementation(() =>
           Promise.reject(new Error('Network error.'))
         );
-        await uploadFile({ id: 'board-id' }, file, []);
+        await uploadFile(board, file, []);
       } catch (error) {
         expect(error.message).toBe(
           'There was an error when uploading kittie.gif.'

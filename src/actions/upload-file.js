@@ -1,11 +1,9 @@
-const { get } = require('lodash');
-
 const logger = require('../config/logger');
 const WTError = require('../error');
 
 const { MultipartChunk } = require('../models');
 
-module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
+module.exports = function({ enqueueChunk, completeFileUpload }) {
   /**
    * Given a list of chunks, it enqueues the tasks and resolves the promise
    * when all tasks have been completed
@@ -63,15 +61,9 @@ module.exports = function({ getUploadUrl, enqueueChunk, completeFileUpload }) {
 
       chunks.push(
         new MultipartChunk(
+          transferOrBoard.id,
           file,
           content.slice(chunkStart, chunkEnd),
-          () =>
-            getUploadUrl(
-              transferOrBoard.id,
-              file.id,
-              partNumber + 1,
-              get(file, 'multipart.id')
-            ),
           partNumber + 1
         )
       );

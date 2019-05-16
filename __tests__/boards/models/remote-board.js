@@ -1,5 +1,7 @@
 const { RemoteBoard } = require('../../../src/boards/models');
 
+const createRemoteMockFile = require('../../fixtures/create-remote-file');
+
 describe('RemoteBoard model', () => {
   let board = null;
   beforeEach(() => {
@@ -26,11 +28,7 @@ describe('RemoteBoard model', () => {
         state: 'uploading',
         url: 'https://we.tl/s-random-hash',
         items: [
-          {
-            id: 'random-hash',
-            name: 'kittie.gif',
-            type: 'file',
-          },
+          createRemoteMockFile(),
           {
             id: 'random-hash',
             url: 'https://wetransfer.com',
@@ -50,13 +48,7 @@ describe('RemoteBoard model', () => {
 
   describe('when items are added to the board', () => {
     beforeEach(() => {
-      const files = [
-        {
-          id: 'random-hash',
-          name: 'kittie.gif',
-          type: 'file',
-        },
-      ];
+      const files = [createRemoteMockFile()];
 
       const links = [
         {

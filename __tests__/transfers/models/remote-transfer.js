@@ -1,5 +1,7 @@
 const { RemoteTransfer } = require('../../../src/transfers/models');
 
+const createRemoteMockFile = require('../../fixtures/create-remote-file');
+
 describe('RemoteTransfer model', () => {
   let transfer = null;
   beforeEach(() => {
@@ -8,14 +10,7 @@ describe('RemoteTransfer model', () => {
       message: 'Little kittens',
       state: 'uploading',
       url: 'https://we.tl/t-random-hash',
-      files: [
-        {
-          id: 'random-hash',
-          name: 'kittie.gif',
-          type: 'file',
-          size: 1024,
-        },
-      ],
+      files: [createRemoteMockFile()],
       expires_at: '2018-01-01T00:00:00Z',
     });
   });

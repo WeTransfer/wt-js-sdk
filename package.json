@@ -61,6 +61,10 @@
     "setupFiles": [
       "./scripts/jest/setup.js"
     ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/__tests__/fixtures/create-local-file.js",
+      "<rootDir>/__tests__/fixtures/create-remote-file.js"
+    ],
     "watchPlugins": [
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"

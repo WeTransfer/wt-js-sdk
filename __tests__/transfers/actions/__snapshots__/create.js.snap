@@ -6,7 +6,11 @@ Object {
   "files": Array [
     Object {
       "id": "random-hash",
-      "multipart": undefined,
+      "multipart": Object {
+        "chunk_size": 1024,
+        "id": "multipart-id",
+        "part_numbers": 1,
+      },
       "name": "kittie.gif",
       "size": 1024,
       "type": "file",
@@ -24,7 +28,11 @@ RemoteTransfer {
   "files": Array [
     Object {
       "id": "random-hash",
-      "multipart": undefined,
+      "multipart": Object {
+        "chunk_size": 1024,
+        "id": "multipart-id",
+        "part_numbers": 1,
+      },
       "name": "kittie.gif",
       "size": 1024,
       "type": "file",
@@ -42,7 +50,11 @@ RemoteTransfer {
   "files": Array [
     Object {
       "id": "random-hash",
-      "multipart": undefined,
+      "multipart": Object {
+        "chunk_size": 1024,
+        "id": "multipart-id",
+        "part_numbers": 1,
+      },
       "name": "kittie.gif",
       "size": 1024,
       "type": "file",

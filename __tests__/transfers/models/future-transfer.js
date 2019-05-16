@@ -1,17 +1,14 @@
 const { futureTransfer } = require('../../../src/transfers/models');
 
+const createLocalMockFile = require('../../fixtures/create-local-file');
+
 describe('Future transfer normalizer', () => {
   describe('normalizeTransfer function', () => {
     let transfer = {};
     beforeEach(() => {
       transfer = {
         message: 'WeTransfer rocks',
-        files: [
-          {
-            name: 'kittie.gif',
-            size: 1024,
-          },
-        ],
+        files: [createLocalMockFile()],
       };
     });
 
