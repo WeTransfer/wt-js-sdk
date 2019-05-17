@@ -7,28 +7,11 @@ module.exports = function({ enqueueChunk, completeFileUpload }) {
   /**
    * Given a list of chunks, it enqueues the tasks and resolves the promise
    * when all tasks have been completed
-   * @param   {Object}  file   Item containing information about number of parts, upload url, etc.
-   * @param   {Array}   chunks A list of chunks
+   * @param   {Object}  file Item containing information about number of parts, upload url, etc.
    * @returns {Promise}
    */
   function uploadAllChunks(file) {
-    return new Promise((resolve, reject) => {
-      function callback(error, chunk) {
-        if (error) {
-          return reject(error);
-        }
-
-        // After a chunk is completed, check if all file chunks have been uploaded.
-        chunk.uploadComplete();
-        if (file.uploadComplete()) {
-          return resolve();
-        }
-      }
-
-      file.chunks.forEach((chunk) => {
-        enqueueChunk(chunk, callback);
-      });
-    });
+    return Promise.all(file.chunks.map(enqueueChunk));
   }
 
   /**

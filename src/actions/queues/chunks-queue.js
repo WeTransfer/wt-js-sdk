@@ -15,31 +15,36 @@ module.exports = function({ uploadChunk }) {
     return chunk.retries < config.chunkRetries;
   }
 
-  return function enqueueChunk(chunk, callback) {
-    logger.debug(
-      `[${chunk.file.name}] Queuing chunk #${chunk.partNumber}. Retry #${
-        chunk.retries
-      }.`
-    );
+  return function enqueueChunk(chunk) {
+    return new Promise((resolve, reject) => {
+      logger.debug(
+        `[${chunk.file.name}] Queuing chunk #${chunk.partNumber}. Retry #${
+          chunk.retries
+        }.`
+      );
 
-    uploadQueue.push(chunk, (error) => {
-      if (error) {
-        logger.debug(
-          `[${chunk.file.name}] Chunk #${chunk.partNumber} failed to upload.`
-        );
+      uploadQueue.push(chunk, (error) => {
+        if (error) {
+          logger.debug(
+            `[${chunk.file.name}] Chunk #${chunk.partNumber} failed to upload.`
+          );
 
-        if (canRetryUpload(chunk, config)) {
-          chunk.retries++;
-          return enqueueChunk(chunk, callback);
+          if (canRetryUpload(chunk, config)) {
+            chunk.retries++;
+            return enqueueChunk(chunk)
+              .then(resolve)
+              .catch(reject);
+          }
+
+          return reject(error);
         }
 
-        return callback(error);
-      }
+        logger.debug(
+          `[${chunk.file.name}] Chunk #${chunk.partNumber} upload complete.`
+        );
 
-      logger.debug(
-        `[${chunk.file.name}] Chunk #${chunk.partNumber} upload complete.`
-      );
-      callback(null, chunk);
+        resolve(chunk);
+      });
     });
   };
 };
