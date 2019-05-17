@@ -60,7 +60,6 @@ module.exports = function({ request, routes, enqueueFileTask }) {
 
       return boardFiles;
     } catch (error) {
-      console.error(error);
       throw new WTError(
         'There was an error when adding files to the board.',
         error
