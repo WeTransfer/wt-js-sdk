@@ -5,10 +5,6 @@ class RemoteFile {
     this.chunks = [];
   }
 
-  uploadComplete() {
-    return this.chunks.every((chunk) => chunk.uploaded);
-  }
-
   // Select which properties are going to be serialized,
   // to avoid JSON circular references
   toJSON() {
