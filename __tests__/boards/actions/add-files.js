@@ -1,5 +1,6 @@
 const routes = require('../../../src/config/routes');
 const addFilesAction = require('../../../src/boards/actions/add-files');
+const enqueueFileTaskAction = require('../../../src/actions/queues/files-queue');
 const { RemoteBoard } = require('../../../src/boards/models');
 
 const createRemoteMockFile = require('../../fixtures/create-remote-file');
@@ -10,7 +11,7 @@ describe('Add files action', () => {
   const mocks = {};
   beforeEach(() => {
     mocks.request = { send: jest.fn() };
-    mocks.enqueueFileTask = jest.fn(() => Promise.resolve());
+    mocks.uploadFile = jest.fn();
     mocks.request.send.mockReturnValue([
       createRemoteMockFile({
         size: 195906,
@@ -25,7 +26,9 @@ describe('Add files action', () => {
     addFiles = addFilesAction({
       routes,
       request: mocks.request,
-      enqueueFileTask: mocks.enqueueFileTask,
+      enqueueFileTask: enqueueFileTaskAction({
+        uploadFile: mocks.uploadFile,
+      }),
     });
 
     board = new RemoteBoard({
@@ -42,9 +45,9 @@ describe('Add files action', () => {
   it('should create an upload file request', async () => {
     const files = await addFiles(board, [createLocalMockFile({ content: [] })]);
     expect(files).toMatchSnapshot();
-    expect(mocks.enqueueFileTask).toHaveBeenCalledWith({
-      transferOrBoard: board,
-      file: {
+    expect(mocks.uploadFile).toHaveBeenCalledWith(
+      board,
+      {
         id: 'random-hash',
         multipart: { chunk_size: 195906, id: 'multipart-id', part_numbers: 3 },
         name: 'kittie.gif',
@@ -52,8 +55,21 @@ describe('Add files action', () => {
         type: 'file',
         chunks: [],
       },
-      content: [],
-    });
+      []
+    );
+  });
+
+  it('should throw an error if request fails', async () => {
+    try {
+      mocks.uploadFile.mockImplementation(() =>
+        Promise.reject(new Error('Network error.'))
+      );
+      await addFiles(board, [createLocalMockFile({ content: [] })]);
+    } catch (error) {
+      expect(error.message).toBe(
+        'There was an error when adding files to the board.'
+      );
+    }
   });
 
   it('should throw an error if arguments are not provided', async () => {
