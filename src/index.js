@@ -1,6 +1,7 @@
 const { get } = require('lodash');
 
 const WTError = require('./error');
+const config = require('./config');
 const logger = require('./config/logger');
 
 const authorize = require('./authorize');
@@ -21,19 +22,19 @@ const {
   finalizeTransfer,
 } = require('./transfers/actions');
 
-module.exports = async function createWTClient(
-  apiKey,
-  options = { logger: {} }
-) {
+module.exports = async function createWTClient(apiKey, options = {}) {
   if (!apiKey) {
     throw new WTError('No API Key provided');
   }
 
-  logger.setLoggerLevel(get(options, 'logger.level', 'info'));
+  // Update default configuration values with user provided values.
+  Object.assign(config, options);
+
+  logger.setLoggerLevel(get(config, 'logger.level', 'info'));
 
   request.apiKey = apiKey;
   request.jwt = (await authorize()).token;
-  request.configure(options);
+  request.configure(config);
 
   return {
     authorize,

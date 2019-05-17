@@ -6,13 +6,19 @@ const getUploadUrl = require('../../actions/get-upload-url')({
   request,
   multipartRoute: routes.transfers.multipart,
 });
+const uploadChunk = require('../../actions/upload-chunk')({
+  request,
+  getUploadUrl,
+});
+const enqueueChunk = require('../../actions/queues/chunks-queue')({
+  uploadChunk,
+});
 const completeFileUpload = require('../../actions/complete-file-upload')({
   request,
   uploadCompleteRoute: routes.transfers.uploadComplete,
 });
 const uploadFileToTransfer = require('../../actions/upload-file')({
-  request,
-  getUploadUrl,
+  enqueueChunk,
   completeFileUpload,
 });
 const finalizeTransfer = require('./finalize')({ request, routes });

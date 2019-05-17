@@ -1,6 +1,8 @@
 class RemoteFile {
   constructor(values) {
     Object.assign(this, values);
+
+    this.chunks = [];
   }
 
   // Select which properties are going to be serialized,

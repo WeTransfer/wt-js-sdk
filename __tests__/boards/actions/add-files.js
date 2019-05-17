@@ -2,6 +2,9 @@ const routes = require('../../../src/config/routes');
 const addFilesAction = require('../../../src/boards/actions/add-files');
 const { RemoteBoard } = require('../../../src/boards/models');
 
+const createRemoteMockFile = require('../../fixtures/create-remote-file');
+const createLocalMockFile = require('../../fixtures/create-local-file');
+
 describe('Add files action', () => {
   let board = null;
   const mocks = {};
@@ -9,17 +12,14 @@ describe('Add files action', () => {
     mocks.request = { send: jest.fn() };
     mocks.uploadFileToBoard = jest.fn();
     mocks.request.send.mockReturnValue([
-      {
-        id: 'random-hash',
-        name: 'kittie.gif',
+      createRemoteMockFile({
         size: 195906,
-        type: 'file',
         multipart: {
           id: 'multipart-id',
           part_numbers: 3,
           chunk_size: 195906,
         },
-      },
+      }),
     ]);
 
     addFiles = addFilesAction({
@@ -35,23 +35,12 @@ describe('Add files action', () => {
   });
 
   it('should create an add files request', async () => {
-    const files = await addFiles(board, [
-      {
-        name: 'kittie.gif',
-        size: 195906,
-      },
-    ]);
+    const files = await addFiles(board, [createLocalMockFile()]);
     expect(files).toMatchSnapshot();
   });
 
   it('should create an upload file request', async () => {
-    const files = await addFiles(board, [
-      {
-        name: 'kittie.gif',
-        size: 195906,
-        content: [],
-      },
-    ]);
+    const files = await addFiles(board, [createLocalMockFile({ content: [] })]);
     expect(files).toMatchSnapshot();
     expect(mocks.uploadFileToBoard).toHaveBeenCalledWith(
       board,
@@ -61,6 +50,7 @@ describe('Add files action', () => {
         name: 'kittie.gif',
         size: 195906,
         type: 'file',
+        chunks: [],
       },
       []
     );

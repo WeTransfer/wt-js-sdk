@@ -9,7 +9,7 @@ module.exports = function({ request, multipartRoute }) {
    * @param   {Number}  [multipartId]     Multipart identifier for files in boards
    * @returns {Promise}                   An object containing the upload url, expiring date, etc
    */
-  return async function getFileUploadURL(
+  return function getFileUploadURL(
     transferOrBoardId,
     fileId,
     partNumber,

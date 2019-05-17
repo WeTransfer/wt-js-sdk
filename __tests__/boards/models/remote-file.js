@@ -1,18 +1,11 @@
-const { RemoteFile } = require('../../../src/boards/models');
+const { RemoteFile } = require('../../../src/models');
+
+const createRemoteMockFile = require('../../fixtures/create-remote-file');
 
 describe('RemoteFile model', () => {
   let file = null;
   beforeEach(() => {
-    file = new RemoteFile({
-      id: 'random-hash',
-      multipart: {
-        parts_numbers: 3,
-        chunk_size: 195906,
-      },
-      name: 'kittie.gif',
-      size: 195906,
-      type: 'file',
-    });
+    file = new RemoteFile(createRemoteMockFile());
   });
 
   describe('contructor', () => {

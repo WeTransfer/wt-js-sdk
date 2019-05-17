@@ -2,6 +2,7 @@ const axios = require('axios');
 const axiosRetry = require('axios-retry');
 const { get, merge } = require('lodash');
 
+const config = require('../config');
 const logger = require('../config/logger');
 const { isNetworkOrIdempotentRequestError } = require('./retry');
 
@@ -15,8 +16,8 @@ const auth = {
 
 function configure(options = {}) {
   axiosRetry(axios, {
-    retries: get(options, 'retries', 15),
-    retryDelay: get(options, 'retryDelay', axiosRetry.exponentialDelay),
+    retries: get(options, 'retries', config.retries),
+    retryDelay: get(options, 'retryDelay', config.retryDelay),
     // Retry if it's a network error, a 5XX error, API rate limit error on an idempotent request
     retryCondition(error) {
       const retry = isNetworkOrIdempotentRequestError(error.response);

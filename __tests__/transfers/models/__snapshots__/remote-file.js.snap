@@ -4,11 +4,12 @@ exports[`RemoteFile model contructor should create a normalized file 1`] = `
 Object {
   "id": "random-hash",
   "multipart": Object {
-    "chunk_size": 195906,
-    "parts_numbers": 3,
+    "chunk_size": 1024,
+    "id": "multipart-id",
+    "part_numbers": 1,
   },
   "name": "kittie.gif",
-  "size": 195906,
+  "size": 1024,
   "type": "file",
 }
 `;

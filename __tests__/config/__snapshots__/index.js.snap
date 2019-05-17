@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Default configuration should match defined configuration 1`] = `
+Object {
+  "chunkRetries": 30,
+  "chunkRetryDelay": 1000,
+  "concurrency": 5,
+  "logger": Object {
+    "level": "info",
+  },
+  "retries": 15,
+  "retryDelay": [Function],
+}
+`;

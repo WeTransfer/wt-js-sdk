@@ -18,6 +18,15 @@ describe('Future link normalizer', () => {
       });
     });
 
+    it('should fallback title to url', () => {
+      delete link.title;
+      const normalized = futureLink(link);
+      expect(normalized).toMatchObject({
+        url: 'https://en.wikipedia.org/wiki/Japan',
+        title: 'https://en.wikipedia.org/wiki/Japan',
+      });
+    });
+
     it('should remove extra properties', () => {
       const extraProps = Object.assign({}, link, { date: new Date() });
       const normalized = futureLink(extraProps);

@@ -2,6 +2,8 @@ const routes = require('../../../src/config/routes');
 const finalizeAction = require('../../../src/transfers/actions/finalize');
 const WTError = require('../../../src/error');
 
+const createRemoteMockFile = require('../../fixtures/create-remote-file');
+
 describe('Finalize transfer action', () => {
   let finalize = null;
   const mocks = {};
@@ -12,14 +14,7 @@ describe('Finalize transfer action', () => {
       message: 'Little kittens',
       state: 'uploading',
       url: 'https://we.tl/t-random-hash',
-      files: [
-        {
-          id: 'random-hash',
-          name: 'kittie.gif',
-          size: 1024,
-          type: 'file',
-        },
-      ],
+      files: [createRemoteMockFile()],
       expires_at: '2018-01-01T00:00:00Z',
     });
 

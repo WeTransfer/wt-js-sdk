@@ -36,6 +36,7 @@
     "npm": ">=4.0.0"
   },
   "dependencies": {
+    "async": "2.6.2",
     "axios": "0.18.0",
     "axios-retry": "3.1.2",
     "emoji-strip": "1.0.1",
@@ -59,6 +60,10 @@
     "testEnvironment": "node",
     "setupFiles": [
       "./scripts/jest/setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/__tests__/fixtures/create-local-file.js",
+      "<rootDir>/__tests__/fixtures/create-remote-file.js"
     ],
     "watchPlugins": [
       "jest-watch-typeahead/filename",
