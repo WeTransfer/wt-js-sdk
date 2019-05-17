@@ -10,7 +10,7 @@ describe('Add files action', () => {
   const mocks = {};
   beforeEach(() => {
     mocks.request = { send: jest.fn() };
-    mocks.uploadFileToBoard = jest.fn();
+    mocks.enqueueFileTask = jest.fn(() => Promise.resolve());
     mocks.request.send.mockReturnValue([
       createRemoteMockFile({
         size: 195906,
@@ -25,7 +25,7 @@ describe('Add files action', () => {
     addFiles = addFilesAction({
       routes,
       request: mocks.request,
-      uploadFileToBoard: mocks.uploadFileToBoard,
+      enqueueFileTask: mocks.enqueueFileTask,
     });
 
     board = new RemoteBoard({
@@ -42,9 +42,9 @@ describe('Add files action', () => {
   it('should create an upload file request', async () => {
     const files = await addFiles(board, [createLocalMockFile({ content: [] })]);
     expect(files).toMatchSnapshot();
-    expect(mocks.uploadFileToBoard).toHaveBeenCalledWith(
-      board,
-      {
+    expect(mocks.enqueueFileTask).toHaveBeenCalledWith({
+      transferOrBoard: board,
+      file: {
         id: 'random-hash',
         multipart: { chunk_size: 195906, id: 'multipart-id', part_numbers: 3 },
         name: 'kittie.gif',
@@ -52,8 +52,8 @@ describe('Add files action', () => {
         type: 'file',
         chunks: [],
       },
-      []
-    );
+      content: [],
+    });
   });
 
   it('should throw an error if arguments are not provided', async () => {

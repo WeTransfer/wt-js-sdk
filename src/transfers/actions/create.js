@@ -7,7 +7,7 @@ const { futureTransfer, RemoteTransfer } = require('../models');
 module.exports = function({
   request,
   routes,
-  uploadFileToTransfer,
+  enqueueFileTask,
   finalizeTransfer,
 }) {
   /**
@@ -32,13 +32,13 @@ module.exports = function({
    */
   async function uploadFilesAndFinalize(filesContent, remoteTransfer) {
     await Promise.all(
-      remoteTransfer.files.map((file) => {
-        return uploadFileToTransfer(
-          remoteTransfer,
-          file,
-          filesContent[file.name]
-        );
-      })
+      remoteTransfer.files.map((file) =>
+        enqueueFileTask({
+          transferOrBoard: remoteTransfer,
+          file: file,
+          content: filesContent[file.name],
+        })
+      )
     );
 
     return await finalizeTransfer(remoteTransfer);

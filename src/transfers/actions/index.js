@@ -21,11 +21,14 @@ const uploadFileToTransfer = require('../../actions/upload-file')({
   enqueueChunk,
   completeFileUpload,
 });
+const enqueueFileTask = require('../../actions/queues/files-queue')({
+  uploadFile: uploadFileToTransfer,
+});
 const finalizeTransfer = require('./finalize')({ request, routes });
 const createTransfer = require('./create')({
   request,
   routes,
-  uploadFileToTransfer,
+  enqueueFileTask,
   finalizeTransfer,
 });
 const findTransfer = require('../../actions/find')({

@@ -27,10 +27,13 @@ const uploadFileToBoard = require('../../actions/upload-file')({
   enqueueChunk,
   completeFileUpload,
 });
+const enqueueFileTask = require('../../actions/queues/files-queue')({
+  uploadFile: uploadFileToBoard,
+});
 const addFilesToBoard = require('./add-files')({
   request,
   routes,
-  uploadFileToBoard,
+  enqueueFileTask,
 });
 const addLinksToBoard = require('./add-links')({ request, routes });
 
