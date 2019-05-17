@@ -14,6 +14,5 @@ module.exports = function({ request, getUploadUrl }) {
       chunk.multipartId
     );
     await request.upload(url, chunk.content);
-    chunk.uploadComplete();
   };
 };
