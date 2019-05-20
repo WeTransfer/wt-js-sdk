@@ -10,7 +10,7 @@ describe('Create transfer action', () => {
   const mocks = {};
   beforeEach(() => {
     mocks.request = { send: jest.fn() };
-    mocks.uploadFileToTransfer = jest.fn();
+    mocks.enqueueFileTask = jest.fn(() => Promise.resolve());
     mocks.finalizeTransfer = jest.fn((transfer) => transfer);
 
     mocks.request.send.mockReturnValue({
@@ -24,7 +24,7 @@ describe('Create transfer action', () => {
     create = createAction({
       routes,
       request: mocks.request,
-      uploadFileToTransfer: mocks.uploadFileToTransfer,
+      enqueueFileTask: mocks.enqueueFileTask,
       finalizeTransfer: mocks.finalizeTransfer,
     });
   });
@@ -59,9 +59,9 @@ describe('Create transfer action', () => {
       files: [createLocalMockFile({ content: [] })],
     });
     expect(transfer).toMatchSnapshot();
-    expect(mocks.uploadFileToTransfer).toHaveBeenCalledWith(
-      transfer,
-      {
+    expect(mocks.enqueueFileTask).toHaveBeenCalledWith({
+      transferOrBoard: transfer,
+      file: {
         id: 'random-hash',
         name: 'kittie.gif',
         size: 1024,
@@ -69,8 +69,8 @@ describe('Create transfer action', () => {
         multipart: { chunk_size: 1024, id: 'multipart-id', part_numbers: 1 },
         chunks: [],
       },
-      []
-    );
+      content: [],
+    });
   });
 
   it('should create a finalize transfer request if content is provided', async () => {

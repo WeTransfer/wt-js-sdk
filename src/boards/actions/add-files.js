@@ -4,7 +4,7 @@ const futureFile = require('../models/future-file');
 const { RemoteFile } = require('../../models');
 const contentForFiles = require('../../utils/content-for-files');
 
-module.exports = function({ request, routes, uploadFileToBoard }) {
+module.exports = function({ request, routes, enqueueFileTask }) {
   /**
    * Check if the user also passed the content for files.
    * In that case, we can upload the files in one go.
@@ -15,6 +15,24 @@ module.exports = function({ request, routes, uploadFileToBoard }) {
     return files.reduce(
       (uploadFiles, file) => uploadFiles && Boolean(file.content),
       true
+    );
+  }
+
+  /**
+   * Given the content of the files and a remote board, upload all the files.
+   * @param   {Array}   filesContent An array containing the content of each file
+   * @param   {Object}  remoteBoard  A board object
+   * @returns {Promise}
+   */
+  function uploadFiles(files, filesContent, remoteBoard) {
+    return Promise.all(
+      files.map((file) =>
+        enqueueFileTask({
+          transferOrBoard: remoteBoard,
+          file: file,
+          content: filesContent[file.name],
+        })
+      )
     );
   }
 
@@ -37,11 +55,7 @@ module.exports = function({ request, routes, uploadFileToBoard }) {
 
       if (shouldUploadFiles(files)) {
         const filesContent = contentForFiles(files);
-        await Promise.all(
-          boardFiles.map((file) => {
-            return uploadFileToBoard(board, file, filesContent[file.name]);
-          })
-        );
+        await uploadFiles(boardFiles, filesContent, board);
       }
 
       return boardFiles;
