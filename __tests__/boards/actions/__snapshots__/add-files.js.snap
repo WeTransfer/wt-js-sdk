@@ -31,5 +31,3 @@ Array [
   },
 ]
 `;
-
-exports[`Add files action should throw an error if arguments are not provided 1`] = `[Error: There was an error when adding files to the board.]`;

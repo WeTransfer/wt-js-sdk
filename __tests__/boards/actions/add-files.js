@@ -60,27 +60,20 @@ describe('Add files action', () => {
   });
 
   it('should throw an error if request fails', async () => {
-    try {
-      mocks.uploadFile.mockImplementation(() =>
-        Promise.reject(new Error('Network error.'))
-      );
-      await addFiles(board, [createLocalMockFile({ content: [] })]);
-    } catch (error) {
-      expect(error.message).toBe(
-        'There was an error when adding files to the board.'
-      );
-    }
+    mocks.uploadFile.mockImplementation(() =>
+      Promise.reject(new Error('Network error.'))
+    );
+    await expect(
+      addFiles(board, [createLocalMockFile({ content: [] })])
+    ).rejects.toThrow('There was an error when adding files to the board.');
   });
 
   it('should throw an error if arguments are not provided', async () => {
     mocks.request.send.mockReturnValue(() =>
       Promise.reject(new Error('Network error.'))
     );
-
-    try {
-      await addFiles();
-    } catch (error) {
-      expect(error).toMatchSnapshot();
-    }
+    await expect(addFiles()).rejects.toThrow(
+      'There was an error when adding files to the board.'
+    );
   });
 });
