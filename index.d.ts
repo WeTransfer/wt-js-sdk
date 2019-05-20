@@ -1,20 +1,58 @@
+export interface APIResponse {
+    success: boolean;
+    message: string;
+}
+
 export interface AuthorizationResult {
     success: boolean;
     token: string;
 }
 
-export interface FileMetadata {
-    id: string;
+export interface BoardCreationArgs {
     name: string;
-    type: "file" | "link"; // What else?
-    size: number;
-    multipart: {
-        part_numbers: number;
-        chunk_size: number;
-    };
+    description?: string;
 }
 
-export interface TransferFile {
+export type BoardItem = BoardLink & TransferFile;
+
+export interface BoardLink {
+    id: string;
+    url: string;
+    meta: { [key: string]: any } // Can we be more specific here??
+    type: FileType;
+}
+
+export interface BoardMetadata {
+    id: string;
+    name: string;
+    description?: string;
+    state: CreationState;
+    url: string;
+    items: BoardItem[];
+}
+
+export const enum CreationState { // Is this complete??
+    Uploading = "uploading",
+    Processing = "processing",
+    Downloadable = "downloadable",
+}
+
+export const enum FileType { // Is this complete??
+    File = "file",
+    Link = "link"
+}
+
+export interface FileUploadURLResult {
+    success: boolean;
+    url: string;
+}
+
+export interface LinkMetadata {
+    url: string;
+    title: string;
+}
+
+export interface FileMetadata {
     name: string;
     size: number;
     content?: Buffer;
@@ -22,30 +60,12 @@ export interface TransferFile {
 
 export interface TransferCreationArgs {
     message: string;
-    files: TransferFile[];
-}
-
-interface RequestResult {
-    success: boolean;
-    message: string;
-}
-
-export interface TransferMetadata {
-    id: string;
-    state: "uploading" | "downloadable" | "processing"; // What else?
-    url: string;
-    expires_at: string; // Parsed to `Date`?
     files: FileMetadata[];
 }
 
-export interface TransferCreationResult extends RequestResult, TransferMetadata { }
+export type TransferCreationResult = APIResponse & TransferMetadata;
 
-export interface TransferUploadURLResult {
-    success: boolean;
-    url?: string;
-}
-
-export interface TransferCompleteResult {
+export interface TransferCompletionResult {
     id: string;
     retries: number;
     name: string;
@@ -53,25 +73,45 @@ export interface TransferCompleteResult {
     chunk_size: number;
 }
 
-export interface Transfer {
-    create (args: TransferCreationArgs): Promise<TransferCreationResult | RequestResult>;
-    find (transferID: string): Promise<TransferMetadata | RequestResult>;
-    getFileUploadURL (transferID: string, fileID: string, partNumber: number): Promise<TransferUploadURLResult | RequestResult>;
-    completeFileUpload (transferID: string, fileID: string, partCount: number): Promise<TransferCompleteResult | RequestResult>;
-    finalize (transferID: string): Promise<TransferMetadata | RequestResult>;
+export interface TransferFile {
+    id: string;
+    name: string;
+    type: FileType;
+    size: number;
+    multipart: {
+        id?: string;
+        part_numbers: number;
+        chunk_size: number;
+    };
+}
+
+export interface TransferMetadata {
+    id: string;
+    state: CreationState;
+    url: string;
+    expires_at: string; // Parsed to `Date`??
+    files: TransferFile[];
 }
 
 export interface Board {
-    create (): any; // INCOMPLETE
-    find (): any; // INCOMPLETE
-    addFiles (): any; // INCOMPLETE
-    addLinks (): any; // INCOMPLETE
-    getFileUploadURL: any; // INCOMPLETE
-    completeFileUpload (): any; // INCOMPLETE
+    create (args: BoardCreationArgs): Promise<BoardMetadata | APIResponse>;
+    find (boardID: string): Promise<BoardMetadata | APIResponse>;
+    addFiles (boardID: string, files: FileMetadata[]): Promise<TransferFile[] | APIResponse>;
+    addLinks (boardID: string, links: LinkMetadata[]): Promise<BoardLink | APIResponse>;
+    getFileUploadURL (boardID: string, fileID: string, partNumber: number, multipartUploadID: number): Promise<FileUploadURLResult | APIResponse>;
+    completeFileUpload (boardID: string, fileID: string): Promise<APIResponse>;
+}
+
+export interface Transfer {
+    create (args: TransferCreationArgs): Promise<TransferCreationResult | APIResponse>;
+    find (transferID: string): Promise<TransferMetadata | APIResponse>;
+    getFileUploadURL (transferID: string, fileID: string, partNumber: number): Promise<FileUploadURLResult | APIResponse>;
+    completeFileUpload (transferID: string, fileID: string, partCount: number): Promise<TransferCompletionResult | APIResponse>;
+    finalize (transferID: string): Promise<TransferMetadata | APIResponse>;
 }
 
 export interface WeTransfer {
-    authorize (userIdentifier?: string): Promise<AuthorizationResult | RequestResult>;
+    authorize (userIdentifier?: string): Promise<AuthorizationResult | APIResponse>;
     transfer: Transfer;
     board: Board;
 }
