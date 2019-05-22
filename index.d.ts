@@ -18,8 +18,10 @@ export type BoardItem = BoardLink & TransferFile;
 export interface BoardLink {
     id: string;
     url: string;
-    meta: { [key: string]: any } // Can we be more specific here??
-    type: FileType;
+    meta: {
+        title: string;
+    }
+    type: ItemType;
 }
 
 export interface BoardMetadata {
@@ -31,13 +33,13 @@ export interface BoardMetadata {
     items: BoardItem[];
 }
 
-export const enum CreationState { // Is this complete??
+export const enum CreationState {
     Uploading = "uploading",
     Processing = "processing",
     Downloadable = "downloadable",
 }
 
-export const enum FileType { // Is this complete??
+export const enum ItemType {
     File = "file",
     Link = "link"
 }
@@ -76,7 +78,7 @@ export interface TransferCompletionResult {
 export interface TransferFile {
     id: string;
     name: string;
-    type: FileType;
+    type: ItemType;
     size: number;
     multipart: {
         id?: string;
@@ -89,7 +91,7 @@ export interface TransferMetadata {
     id: string;
     state: CreationState;
     url: string;
-    expires_at: string; // Parsed to `Date`??
+    expires_at: Date;
     files: TransferFile[];
 }
 
