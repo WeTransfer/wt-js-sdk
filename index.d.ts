@@ -13,18 +13,9 @@ export interface BoardCreationArgs {
     description?: string;
 }
 
-export type BoardItem = BoardLink & TransferFile;
+export type BoardItem = Link | File;
 
-export interface BoardLink {
-    id: string;
-    url: string;
-    meta: {
-        title: string;
-    }
-    type: ItemType;
-}
-
-export interface BoardMetadata {
+export interface Board {
     id: string;
     name: string;
     description?: string;
@@ -44,38 +35,7 @@ export const enum ItemType {
     Link = "link"
 }
 
-export interface FileUploadURLResult {
-    success: boolean;
-    url: string;
-}
-
-export interface LinkMetadata {
-    url: string;
-    title: string;
-}
-
-export interface FileMetadata {
-    name: string;
-    size: number;
-    content?: Buffer;
-}
-
-export interface TransferCreationArgs {
-    message: string;
-    files: FileMetadata[];
-}
-
-export type TransferCreationResult = APIResponse & TransferMetadata;
-
-export interface TransferCompletionResult {
-    id: string;
-    retries: number;
-    name: string;
-    size: number;
-    chunk_size: number;
-}
-
-export interface TransferFile {
+export interface File {
     id: string;
     name: string;
     type: ItemType;
@@ -87,35 +47,75 @@ export interface TransferFile {
     };
 }
 
-export interface TransferMetadata {
+export interface FileMetadata {
+    name: string;
+    size: number;
+    content?: Buffer;
+}
+
+export interface FileUploadResult {
+    id: string;
+    retries: number;
+    name: string;
+    size: number;
+    chunk_size: number;
+}
+
+export interface FileUploadURLResult {
+    success: boolean;
+    url: string;
+}
+
+export interface Link {
+    id: string;
+    url: string;
+    meta: {
+        title: string;
+    }
+    type: ItemType;
+}
+
+export interface LinkMetadata {
+    url: string;
+    title: string;
+}
+
+export interface TransferCreationArgs {
+    message: string;
+    files: FileMetadata[];
+}
+
+export type TransferCreationResult = APIResponse & Transfer;
+
+export interface Transfer {
     id: string;
     state: CreationState;
     url: string;
     expires_at: Date;
-    files: TransferFile[];
+    files: File[];
 }
 
-export interface Board {
-    create (args: BoardCreationArgs): Promise<BoardMetadata | APIResponse>;
-    find (boardID: string): Promise<BoardMetadata | APIResponse>;
-    addFiles (boardID: string, files: FileMetadata[]): Promise<TransferFile[] | APIResponse>;
-    addLinks (boardID: string, links: LinkMetadata[]): Promise<BoardLink | APIResponse>;
-    getFileUploadURL (boardID: string, fileID: string, partNumber: number, multipartUploadID: number): Promise<FileUploadURLResult | APIResponse>;
-    completeFileUpload (boardID: string, fileID: string): Promise<APIResponse>;
+export interface BoardClient {
+    create (args: BoardCreationArgs): Promise<Board | APIResponse>;
+    find (boardID: string): Promise<Board | APIResponse>;
+    addFiles (boardID: string, files: FileMetadata[]): Promise<File[] | APIResponse>;
+    addLinks (boardID: string, links: LinkMetadata[]): Promise<Link[] | APIResponse>;
+    getFileUploadURL (boardID: string, fileID: string, partNumber: number, multipartUploadID: string): Promise<FileUploadURLResult | APIResponse>;
+    completeFileUpload (board: Board, file: File): Promise<APIResponse>;
 }
 
-export interface Transfer {
+export interface TransferClient {
     create (args: TransferCreationArgs): Promise<TransferCreationResult | APIResponse>;
-    find (transferID: string): Promise<TransferMetadata | APIResponse>;
+    find (transferID: string): Promise<Transfer | APIResponse>;
     getFileUploadURL (transferID: string, fileID: string, partNumber: number): Promise<FileUploadURLResult | APIResponse>;
-    completeFileUpload (transferID: string, fileID: string, partCount: number): Promise<TransferCompletionResult | APIResponse>;
-    finalize (transferID: string): Promise<TransferMetadata | APIResponse>;
+    completeFileUpload (transfer: Transfer, file: File, partCount: number): Promise<FileUploadResult | APIResponse>;
+    finalize (transferID: string): Promise<Transfer | APIResponse>;
 }
 
-export interface WeTransfer {
+export interface WeTransferClient {
     authorize (userIdentifier?: string): Promise<AuthorizationResult | APIResponse>;
-    transfer: Transfer;
-    board: Board;
+    transfer: TransferClient;
+    board: BoardClient;
 }
 
-export default function createWTClient (apiKey: string): WeTransfer;
+export default function createWTClient (apiKey: string): WeTransferClient;
