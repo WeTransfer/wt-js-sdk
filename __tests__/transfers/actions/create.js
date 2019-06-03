@@ -37,6 +37,7 @@ describe('Create transfer action', () => {
     expect(mocks.request.send).toHaveBeenCalledWith(
       {
         url: '/v2/transfers',
+        method: 'post',
       },
       {
         message: 'WeTransfer SDK',

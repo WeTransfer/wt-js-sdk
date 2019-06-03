@@ -6,7 +6,7 @@ describe('Routes configuration', () => {
   });
 
   it('should define an authorize path', () => {
-    expect(routes.authorize).toEqual({ url: '/v2/authorize' });
+    expect(routes.authorize).toEqual({ url: '/v2/authorize', method: 'post' });
   });
 
   describe('boards namespace', () => {

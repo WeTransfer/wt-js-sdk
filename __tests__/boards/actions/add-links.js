@@ -39,6 +39,7 @@ describe('Add links action', () => {
     expect(mocks.request.send).toHaveBeenCalledWith(
       {
         url: '/v2/boards/board-id/links',
+        method: 'post',
       },
       [
         {

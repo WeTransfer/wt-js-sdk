@@ -25,6 +25,7 @@ describe('Authorize method', () => {
         'x-api-key': 'secret-api-key',
       },
       url: '/v2/authorize',
+      method: 'post',
       data: null,
     });
   });

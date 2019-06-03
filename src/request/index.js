@@ -7,7 +7,6 @@ const logger = require('../config/logger');
 const { isNetworkOrIdempotentRequestError } = require('./retry');
 
 axios.defaults.baseURL = 'https://dev.wetransfer.com/';
-axios.defaults.method = 'post';
 
 const auth = {
   apiKey: null,
@@ -32,6 +31,7 @@ function configure(options = {}) {
 
 function defaultOptions(apiKey, jwt) {
   const options = {
+    method: 'post',
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': apiKey,
@@ -54,7 +54,7 @@ function send(options = {}, data = null) {
   );
 
   const log = {
-    method: (options.method || axios.defaults.method).toUpperCase(),
+    method: requestOptions.method.toUpperCase(),
   };
   logger.debug(
     `Network request ${log.method} ${options.url} ${JSON.stringify(data)}`
