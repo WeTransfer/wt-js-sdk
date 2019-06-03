@@ -29,6 +29,7 @@ describe('Create board action', () => {
     expect(mocks.request.send).toHaveBeenCalledWith(
       {
         url: '/v2/boards',
+        method: 'post',
       },
       {
         name: 'WeTransfer SDK',

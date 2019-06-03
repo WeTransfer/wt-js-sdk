@@ -21,7 +21,6 @@ describe('Request module', () => {
     expect(axios.defaults).toEqual(
       expect.objectContaining({
         baseURL: 'https://dev.wetransfer.com/',
-        method: 'post',
       })
     );
   });
@@ -34,6 +33,7 @@ describe('Request module', () => {
     it('should set an apiKey value', async () => {
       await request.send();
       expect(axios).toHaveBeenLastCalledWith({
+        method: 'post',
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': 'secret-api-key',
@@ -52,6 +52,7 @@ describe('Request module', () => {
       request.jwt = 'json-web-token';
       await request.send();
       expect(axios).toHaveBeenLastCalledWith({
+        method: 'post',
         headers: {
           'Authorization': 'Bearer json-web-token',
           'Content-Type': 'application/json',
@@ -70,6 +71,7 @@ describe('Request module', () => {
     it('should create a default request if no extra options are provided', async () => {
       await request.send();
       expect(axios).toHaveBeenLastCalledWith({
+        method: 'post',
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': 'secret-api-key',
@@ -82,6 +84,7 @@ describe('Request module', () => {
       request.jwt = 'json-web-token';
       await request.send();
       expect(axios).toHaveBeenLastCalledWith({
+        method: 'post',
         headers: {
           'Authorization': 'Bearer json-web-token',
           'Content-Type': 'application/json',
@@ -95,6 +98,7 @@ describe('Request module', () => {
       request.jwt = 'json-web-token';
       await request.send({ headers: { 'X-Extra-Header': 'value' } });
       expect(axios).toHaveBeenLastCalledWith({
+        method: 'post',
         headers: {
           'Authorization': 'Bearer json-web-token',
           'Content-Type': 'application/json',
@@ -109,6 +113,7 @@ describe('Request module', () => {
       request.jwt = 'json-web-token';
       await request.send({}, 'some-data');
       expect(axios).toHaveBeenLastCalledWith({
+        method: 'post',
         headers: {
           'Authorization': 'Bearer json-web-token',
           'Content-Type': 'application/json',
@@ -126,6 +131,7 @@ describe('Request module', () => {
         'some-data'
       );
       expect(axios).toHaveBeenLastCalledWith({
+        method: 'post',
         data: 'some-data',
         method: 'put',
         url: 'https://dev.wetransfer.com/very-long-url',

@@ -3,20 +3,20 @@ const prefix = '/v2';
 module.exports = {
   prefix: '/v2',
   get authorize() {
-    return { url: `${prefix}/authorize` };
+    return { url: `${prefix}/authorize`, method: 'post' };
   },
   boards: {
     get create() {
-      return { url: `${prefix}/boards` };
+      return { url: `${prefix}/boards`, method: 'post' };
     },
     find(boardId) {
       return { url: `${prefix}/boards/${boardId}`, method: 'get' };
     },
     addFiles(board) {
-      return { url: `${prefix}/boards/${board.id}/files` };
+      return { url: `${prefix}/boards/${board.id}/files`, method: 'post' };
     },
     addLinks(board) {
-      return { url: `${prefix}/boards/${board.id}/links` };
+      return { url: `${prefix}/boards/${board.id}/links`, method: 'post' };
     },
     multipart(board, file, partNumber) {
       return {
@@ -27,7 +27,7 @@ module.exports = {
       };
     },
     upload(uploadUrl) {
-      return { url: uploadUrl };
+      return { url: uploadUrl, method: 'post' };
     },
     uploadComplete(board, file) {
       return {
@@ -38,7 +38,7 @@ module.exports = {
   },
   transfers: {
     get create() {
-      return { url: `${prefix}/transfers` };
+      return { url: `${prefix}/transfers`, method: 'post' };
     },
     find(transferId) {
       return { url: `${prefix}/transfers/${transferId}`, method: 'get' };
@@ -52,7 +52,7 @@ module.exports = {
       };
     },
     upload(uploadUrl) {
-      return { url: uploadUrl };
+      return { url: uploadUrl, method: 'post' };
     },
     uploadComplete(transfer, file) {
       return {

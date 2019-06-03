@@ -19,6 +19,7 @@ Object {
   "addFiles": [Function],
   "addLinks": [Function],
   "create": Object {
+    "method": "post",
     "url": "/v2/boards",
   },
   "find": [Function],
@@ -30,18 +31,21 @@ Object {
 
 exports[`Routes configuration boards namespace should define an addFiles path 1`] = `
 Object {
+  "method": "post",
   "url": "/v2/boards/board-id/files",
 }
 `;
 
 exports[`Routes configuration boards namespace should define an addLinks path 1`] = `
 Object {
+  "method": "post",
   "url": "/v2/boards/board-id/links",
 }
 `;
 
 exports[`Routes configuration boards namespace should define an upload path 1`] = `
 Object {
+  "method": "post",
   "url": "s3://upload-url",
 }
 `;
@@ -70,6 +74,7 @@ Object {
 exports[`Routes configuration transfers namespace should define all endpoints 1`] = `
 Object {
   "create": Object {
+    "method": "post",
     "url": "/v2/transfers",
   },
   "finalize": [Function],
@@ -89,6 +94,7 @@ Object {
 
 exports[`Routes configuration transfers namespace should define an upload path 1`] = `
 Object {
+  "method": "post",
   "url": "s3://upload-url",
 }
 `;
