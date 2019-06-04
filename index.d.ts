@@ -108,7 +108,7 @@ export interface TransferClient {
     create (args: TransferCreationArgs): Promise<TransferCreationResult | APIResponse>;
     find (transferID: string): Promise<Transfer | APIResponse>;
     getFileUploadURL (transferID: string, fileID: string, partNumber: number): Promise<FileUploadURLResult | APIResponse>;
-    completeFileUpload (transfer: Transfer, file: File, partCount: number): Promise<FileUploadResult | APIResponse>;
+    completeFileUpload (transfer: Transfer, file: File): Promise<FileUploadResult | APIResponse>;
     finalize (transferID: string): Promise<Transfer | APIResponse>;
 }
 
