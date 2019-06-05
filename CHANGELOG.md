@@ -1,3 +1,21 @@
+# [1.2.0](https://github.com/WeTransfer/wt-js-sdk/compare/v1.1.0...v1.2.0) (2019-06-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency async to v3 ([#207](https://github.com/WeTransfer/wt-js-sdk/issues/207)) ([0f21466](https://github.com/WeTransfer/wt-js-sdk/commit/0f21466))
+* **deps:** update dependency async to v3.0.1 ([#208](https://github.com/WeTransfer/wt-js-sdk/issues/208)) ([b8ac392](https://github.com/WeTransfer/wt-js-sdk/commit/b8ac392))
+* **deps:** update dependency axios to v0.19.0 [security] ([#212](https://github.com/WeTransfer/wt-js-sdk/issues/212)) ([7e688cd](https://github.com/WeTransfer/wt-js-sdk/commit/7e688cd))
+* **deps:** update dependency axios-retry to v3.1.2 ([#185](https://github.com/WeTransfer/wt-js-sdk/issues/185)) ([0a449e3](https://github.com/WeTransfer/wt-js-sdk/commit/0a449e3))
+* **deps:** update dependency winston to v3.2.1 ([#187](https://github.com/WeTransfer/wt-js-sdk/issues/187)) ([4198cea](https://github.com/WeTransfer/wt-js-sdk/commit/4198cea))
+
+
+### Features
+
+* add TypeScript typings ([#206](https://github.com/WeTransfer/wt-js-sdk/issues/206)) ([64ce9da](https://github.com/WeTransfer/wt-js-sdk/commit/64ce9da))
+* concurrent file chunk uploads ([#202](https://github.com/WeTransfer/wt-js-sdk/issues/202)) ([187b08e](https://github.com/WeTransfer/wt-js-sdk/commit/187b08e))
+* concurrent file uploads ([#205](https://github.com/WeTransfer/wt-js-sdk/issues/205)) ([43bc224](https://github.com/WeTransfer/wt-js-sdk/commit/43bc224))
+
 # [1.1.0](https://github.com/WeTransfer/wt-js-sdk.git/compare/v1.0.1...v1.1.0) (2018-12-06)
 
 
