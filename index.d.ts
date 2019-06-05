@@ -113,7 +113,7 @@ export interface TransferClient {
 }
 
 export interface WeTransferClient {
-    authorize (userIdentifier?: string): Promise<AuthorizationResult | APIResponse>;
+    authorize (): Promise<AuthorizationResult | APIResponse>;
     transfer: TransferClient;
     board: BoardClient;
 }
