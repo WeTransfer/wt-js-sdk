@@ -14,22 +14,19 @@ module.exports = function({ uploadFile }) {
   const uploadQueue = queue(processFileTask, config.concurrency);
 
   return function enqueueFileTask(task) {
-    return new Promise((resolve, reject) => {
-      const fileName = task.file.name;
+    const fileName = task.file.name;
 
-      logger.debug(`[${fileName}] Queuing file to be uploaded.`);
+    logger.debug(`[${fileName}] Queuing file to be uploaded.`);
 
-      uploadQueue.push(task, (error) => {
-        if (error) {
-          logger.debug(`[${fileName}] Queue: file failed to upload.`);
-
-          return reject(error);
-        }
-
+    return uploadQueue
+      .pushAsync(task)
+      .then(() => {
         logger.debug(`[${fileName}] Queue: file upload complete.`);
-
-        resolve(task);
+        return task;
+      })
+      .catch((error) => {
+        logger.debug(`[${fileName}] Queue: file failed to upload.`);
+        throw error;
       });
-    });
   };
 };
