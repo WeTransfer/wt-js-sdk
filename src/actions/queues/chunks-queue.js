@@ -16,35 +16,24 @@ module.exports = function({ uploadChunk }) {
   }
 
   return function enqueueChunk(chunk) {
-    return new Promise((resolve, reject) => {
-      logger.debug(
-        `[${chunk.file.name}] Queuing chunk #${chunk.partNumber}. Retry #${
-          chunk.retries
-        }.`
-      );
+    logger.debug(
+      `[${chunk.file.name}] Queuing chunk #${chunk.partNumber}. Retry #${chunk.retries}.`
+    );
 
-      uploadQueue.push(chunk, (error) => {
-        if (error) {
-          logger.debug(
-            `[${chunk.file.name}] Chunk #${chunk.partNumber} failed to upload.`
-          );
-
-          if (canRetryUpload(chunk, config)) {
-            chunk.retries++;
-            return enqueueChunk(chunk)
-              .then(resolve)
-              .catch(reject);
-          }
-
-          return reject(error);
-        }
-
+    return uploadQueue
+      .pushAsync(chunk)
+      .then(() => chunk)
+      .catch((error) => {
         logger.debug(
-          `[${chunk.file.name}] Chunk #${chunk.partNumber} upload complete.`
+          `[${chunk.file.name}] Chunk #${chunk.partNumber} failed to upload.`
         );
 
-        resolve(chunk);
+        if (canRetryUpload(chunk, config)) {
+          chunk.retries++;
+          return enqueueChunk(chunk);
+        }
+
+        throw error;
       });
-    });
   };
 };
