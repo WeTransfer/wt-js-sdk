@@ -49,7 +49,7 @@
     "@semantic-release/git": "7.0.14",
     "@wetransfer/eslint-config-wetransfer": "3.1.0",
     "eslint": "6.0.1",
-    "husky": "2.4.1",
+    "husky": "2.7.0",
     "jest": "24.8.0",
     "jest-watch-typeahead": "0.3.1",
     "nock": "10.0.6",
