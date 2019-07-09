@@ -40,7 +40,7 @@
     "axios": "0.19.0",
     "axios-retry": "3.1.2",
     "emoji-strip": "1.0.1",
-    "lodash": "4.17.11",
+    "lodash": "4.17.13",
     "sanitize-filename": "1.6.1",
     "winston": "3.2.1"
   },
