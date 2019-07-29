@@ -41,7 +41,7 @@
     "axios-retry": "3.1.2",
     "emoji-strip": "1.0.1",
     "lodash": "4.17.15",
-    "sanitize-filename": "1.6.1",
+    "sanitize-filename": "1.6.2",
     "winston": "3.2.1"
   },
   "devDependencies": {
