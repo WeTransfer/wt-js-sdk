@@ -52,7 +52,7 @@
     "husky": "3.0.5",
     "jest": "24.9.0",
     "jest-watch-typeahead": "0.4.0",
-    "nock": "11.3.3",
+    "nock": "11.3.4",
     "prettier": "1.18.2",
     "semantic-release": "15.13.24"
   },
