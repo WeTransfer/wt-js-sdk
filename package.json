@@ -36,7 +36,7 @@
     "npm": ">=4.0.0"
   },
   "dependencies": {
-    "async": "3.1.0",
+    "async": "3.2.0",
     "axios": "0.19.0",
     "axios-retry": "3.1.2",
     "emoji-strip": "1.0.1",
