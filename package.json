@@ -62,7 +62,7 @@
     "extend": "3.0.2",
     "fstream": "1.0.12",
     "handlebars": "4.1.2",
-    "js-yaml": "3.13.1",
+    "js-yaml": "3.14.0",
     "lodash": "4.17.15",
     "marked": "0.6.1",
     "stringstream": "0.0.6"
